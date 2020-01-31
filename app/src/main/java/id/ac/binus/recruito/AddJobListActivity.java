@@ -21,9 +21,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class AddJobListActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "AddJobListActivity";
 
     private ArrayList<CategoryItem> CategoryList;
     private CategoryAdapter CategoryAdapter;
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CategoryItem ClickedItem = (CategoryItem) parent.getItemAtPosition(position);
                 String ClickedCategoryItem = ClickedItem.getCategoryName();
-                Toast.makeText(MainActivity.this, ClickedCategoryItem + " selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddJobListActivity.this, ClickedCategoryItem + " selected", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         ButtonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddJobListActivity.this, "Button clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                 int day = CalendarObj.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog Dialog = new DatePickerDialog(
-                        MainActivity.this,
+                        AddJobListActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         DateSetListener,
                         year, month, day);
