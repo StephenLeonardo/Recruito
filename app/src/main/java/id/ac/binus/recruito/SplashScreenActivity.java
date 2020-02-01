@@ -17,7 +17,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(SplashScreenActivity.this, AddPersonalInformationActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, FrontCoverActivity.class);
                 startActivity(intent);
                 finish();
 

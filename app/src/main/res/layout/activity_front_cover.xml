@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/crowd_149753"
+    android:gravity="center"
+    android:padding="20dp"
+    tools:context=".FrontCoverActivity">
+
+
+    <TextView
+        android:id="@+id/text_view_greetings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="1.5"
+        android:shadowDy="1.3"
+        android:shadowRadius="3"
+        android:text="Welcome"
+        android:textColor="@android:color/black"
+        android:textSize="45sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/button_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/button_white_round"
+        android:elevation="70dp"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:text="Sign In" />
+
+    <Button
+        android:id="@+id/button_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_sign_in"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_white_round"
+        android:elevation="70dp"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:text="Sign Up" />
+
+
+</RelativeLayout>
