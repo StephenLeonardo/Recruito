@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -20,5 +20,25 @@
         <item name="android:background">@drawable/edittext_box</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+
+    <style name="BackgroundPink" parent="Theme.AppCompat.Light">
+        <item name="android:background">#FFEFEF</item>
+    </style>
+
+    <style name="BackgroundBlue" parent="Theme.AppCompat.Light">
+        <item name="android:background">#E9FFFE</item>
+    </style>
+
+    <style name="BlueRoundedBox" parent="Theme.AppCompat.Light">
+        <item name="android:shape">rectangle</item>
+        <item name="android:solidColor">#D5F4FF</item>
+        <item name="android:buttonCornerRadius" tools:ignore="NewApi">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
 
 </resources>

@@ -27,9 +27,13 @@ public class ProfileActivity extends AppCompatActivity {
         Status = findViewById(R.id.text_view_status);
         ChangeProfileButton = findViewById(R.id.button_change_profile);
 
-
-
-
+        setProfilePic(Name.getText().toString());
 
     }
+
+    private void setProfilePic(String Name){
+
+        ProfilePic.setImageResource(R.drawable.fox);
+    }
+
 }

@@ -95,14 +95,12 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
         };
 
 
-
-
     }
 
     /*
     Add all category for job
      */
-    private void initList(){
+    private void initList() {
         StatusList = new ArrayList<>();
         StatusList.add(new StatusItem("Single"));
         StatusList.add(new StatusItem("Married"));

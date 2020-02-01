@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfileActivity"
+    style="@style/BackgroundBlue">
 
     <TextView
         android:layout_width="match_parent"
@@ -18,9 +19,10 @@
 
     <ImageView
         android:id="@+id/image_view_profile_pic"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/image"
+        android:src="@drawable/cat"
         android:layout_gravity="center" />
 
     <TextView
@@ -34,6 +36,7 @@
         android:text="Ali Putra"/>
 
     <LinearLayout
+        android:id="@+id/linear_layout_profile_detail"
         android:background="@drawable/textview_title"
         android:layout_margin="30dp"
         android:layout_width="match_parent"
@@ -84,17 +87,41 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="30dp">
+        android:layout_height="match_parent">
 
         <Button
             android:id="@+id/button_change_profile"
+            android:layout_width="160dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/button_blue_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change Profile"
             android:gravity="center"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:text="Change Profile" />
+
+        <Button
+            android:id="@+id/button_log_out"
+            android:layout_width="156dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/button_change_profile"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_blue_box"
+            android:gravity="center"
+            android:text="Log Out" />
+        <Button
+            android:id="@+id/button_change_password"
+            android:layout_below="@id/button_log_out"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_blue_box"
+            android:layout_width="160dp"
+            android:layout_height="35dp"
+            android:text="Change Password"
+            android:gravity="center"
             android:layout_centerInParent="true"/>
 
     </RelativeLayout>

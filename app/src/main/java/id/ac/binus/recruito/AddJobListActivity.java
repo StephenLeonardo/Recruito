@@ -1,13 +1,16 @@
 package id.ac.binus.recruito;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,6 +50,8 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
 
         CategoryAdapter = new CategoryAdapter(this, CategoryList);
         SpinnerCategories.setAdapter(CategoryAdapter);
+
+        setCurrentTime();
 
         SpinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -113,7 +118,7 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
     /*
     Add all category for job
      */
-    private void initList(){
+    private void initList() {
         CategoryList = new ArrayList<>();
         CategoryList.add(new CategoryItem("Music"));
         CategoryList.add(new CategoryItem("Culinary"));
@@ -124,4 +129,13 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         ButtonTimePicker.setText(hourOfDay + ":" + minute);
     }
+
+
+    public void setCurrentTime() {
+        Calendar CalendarObj = Calendar.getInstance();
+        int hour = CalendarObj.get(Calendar.HOUR_OF_DAY);
+        int minute = CalendarObj.get(Calendar.MINUTE);
+        ButtonTimePicker.setText(hour + ":" + minute);
+    }
+
 }
