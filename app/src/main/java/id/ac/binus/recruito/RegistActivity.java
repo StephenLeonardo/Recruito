@@ -60,8 +60,7 @@ public class RegistActivity extends AppCompatActivity {
                     intent.putExtra("password", inputPassword[0]);
                     startActivity(intent);
                     finish();
-                }
-                else {
+                } else {
                     Toast.makeText(RegistActivity.this, "Please input data correctly", Toast.LENGTH_SHORT).show();
                 }
 
@@ -83,10 +82,10 @@ public class RegistActivity extends AppCompatActivity {
 
         Matcher matcher = pattern.matcher(Email);
 
-        if(Name == null || Name == "" || Name == " " ||
+        if (Name == null || Name == "" || Name == " " ||
                 Email == null || !matcher.matches() ||
-                Password == null || Password == ""  ||
-                ConfirmationPassword == null || !ConfirmationPassword.equals(Password)){
+                Password == null || Password == "" ||
+                ConfirmationPassword == null || !ConfirmationPassword.equals(Password)) {
             return false;
         }
         return true;

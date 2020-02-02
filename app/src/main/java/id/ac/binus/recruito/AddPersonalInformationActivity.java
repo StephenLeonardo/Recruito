@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
     EditText PhoneNumber;
     Spinner Status;
     Button ButtonNext;
+    StatusItem ClickedItem;
     private DatePickerDialog.OnDateSetListener DateSetListener;
 
 
@@ -54,7 +56,7 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
         Status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                StatusItem ClickedItem = (StatusItem) parent.getItemAtPosition(position);
+                ClickedItem = (StatusItem) parent.getItemAtPosition(position);
                 String ClickedCategoryItem = ClickedItem.getStatusName();
                 Toast.makeText(AddPersonalInformationActivity.this, ClickedCategoryItem + " selected", Toast.LENGTH_SHORT).show();
             }
@@ -93,6 +95,38 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
                 DateOfBirth.setText(Date);
             }
         };
+
+        ButtonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent();
+                String name = intent.getStringExtra("name");
+                String email = intent.getStringExtra("email");
+                String password = intent.getStringExtra("password");
+
+                Log.d(TAG, "onClick: name: " + name);
+                Log.d(TAG, "onClick: email: " + email);
+                Log.d(TAG, "onClick: password: " + password);
+                Log.d(TAG, "onClick: DOB : " + DateOfBirth.getText().toString());
+
+
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+                databaseAccess.openDatabase();
+                databaseAccess.insertUser(1, name, DateOfBirth.getText().toString(), PhoneNumber.getText().toString(), ClickedItem.getStatusName(), email, password);
+                databaseAccess.closeDatabase();
+
+                /*
+                Commented by Stephen
+                Database doesn't change after inserting new user, still need to fix
+                 */
+//                Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
+//
+//                intent = new Intent(AddPersonalInformationActivity.this, ProfileActivity.class);
+//                startActivity(intent);
+//                finish();
+
+            }
+        });
 
 
     }
