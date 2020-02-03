@@ -6,6 +6,7 @@ public class User {
     int ImageID;
     String UserName;
     String DOB;
+    int Age;
     String Gender;
     String PhoneNumber;
     String UserStatus;
@@ -21,6 +22,19 @@ public class User {
         ImageID = imageID;
         UserName = userName;
         this.DOB = DOB;
+        Gender = gender;
+        PhoneNumber = phoneNumber;
+        UserStatus = userStatus;
+        Email = email;
+        UserPassword = userPassword;
+    }
+
+    public User(int userID, int imageID, String userName, String DOB, int age, String gender, String phoneNumber, String userStatus, String email, String userPassword) {
+        UserID = userID;
+        ImageID = imageID;
+        UserName = userName;
+        this.DOB = DOB;
+        Age = age;
         Gender = gender;
         PhoneNumber = phoneNumber;
         UserStatus = userStatus;
