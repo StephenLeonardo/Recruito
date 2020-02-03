@@ -42,7 +42,7 @@ public class DatabaseAccess extends AppCompatActivity {
     }
 
 
-    public boolean insertUser(int ImageID, String Username, String DOB, String PhoneNumber, String UserStatus, String Email, String Password) {
+    public boolean insertUser(int ImageID, String Username, String DOB, String Gender, String PhoneNumber, String UserStatus, String Email, String Password) {
         try {
             String query = "INSERT INTO msUser(ImageID, UserName, DOB, PhoneNumber, UserStatus, Email, UserPassword) " +
                     "Values ('" +

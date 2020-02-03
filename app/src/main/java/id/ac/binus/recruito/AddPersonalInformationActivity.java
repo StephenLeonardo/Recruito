@@ -114,16 +114,17 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
 
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.openDatabase();
-                boolean isInserted = databaseAccess.insertUser(1, name, DateOfBirth.getText().toString(), PhoneNumber.getText().toString(), ClickedItem.getStatusName(), email, password);
+                boolean isInserted = databaseAccess.insertUser(1, name, DateOfBirth.getText().toString(), "Male", PhoneNumber.getText().toString(), ClickedItem.getStatusName(), email, password);
                 if (isInserted) {
                     Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
-                    intent = new Intent(AddPersonalInformationActivity.this, ProfileActivity.class);
-                    startActivity(intent);
-                    finish();
 
                     Cursor csr = databaseAccess.getAllUsers();  //<<<<<<<<<< Get The Cursor
                     DatabaseUtils.dumpCursor(csr); //<<<<<<<<<< Dump the cursor (to the log)
                     csr.close(); //<<<<<<<<< Should always close a Cursor when done with it
+
+//                    intent = new Intent(AddPersonalInformationActivity.this, ProfileActivity.class);
+//                    startActivity(intent);
+//                    finish();
 
                 }
                 else {

@@ -46,7 +46,7 @@ public class RegistActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick: name = " + inputName[0]);
                 Log.d(TAG, "onClick: email = " + inputEmail[0]);
                 Log.d(TAG, "onClick: password = " + inputPassword[0]);
-                Log.d(TAG, "onClick: password confirmation " + inputPasswordConfirmation[0]);
+                Log.d(TAG, "onClick: password confirmation = " + inputPasswordConfirmation[0]);
 
                 /*
                 Modified by Stephen
@@ -54,12 +54,12 @@ public class RegistActivity extends AppCompatActivity {
                 Purpose : Adding intent to go to next page
                  */
                 if (isValidInput(inputName[0], inputEmail[0], inputPassword[0], inputPasswordConfirmation[0])) {
-                    Intent intent = new Intent(RegistActivity.this, ChangeProfileActivity.class);
+                    Intent intent = new Intent(RegistActivity.this, AddPersonalInformationActivity.class);
                     intent.putExtra("name", inputName[0]);
                     intent.putExtra("email", inputEmail[0]);
                     intent.putExtra("password", inputPassword[0]);
                     startActivity(intent);
-                    finish();
+//                    finish();
                 } else {
                     Toast.makeText(RegistActivity.this, "Please input data correctly", Toast.LENGTH_SHORT).show();
                 }

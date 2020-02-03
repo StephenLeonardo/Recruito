@@ -43,7 +43,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_personal_information);
+        setContentView(R.layout.activity_change_profile);
 
         // Fill status list with all status
         initList();
