@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -35,6 +36,8 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
     private Button ButtonTimePicker;
     private TextView TextViewDatePicker;
     private DatePickerDialog.OnDateSetListener DateSetListener;
+    private CategoryItem ClickedItem;
+    private EditText editTextJobTitle, editTextAddress, editTextJobDesc, editTextTotalPeople;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,10 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
         ButtonSubmit = findViewById(R.id.button_submit);
         ButtonTimePicker = findViewById(R.id.button_time_picker);
         TextViewDatePicker = findViewById(R.id.text_view_date_picker);
+        editTextJobTitle = findViewById(R.id.edit_text_job_title);
+        editTextAddress = findViewById(R.id.edit_text_job_address);
+        editTextJobDesc = findViewById(R.id.edit_text_job_desc);
+        editTextTotalPeople = findViewById(R.id.edit_text_total_people);
 
         CategoryAdapter = new CategoryAdapter(this, CategoryList);
         SpinnerCategories.setAdapter(CategoryAdapter);
@@ -56,9 +63,9 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
         SpinnerCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                CategoryItem ClickedItem = (CategoryItem) parent.getItemAtPosition(position);
+                ClickedItem = (CategoryItem) parent.getItemAtPosition(position);
                 String ClickedCategoryItem = ClickedItem.getCategoryName();
-                Toast.makeText(AddJobListActivity.this, ClickedCategoryItem + " selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddJobListActivity.this, position + " selected", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -67,10 +74,40 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
             }
         });
 
+        /*
+        Modified by Stephen
+        Date : Monday Feb 02 3 2020
+        Purpose : Add thread into database
+         */
         ButtonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AddJobListActivity.this, "Button clicked", Toast.LENGTH_SHORT).show();
+
+
+                /*
+                Commented by Stephen
+                Date : Monday Feb 03, 2020
+                Purpose : CategoryID needs to be updated
+                 */
+                int categoryID = 1;
+                String title = editTextJobTitle.getText().toString();
+                String time = ButtonTimePicker.getText().toString();
+                String date = TextViewDatePicker.getText().toString();
+                String address = editTextAddress.getText().toString();
+                String jobDesc = editTextJobDesc.getText().toString();
+                int totalPeople = Integer.parseInt(editTextTotalPeople.getText().toString());
+
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(AddJobListActivity.this);
+                databaseAccess.openDatabase();
+                try {
+                    databaseAccess.insertThread(categoryID, title, time, date, address, jobDesc, totalPeople);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                databaseAccess.closeDatabase();
+
+                Toast.makeText(AddJobListActivity.this, "Thread inserted", Toast.LENGTH_SHORT).show();
             }
         });
 

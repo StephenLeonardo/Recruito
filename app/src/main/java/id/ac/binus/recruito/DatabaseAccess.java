@@ -63,29 +63,10 @@ public class DatabaseAccess extends AppCompatActivity {
     }
 
 
-    public User login(String email, String password) {
+    public Cursor login(String email, String password) {
         try {
             Cursor cursor = database.rawQuery("select * from msUser where Email = ? and UserPassword = ? ", new String[]{email, password});
-            if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
-
-                int UserID = cursor.getInt(cursor.getColumnIndex("UserID"));
-                int ImageID = cursor.getInt(cursor.getColumnIndex("ImageID"));
-                String UserName = cursor.getString(cursor.getColumnIndex("UserName"));
-                String DOB = cursor.getString(cursor.getColumnIndex("DOB"));
-                String PhoneNumber = cursor.getString(cursor.getColumnIndex("PhoneNumber"));
-                String UserStatus = cursor.getString(cursor.getColumnIndex("UserStatus"));
-                String Email = cursor.getString(cursor.getColumnIndex("Email"));
-                String UserPassword = cursor.getString(cursor.getColumnIndex("UserPassword"));
-
-
-                // if cursor has value then in user database there is user associated with this given email
-                User currentUser = new User(UserID, ImageID, UserName, DOB, PhoneNumber, UserStatus, Email, UserPassword);
-
-                // Match both passwords check they are same or not
-                if (password.equals(currentUser.UserPassword) && email.equalsIgnoreCase(currentUser.Email)) {
-                    return currentUser;
-                }
-            }
+            return cursor;
         }
         catch (Exception e){
             e.printStackTrace();
@@ -101,5 +82,23 @@ public class DatabaseAccess extends AppCompatActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean insertThread(int categoryID, String title, String time, String date, String address, String description, int totalPeople){
+        try {
+            String query = "INSERT INTO msThread(CategoryID, JobTitle, JobTime, JobDate, JobAddress, JobDescription, TotalPeople) Values ('" +
+                    categoryID + "', '" +
+                    title + "', '" +
+                    time + "', '" +
+                    date + "', '" +
+                    address + "', '" +
+                    description + "', '" +
+                    totalPeople + "')";
+            database.execSQL(query);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

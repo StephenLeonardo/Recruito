@@ -34,6 +34,7 @@
                 android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/edit_text_job_title"
                 style="@style/EditTextBoxTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,6 +82,7 @@
                 android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/edit_text_job_address"
                 style="@style/EditTextBoxTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,6 +98,7 @@
                 android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/edit_text_job_desc"
                 style="@style/EditTextBoxTheme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,6 +114,7 @@
                 android:textSize="25sp" />
 
             <EditText
+                android:id="@+id/edit_text_total_people"
                 style="@style/EditTextBoxTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

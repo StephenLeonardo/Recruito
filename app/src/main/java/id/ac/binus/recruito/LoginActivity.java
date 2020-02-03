@@ -2,6 +2,7 @@ package id.ac.binus.recruito;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         SignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public  void onClick(View v) {
+            public void onClick(View v) {
                 inputEmail[0] = Email.getText().toString();
                 inputPassword[0] = Password.getText().toString();
 
@@ -52,16 +53,35 @@ public class LoginActivity extends AppCompatActivity {
                 Modified by Stephen
                 Date : Saturday Feb 01, 2020
                 Purpose : Adding intent to go to next page
+
+                Modified by Stephen
+                Date : Monday Feb 03, 2020
+                Purpose : Adding validation from database
                  */
-                if(isValidInput(inputEmail[0], inputPassword[0])){
+                if (isValidInput(inputEmail[0], inputPassword[0])) {
 
                     DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                     databaseAccess.openDatabase();
-                    User user = databaseAccess.login(inputEmail[0], inputPassword[0]);
-                    if(user != null){
+                    Cursor cursor = databaseAccess.login(inputEmail[0], inputPassword[0]);
 
+                    if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
+
+                        int UserID = cursor.getInt(cursor.getColumnIndex("UserID"));
+                        int ImageID = cursor.getInt(cursor.getColumnIndex("ImageID"));
+                        String UserName = cursor.getString(cursor.getColumnIndex("UserName"));
+                        String DOB = cursor.getString(cursor.getColumnIndex("DOB"));
+                        String PhoneNumber = cursor.getString(cursor.getColumnIndex("PhoneNumber"));
+                        String UserStatus = cursor.getString(cursor.getColumnIndex("UserStatus"));
+                        String Email = cursor.getString(cursor.getColumnIndex("Email"));
+                        String UserPassword = cursor.getString(cursor.getColumnIndex("UserPassword"));
+
+
+                        // if cursor has value then in user database there is user associated with this given email
+                        User currentUser = new User(UserID, ImageID, UserName, DOB, PhoneNumber, UserStatus, Email, UserPassword);
+
+                        // Save user data into shared preference
                         SharedPref sharedPref = new SharedPref(LoginActivity.this);
-                        sharedPref.save(user);
+                        sharedPref.save(currentUser);
 
                         Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                         intent.putExtra("email", inputEmail[0]);
@@ -69,18 +89,18 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
+                    databaseAccess.closeDatabase();
 
-                }
-                else {
+                } else {
                     Toast.makeText(LoginActivity.this, "Email or Password incorrect", Toast.LENGTH_SHORT).show();
                 }
-
 
 
             }
         });
 
     }
+
     /*
     Modified by Stephen
     Date : Saturday Feb 01, 2020
@@ -92,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(Email);
 
-        if(Email == null || !matcher.matches() || Password == null || Password == "" ){
+        if (Email == null || !matcher.matches() || Password == null || Password == "") {
             return false;
         }
         return true;
@@ -103,10 +123,10 @@ public class LoginActivity extends AppCompatActivity {
     Date : Monday Feb 03, 2020
     Purpose : Adding validation to check whether user has logged in before
      */
-    private boolean isAlreadyLoggedIn(){
+    private boolean isAlreadyLoggedIn() {
         SharedPref sharedPref = new SharedPref(LoginActivity.this);
         sharedPref.load();
-        if(sharedPref == null){
+        if (sharedPref == null) {
             return false;
         }
 
