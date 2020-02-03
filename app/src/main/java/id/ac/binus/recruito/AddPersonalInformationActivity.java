@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -112,18 +114,25 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
 
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.openDatabase();
-                databaseAccess.insertUser(1, name, DateOfBirth.getText().toString(), PhoneNumber.getText().toString(), ClickedItem.getStatusName(), email, password);
-                databaseAccess.closeDatabase();
-
+                boolean isInserted = databaseAccess.insertUser(1, name, DateOfBirth.getText().toString(), PhoneNumber.getText().toString(), ClickedItem.getStatusName(), email, password);
+                if (isInserted) {
                 /*
                 Commented by Stephen
                 Database doesn't change after inserting new user, still need to fix
                  */
-//                Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
-//
-//                intent = new Intent(AddPersonalInformationActivity.this, ProfileActivity.class);
-//                startActivity(intent);
-//                finish();
+                    Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(AddPersonalInformationActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                    Cursor csr = databaseAccess.getAllUsers();  //<<<<<<<<<< Get The Cursor
+                    DatabaseUtils.dumpCursor(csr); //<<<<<<<<<< Dump the cursor (to the log)
+                    csr.close(); //<<<<<<<<< Should always close a Cursor when done with it
+
+                }
+                else {
+                    Toast.makeText(AddPersonalInformationActivity.this, "Register failed, please try again", Toast.LENGTH_SHORT).show();
+                }
+                databaseAccess.closeDatabase();
 
             }
         });

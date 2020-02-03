@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class FrontCoverActivity extends AppCompatActivity {
+public class    FrontCoverActivity extends AppCompatActivity {
 
     TextView Greeting;
     Button ButtonSignIn, ButtonSignUp;
