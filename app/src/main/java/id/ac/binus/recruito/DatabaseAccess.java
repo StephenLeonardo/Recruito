@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
-
 public class DatabaseAccess extends AppCompatActivity {
 
     private SQLiteOpenHelper openHelper;
@@ -46,7 +44,8 @@ public class DatabaseAccess extends AppCompatActivity {
 
     public boolean insertUser(int ImageID, String Username, String DOB, String PhoneNumber, String UserStatus, String Email, String Password) {
         try {
-            String query = "INSERT INTO msUser(ImageID, UserName, DOB, PhoneNumber, UserStatus, Email, UserPassword) Values ('" +
+            String query = "INSERT INTO msUser(ImageID, UserName, DOB, PhoneNumber, UserStatus, Email, UserPassword) " +
+                    "Values ('" +
                     ImageID + "', '" +
                     Username + "', '" +
                     DOB + "', '" +
@@ -94,6 +93,23 @@ public class DatabaseAccess extends AppCompatActivity {
                     address + "', '" +
                     description + "', '" +
                     totalPeople + "')";
+            database.execSQL(query);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateProfile(int userID, String name, String gender, String DOB, String PhoneNumber, String status) {
+        try {
+            String query = "UPDATE msUser" +
+                    "SET UserName = " + name + "," +
+                    "Gender = " + gender + "," +
+                    "DOB = " + DOB + "," +
+                    "PhoneNumber = " + PhoneNumber + "," +
+                    "UserStatus = "+status+"" +
+                    "WHERE UserID = " + userID;
             database.execSQL(query);
             return true;
         } catch (Exception e) {

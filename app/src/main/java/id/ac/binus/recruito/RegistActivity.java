@@ -54,7 +54,7 @@ public class RegistActivity extends AppCompatActivity {
                 Purpose : Adding intent to go to next page
                  */
                 if (isValidInput(inputName[0], inputEmail[0], inputPassword[0], inputPasswordConfirmation[0])) {
-                    Intent intent = new Intent(RegistActivity.this, AddPersonalInformationActivity.class);
+                    Intent intent = new Intent(RegistActivity.this, ChangeProfileActivity.class);
                     intent.putExtra("name", inputName[0]);
                     intent.putExtra("email", inputEmail[0]);
                     intent.putExtra("password", inputPassword[0]);

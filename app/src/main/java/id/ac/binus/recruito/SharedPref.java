@@ -21,12 +21,13 @@ public class SharedPref {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("UserID", user.getUserID());
         editor.putInt("ImageID", user.getImageID());
-        editor.putString("username", user.getUserName());
+        editor.putString("Username", user.getUserName());
         editor.putString("DOB", user.getDOB());
+        editor.putString("Gender", user.getGender());
         editor.putString("PhoneNumber", user.getPhoneNumber());
         editor.putString("UserStatus", user.getUserStatus());
         editor.putString("Email", user.getEmail());
-        editor.putString("password", user.getUserPassword());
+        editor.putString("Password", user.getUserPassword());
         // you can use apply() or commit() to saving data to shared preferences xml
         editor.apply();
     }
@@ -35,12 +36,13 @@ public class SharedPref {
         User user = new User();
         user.setUserID(sharedPreferences.getInt("UserID", 0));
         user.setImageID(sharedPreferences.getInt("ImageID", 1));
-        user.setUserName(sharedPreferences.getString("username", ""));
+        user.setUserName(sharedPreferences.getString("Username", ""));
         user.setDOB(sharedPreferences.getString("DOB", ""));
+        user.setGender(sharedPreferences.getString("Gender", ""));
         user.setPhoneNumber(sharedPreferences.getString("PhoneNumber", ""));
         user.setUserStatus(sharedPreferences.getString("UserStatus", ""));
         user.setEmail(sharedPreferences.getString("Email", ""));
-        user.setUserPassword(sharedPreferences.getString("password", ""));
+        user.setUserPassword(sharedPreferences.getString("Password", ""));
         return user;
     }
 

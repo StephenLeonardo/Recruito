@@ -1,7 +1,6 @@
 package id.ac.binus.recruito;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                         int ImageID = cursor.getInt(cursor.getColumnIndex("ImageID"));
                         String UserName = cursor.getString(cursor.getColumnIndex("UserName"));
                         String DOB = cursor.getString(cursor.getColumnIndex("DOB"));
+                        String Gender = cursor.getString(cursor.getColumnIndex("Gender"));
                         String PhoneNumber = cursor.getString(cursor.getColumnIndex("PhoneNumber"));
                         String UserStatus = cursor.getString(cursor.getColumnIndex("UserStatus"));
                         String Email = cursor.getString(cursor.getColumnIndex("Email"));
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         // if cursor has value then in user database there is user associated with this given email
-                        User currentUser = new User(UserID, ImageID, UserName, DOB, PhoneNumber, UserStatus, Email, UserPassword);
+                        User currentUser = new User(UserID, ImageID, UserName, DOB, Gender, PhoneNumber, UserStatus, Email, UserPassword);
 
                         // Save user data into shared preference
                         SharedPref sharedPref = new SharedPref(LoginActivity.this);

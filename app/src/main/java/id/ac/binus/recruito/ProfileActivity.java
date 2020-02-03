@@ -36,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProfileActivity.this, ChangePasswordActivity.class);
                 intent.putExtra("name", Name.getText().toString());
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -51,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void setProfilePic(String Name){
+    private void setProfilePic(String Name) {
 
         ProfilePic.setImageResource(R.drawable.fox);
     }

@@ -6,6 +6,7 @@ public class User {
     int ImageID;
     String UserName;
     String DOB;
+    String Gender;
     String PhoneNumber;
     String UserStatus;
     String Email;
@@ -14,15 +15,25 @@ public class User {
     public User() {
     }
 
-    public User(int userID, int imageID, String userName, String DOB, String phoneNumber, String userStatus, String email, String userPassword) {
+
+    public User(int userID, int imageID, String userName, String DOB, String gender, String phoneNumber, String userStatus, String email, String userPassword) {
         UserID = userID;
         ImageID = imageID;
         UserName = userName;
         this.DOB = DOB;
+        Gender = gender;
         PhoneNumber = phoneNumber;
         UserStatus = userStatus;
         Email = email;
         UserPassword = userPassword;
+    }
+
+    public String getGender() {
+        return Gender;
+    }
+
+    public void setGender(String gender) {
+        Gender = gender;
     }
 
     public int getUserID() {

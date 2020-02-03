@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChangePasswordActivity"></activity>
+        <activity android:name=".FilterActivity"></activity>
+        <activity android:name=".ChangeProfileActivity" />
+        <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".FrontCoverActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistActivity" />
@@ -20,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddPersonalInformationActivity" />
+        <activity android:name=".ChangeProfileActivity" />
         <activity android:name=".AddJobListActivity" />
         <activity android:name=".ProfileActivity" />
     </application>
