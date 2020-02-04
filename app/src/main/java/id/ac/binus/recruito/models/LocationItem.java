@@ -1,8 +1,8 @@
-package id.ac.binus.recruito;
+package id.ac.binus.recruito.models;
 
 public class LocationItem {
 
-    String locationName;
+    private String locationName;
 
     public String getLocationName() {
         return locationName;

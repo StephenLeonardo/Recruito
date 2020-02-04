@@ -26,31 +26,39 @@ public class ChangePasswordActivity extends AppCompatActivity {
         ConfirmNewPassword = findViewById(R.id.edit_text_new_password_2);
         ConfirmButton = findViewById(R.id.button_confirm_change_password);
 
-        final String[] inputCurrentPassword = new String[1];
-        final String[] inputNewPassword = new String[1];
-        final String[] inputConfirmNewPassword = new String[1];
 
         ConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                inputCurrentPassword[0] = CurrentPassword.getText().toString();
-                inputNewPassword[0] = NewPassword.getText().toString();
-                inputConfirmNewPassword[0] = ConfirmNewPassword.getText().toString();
+                String inputCurrentPassword;
+                String inputNewPassword;
+                String inputConfirmNewPassword;
 
-                Log.d(TAG, "onClick: current password = " + inputCurrentPassword[0]);
-                Log.d(TAG, "onClick: new password = " + inputNewPassword[0]);
-                Log.d(TAG, "onClick: confirm new password = " + inputConfirmNewPassword[0]);
+                inputCurrentPassword = CurrentPassword.getText().toString();
+                inputNewPassword = NewPassword.getText().toString();
+                inputConfirmNewPassword = ConfirmNewPassword.getText().toString();
+
+                Log.d(TAG, "onClick: current password = " + inputCurrentPassword);
+                Log.d(TAG, "onClick: new password = " + inputNewPassword);
+                Log.d(TAG, "onClick: confirm new password = " + inputConfirmNewPassword);
 
                 /*
                 Modified by Stephen
                 Date : Sunday Feb 02, 2020
                 Purpose : Adding validation for inputs
                  */
-                if (isCurrentPassword(inputCurrentPassword[0])) {
-                    if (isValidPassword(inputNewPassword[0])) {
-                        if (isSamePassword(inputNewPassword[0], inputConfirmNewPassword[0])) {
+                if (isCurrentPassword(inputCurrentPassword)) {
+                    if (isValidPassword(inputNewPassword)) {
+                        if (isSamePassword(inputNewPassword, inputConfirmNewPassword)) {
+
+                            Intent intent = getIntent();
+                            int userID = intent.getIntExtra("UserID", 0);
+
+
+                            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+                            databaseAccess.updatePassword(userID, inputNewPassword);
                             Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ChangePasswordActivity.this, ProfileActivity.class);
+                            intent = new Intent(ChangePasswordActivity.this, ProfileActivity.class);
                             startActivity(intent);
                             finish();
                         }
@@ -75,7 +83,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             Purpose : function to check if password is valid or not
              */
             private boolean isValidPassword(String newPassword) {
-                if (newPassword == null || newPassword == "") {
+                if (newPassword == null || newPassword.equals("")) {
                     Toast.makeText(ChangePasswordActivity.this, "New Password Invalid", Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -88,7 +96,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             Purpose : function to check if confirmationPassword is same with newPassword
              */
             private boolean isSamePassword(String newPassword, String confirmationPassword) {
-                if (confirmationPassword == null || confirmationPassword == "" || !confirmationPassword.equals(newPassword)) {
+                if (confirmationPassword == null || confirmationPassword.equals("") || !confirmationPassword.equals(newPassword)) {
                     Toast.makeText(ChangePasswordActivity.this, "Confirmation Password Invalid", Toast.LENGTH_SHORT).show();
                     return false;
                 }

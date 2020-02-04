@@ -7,8 +7,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -26,17 +24,25 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import id.ac.binus.recruito.adapter.GenderAdapter;
+import id.ac.binus.recruito.adapter.StatusAdapter;
+import id.ac.binus.recruito.models.StatusItem;
+import id.ac.binus.recruito.models.User;
+
 public class ChangeProfileActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "AddPersonalInformationA";
 
     private ArrayList<StatusItem> StatusList;
+    private ArrayList<String> GenderList;
     private StatusAdapter StatusAdapterObj;
+    private GenderAdapter genderAdapter;
     private TextView DateOfBirth;
     private EditText name,PhoneNumber;
-    private Spinner Status;
+    private Spinner Status, Gender;
     private Button ButtonConfirm;
-    private StatusItem ClickedItem;
+    private StatusItem statusItem;
+    private String genderString;
     private DatePickerDialog.OnDateSetListener DateSetListener;
 
 
@@ -46,24 +52,39 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
         setContentView(R.layout.activity_change_profile);
 
         // Fill status list with all status
-        initList();
+        fillStatusList();
+        fillGenderList();
 
 
         DateOfBirth = findViewById(R.id.text_view_date_picker);
         PhoneNumber = findViewById(R.id.edit_text_phone_number);
         Status = findViewById(R.id.spinner_status);
+        Gender = findViewById(R.id.spinner_gender);
         ButtonConfirm = findViewById(R.id.button_next);
         name = findViewById(R.id.edit_text_name);
 
         StatusAdapterObj = new StatusAdapter(this, StatusList);
         Status.setAdapter(StatusAdapterObj);
 
+        genderAdapter = new GenderAdapter(this, GenderList);
+        Gender.setAdapter(genderAdapter);
+
         Status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ClickedItem = (StatusItem) parent.getItemAtPosition(position);
-                String ClickedCategoryItem = ClickedItem.getStatusName();
-                Toast.makeText(ChangeProfileActivity.this, ClickedCategoryItem + " selected", Toast.LENGTH_SHORT).show();
+                statusItem = (StatusItem) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        Gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                genderString = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -94,9 +115,13 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month++;
-                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
+                String monthEdited = Integer.toString(month);
+                if(month < 10){
+                    monthEdited = "0" + month;
+                }
+                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonth);
 
-                String Date = month + "/" + dayOfMonth + "/" + year;
+                String Date = year + "-" + monthEdited + "-" + dayOfMonth;
                 DateOfBirth.setText(Date);
             }
         };
@@ -130,7 +155,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
                                 String newName = name.getText().toString();
                                 String DOB = DateOfBirth.getText().toString();
                                 String phoneNumber = PhoneNumber.getText().toString();
-                                String status = ClickedItem.getStatusName();
+                                String status = statusItem.getStatusName();
 
                                 SharedPref sharedPref = new SharedPref(ChangeProfileActivity.this);
                                 User user = sharedPref.load();
@@ -142,7 +167,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
                                     DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ChangeProfileActivity.this);
                                     databaseAccess.openDatabase();
 
-                                    boolean isSuccessUpdate = databaseAccess.updateProfile(userID, newName, user.getGender(), DOB, phoneNumber, status);
+                                    boolean isSuccessUpdate = databaseAccess.updateProfile(userID, newName, genderString, DOB, phoneNumber, status);
 
                                     if(isSuccessUpdate){
                                         user.setUserName(newName);
@@ -182,9 +207,19 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
     }
 
     /*
+    Add all gender
+     */
+    private void fillGenderList() {
+        GenderList = new ArrayList<>();
+        GenderList.add("Male");
+        GenderList.add("Female");
+    }
+
+
+    /*
     Add all category for job
      */
-    private void initList() {
+    private void fillStatusList() {
         StatusList = new ArrayList<>();
         StatusList.add(new StatusItem("Single"));
         StatusList.add(new StatusItem("Married"));

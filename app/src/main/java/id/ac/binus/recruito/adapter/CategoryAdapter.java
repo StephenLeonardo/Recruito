@@ -1,4 +1,4 @@
-package id.ac.binus.recruito;
+package id.ac.binus.recruito.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,10 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class LocationAdapter extends ArrayAdapter<LocationItem> {
+import id.ac.binus.recruito.models.CategoryItem;
+import id.ac.binus.recruito.R;
+
+public class CategoryAdapter extends ArrayAdapter<CategoryItem> {
     @NonNull
     @Override
     public View getView(int Position, @Nullable View ConvertView, @NonNull ViewGroup Parent) {
@@ -24,27 +27,27 @@ public class LocationAdapter extends ArrayAdapter<LocationItem> {
         return initView(Position, ConvertView, Parent);
     }
 
-    public LocationAdapter(@NonNull Context context, ArrayList<LocationItem> locationItemArrayList) {
-        super(context, 0, locationItemArrayList);
+    public CategoryAdapter(@NonNull Context context, ArrayList<CategoryItem> CategoryList) {
+        super(context, 0, CategoryList);
     }
-
 
     private View initView(int Position, View ConvertView, ViewGroup Parent){
         if(ConvertView == null){
             ConvertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.spinner_location_row, Parent, false
+                    R.layout.category_spinner_row, Parent, false
             );
         }
 
-        TextView LocationName = ConvertView.findViewById(R.id.text_view_location);
+        TextView CategoryName = ConvertView.findViewById(R.id.text_view_category);
 
-        LocationItem CurrentItem = getItem(Position);
+        CategoryItem CurrentItem = getItem(Position);
 
         if(CurrentItem != null) {
-            LocationName.setText(CurrentItem.getLocationName());
+            CategoryName.setText(CurrentItem.getCategoryName());
         }
 
         return ConvertView;
 
     }
+
 }

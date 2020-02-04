@@ -1,16 +1,13 @@
 package id.ac.binus.recruito;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,12 +22,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import id.ac.binus.recruito.adapter.CategoryAdapter;
+import id.ac.binus.recruito.models.CategoryItem;
+
 public class AddJobListActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "AddJobListActivity";
 
     private ArrayList<CategoryItem> CategoryList;
-    private CategoryAdapter CategoryAdapter;
+    private id.ac.binus.recruito.adapter.CategoryAdapter CategoryAdapter;
     private Spinner SpinnerCategories;
     private Button ButtonSubmit;
     private Button ButtonTimePicker;
@@ -64,8 +64,6 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ClickedItem = (CategoryItem) parent.getItemAtPosition(position);
-                String ClickedCategoryItem = ClickedItem.getCategoryName();
-                Toast.makeText(AddJobListActivity.this, position + " selected", Toast.LENGTH_SHORT).show();
             }
 
             @Override

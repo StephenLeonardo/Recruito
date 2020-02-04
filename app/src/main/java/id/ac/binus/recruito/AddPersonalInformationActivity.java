@@ -23,18 +23,27 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
+
+import id.ac.binus.recruito.adapter.GenderAdapter;
+import id.ac.binus.recruito.adapter.StatusAdapter;
+import id.ac.binus.recruito.models.StatusItem;
+import id.ac.binus.recruito.models.User;
 
 public class AddPersonalInformationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "AddPersonalInformationA";
 
     private ArrayList<StatusItem> StatusList;
+    private ArrayList<String> GenderList;
     StatusAdapter StatusAdapterObj;
+    GenderAdapter genderAdapter;
     TextView DateOfBirth;
     EditText PhoneNumber;
-    Spinner Status;
+    Spinner Status, Gender;
     Button ButtonNext;
-    StatusItem ClickedItem;
+    StatusItem statusItem;
+    String genderString;
     private DatePickerDialog.OnDateSetListener DateSetListener;
 
 
@@ -44,23 +53,40 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_add_personal_information);
 
         // Fill status list with all status
-        initList();
+        fillStatusList();
+        fillGenderList();
 
 
         DateOfBirth = findViewById(R.id.text_view_date_picker);
         PhoneNumber = findViewById(R.id.edit_text_phone_number);
         Status = findViewById(R.id.spinner_status);
         ButtonNext = findViewById(R.id.button_next);
+        Gender = findViewById(R.id.spinner_gender);
+
+
 
         StatusAdapterObj = new StatusAdapter(this, StatusList);
         Status.setAdapter(StatusAdapterObj);
 
+        genderAdapter = new GenderAdapter(this, GenderList);
+        Gender.setAdapter(genderAdapter);
+
         Status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ClickedItem = (StatusItem) parent.getItemAtPosition(position);
-                String ClickedCategoryItem = ClickedItem.getStatusName();
-                Toast.makeText(AddPersonalInformationActivity.this, ClickedCategoryItem + " selected", Toast.LENGTH_SHORT).show();
+                statusItem = (StatusItem) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        Gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                genderString = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -91,9 +117,13 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month++;
-                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
+                String monthEdited = Integer.toString(month);
+                if(month < 10){
+                     monthEdited = "0" + month;
+                }
+                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonth);
 
-                String Date = month + "/" + dayOfMonth + "/" + year;
+                String Date = year + "-" + monthEdited + "-" + dayOfMonth;
                 DateOfBirth.setText(Date);
             }
         };
@@ -110,11 +140,17 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
                 Log.d(TAG, "onClick: email: " + email);
                 Log.d(TAG, "onClick: password: " + password);
                 Log.d(TAG, "onClick: DOB : " + DateOfBirth.getText().toString());
+                Log.d(TAG, "onClick: Gender : " + genderString);
+                Log.d(TAG, "onClick: Phone : " + PhoneNumber.getText().toString());
+                Log.d(TAG, "onClick: Status : " + statusItem.getStatusName());
 
 
                 DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                 databaseAccess.openDatabase();
-                boolean isInserted = databaseAccess.insertUser(1, name, DateOfBirth.getText().toString(), "Male", PhoneNumber.getText().toString(), ClickedItem.getStatusName(), email, password);
+
+                int imageID = pickRandomProfileImage();
+
+                boolean isInserted = databaseAccess.insertUser(imageID, name, DateOfBirth.getText().toString(), genderString, PhoneNumber.getText().toString(), statusItem.getStatusName(), email, password);
                 if (isInserted) {
                     Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
 
@@ -122,9 +158,9 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
                     DatabaseUtils.dumpCursor(csr); //<<<<<<<<<< Dump the cursor (to the log)
                     csr.close(); //<<<<<<<<< Should always close a Cursor when done with it
 
-//                    intent = new Intent(AddPersonalInformationActivity.this, ProfileActivity.class);
-//                    startActivity(intent);
-//                    finish();
+                    intent = new Intent(AddPersonalInformationActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
 
                 }
                 else {
@@ -133,15 +169,34 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
                 databaseAccess.closeDatabase();
 
             }
+
+            private int pickRandomProfileImage() {
+
+                int lowestImageID = 1;
+                int highestImageID = 12;
+
+                Random rand = new Random();
+                return rand.nextInt((highestImageID-lowestImageID) + 1) + lowestImageID;
+            }
         });
 
 
     }
 
+
+    /*
+    Add all gender
+     */
+    private void fillGenderList() {
+        GenderList = new ArrayList<>();
+        GenderList.add("Male");
+        GenderList.add("Female");
+    }
+
     /*
     Add all category for job
      */
-    private void initList() {
+    private void fillStatusList() {
         StatusList = new ArrayList<>();
         StatusList.add(new StatusItem("Single"));
         StatusList.add(new StatusItem("Married"));

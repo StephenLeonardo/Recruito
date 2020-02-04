@@ -22,6 +22,11 @@ import androidx.fragment.app.DialogFragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import id.ac.binus.recruito.adapter.CategoryAdapter;
+import id.ac.binus.recruito.adapter.LocationAdapter;
+import id.ac.binus.recruito.models.CategoryItem;
+import id.ac.binus.recruito.models.LocationItem;
+
 public class FilterActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "FilterActivity";

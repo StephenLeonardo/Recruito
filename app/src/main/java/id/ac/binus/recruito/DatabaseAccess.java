@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.models.CategoryItem;
+import id.ac.binus.recruito.models.User;
+
 public class DatabaseAccess extends AppCompatActivity {
 
     private SQLiteOpenHelper openHelper;
@@ -67,7 +70,7 @@ public class DatabaseAccess extends AppCompatActivity {
 
     public Cursor login(String email, String password) {
         try {
-            Cursor cursor = database.rawQuery("select * from msUser where Email = ? and UserPassword = ? ", new String[]{email, password});
+            Cursor cursor = database.rawQuery("select *, (strftime('%Y', 'now') - strftime('%Y', DOB)) - (strftime('%m-%d', 'now') < strftime('%m-%d', DOB)) AS 'Age' from msUser mU JOIN msImage mI ON mU.ImageID = mI.ImageID where Email = ? and UserPassword = ? ", new String[]{email, password});
             return cursor;
         }
         catch (Exception e){
@@ -246,14 +249,14 @@ public class DatabaseAccess extends AppCompatActivity {
      */
     public ArrayList getHomePageData() {
         String query = "SELECT " +
-                "mT.ThreadID, JobTitle, JobAddress, JobDate, UserName," +
-                "Joined = Count(tD.UserID)" +
-                "FROM msThread mT, trDetail tD, msUser mU" +
-                "WHERE mT.ThreadID = tD.ThreadID AND" +
-                "td.UserID = mU.UserID AND" +
-                "Comment = '<!!<THR34D M4K3R>!!>' AND" +
+                "mT.ThreadID, JobTitle, JobAddress, JobDate, UserName, " +
+                "Joined = Count(tD.UserID) " +
+                "FROM msThread mT, trDetail tD, msUser mU " +
+                "WHERE mT.ThreadID = tD.ThreadID AND " +
+                "td.UserID = mU.UserID AND " +
+                "Comment = '<!!<THR34D M4K3R>!!>' AND " +
                 "JobDate BETWEEN GETDATE() AND GETDATE()+30 " +
-                "GROUP BY td.ThreadID,JobTitle,JobAddress,JobDate,UserName";
+                "GROUP BY td.ThreadID,JobTitle,JobAddress,JobDate,UserName ";
 
         ArrayList<Thread> threadArrayList = new ArrayList<>();
         Cursor cursor = database.rawQuery(query, null);
@@ -280,14 +283,15 @@ public class DatabaseAccess extends AppCompatActivity {
      */
     public User getProfileData(int userID) {
         String query = "SELECT " +
-                "ImageName," +
-                "UserName,Age = DATEDIFF(YEAR,DOB,GETDATE())," +
+                "mU.ImageID, ImageName, " +
+                "UserName,Age = DATEDIFF(YEAR,DOB,GETDATE()), " +
                 "Gender," +
-                "PhoneNumber, Email,UserStatus" +
-                "FROM msUser mU, msImage mI" +
-                "WHERE mU.ImageID= mI.ImageID AND" +
+                "PhoneNumber, Email,UserStatus " +
+                "FROM msUser mU, msImage mI " +
+                "WHERE mU.ImageID= mI.ImageID AND " +
                 "UserID = @UserId";
         Cursor cursor = database.rawQuery(query, null);
+        int imageID = cursor.getInt(cursor.getColumnIndex("ImageID"));
         String imageName = cursor.getString(cursor.getColumnIndex("ImageName"));
         String username = cursor.getString(cursor.getColumnIndex("UserName"));
         int age = cursor.getInt(cursor.getColumnIndex("Age"));
@@ -296,7 +300,7 @@ public class DatabaseAccess extends AppCompatActivity {
         String email = cursor.getString(cursor.getColumnIndex("Email"));
         String status = cursor.getString(cursor.getColumnIndex("UserStatus"));
 
-        User user = new User(userID, 1, username, null, age, gender, phoneNumber, status, email, null);
+        User user = new User(userID, imageID, username, null, age, gender, phoneNumber, status, email, null, imageName);
 
         return user;
     }
@@ -306,11 +310,11 @@ public class DatabaseAccess extends AppCompatActivity {
     Date : Tuesday Feb, 04 2020
     Purpose : query is invalid, need to tell JSA
      */
-    public boolean updatePassword(String oldPassword, String newPassword) {
+    public boolean updatePassword(int UserID, String newPassword) {
         try {
-            String query = "UPDATE msUser" +
-                    "SET UserPassword = @PasswordNew" +
-                    "WHERE UserPassword = @PasswordOld";
+            String query = "UPDATE msUser " +
+                    "SET UserPassword = " + newPassword +
+                    "WHERE UserID = " + UserID;
             database.execSQL(query);
             return true;
         } catch (Exception e) {

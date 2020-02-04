@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import id.ac.binus.recruito.models.User;
+
 public class LoginActivity extends AppCompatActivity {
     Button SignInButton;
     EditText Email, Password;
@@ -69,25 +71,25 @@ public class LoginActivity extends AppCompatActivity {
                         int ImageID = cursor.getInt(cursor.getColumnIndex("ImageID"));
                         String UserName = cursor.getString(cursor.getColumnIndex("UserName"));
                         String DOB = cursor.getString(cursor.getColumnIndex("DOB"));
+                        int Age = cursor.getInt(cursor.getColumnIndex("Age"));
                         String Gender = cursor.getString(cursor.getColumnIndex("Gender"));
                         String PhoneNumber = cursor.getString(cursor.getColumnIndex("PhoneNumber"));
                         String UserStatus = cursor.getString(cursor.getColumnIndex("UserStatus"));
                         String Email = cursor.getString(cursor.getColumnIndex("Email"));
                         String UserPassword = cursor.getString(cursor.getColumnIndex("UserPassword"));
+                        String ImageName = cursor.getString(cursor.getColumnIndex("ImageName"));
 
 
                         // if cursor has value then in user database there is user associated with this given email
-                        User currentUser = new User(UserID, ImageID, UserName, DOB, Gender, PhoneNumber, UserStatus, Email, UserPassword);
+                        User currentUser = new User(UserID, ImageID, UserName, DOB, Age, Gender, PhoneNumber, UserStatus, Email, UserPassword, ImageName);
 
                         // Save user data into shared preference
                         SharedPref sharedPref = new SharedPref(LoginActivity.this);
                         sharedPref.save(currentUser);
 
                         Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
-                        intent.putExtra("email", inputEmail[0]);
-                        intent.putExtra("password", inputPassword[0]);
                         startActivity(intent);
-//                        finish();
+                        finish();
                     }
                     databaseAccess.closeDatabase();
 
@@ -112,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(Email);
 
-        if (Email == null || !matcher.matches() || Password == null || Password == "") {
+        if (!matcher.matches() || Password == null || Password.equals("")) {
             return false;
         }
         return true;
@@ -125,8 +127,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     private boolean isAlreadyLoggedIn() {
         SharedPref sharedPref = new SharedPref(LoginActivity.this);
-        sharedPref.load();
-        if (sharedPref == null) {
+        User user = sharedPref.load();
+        if (user == null) {
             return false;
         }
 

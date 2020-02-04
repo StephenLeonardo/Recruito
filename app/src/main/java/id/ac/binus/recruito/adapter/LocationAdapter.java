@@ -1,4 +1,4 @@
-package id.ac.binus.recruito;
+package id.ac.binus.recruito.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class StatusAdapter extends ArrayAdapter<StatusItem>{
+import id.ac.binus.recruito.models.LocationItem;
+import id.ac.binus.recruito.R;
+
+public class LocationAdapter extends ArrayAdapter<LocationItem> {
+    @NonNull
+    @Override
     public View getView(int Position, @Nullable View ConvertView, @NonNull ViewGroup Parent) {
         return initView(Position, ConvertView, Parent);
     }
@@ -22,23 +27,24 @@ public class StatusAdapter extends ArrayAdapter<StatusItem>{
         return initView(Position, ConvertView, Parent);
     }
 
-    public StatusAdapter(@NonNull Context context, ArrayList<StatusItem> StatusList) {
-        super(context, 0, StatusList);
+    public LocationAdapter(@NonNull Context context, ArrayList<LocationItem> locationItemArrayList) {
+        super(context, 0, locationItemArrayList);
     }
+
 
     private View initView(int Position, View ConvertView, ViewGroup Parent){
         if(ConvertView == null){
             ConvertView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.spinner_status_row, Parent, false
+                    R.layout.spinner_location_row, Parent, false
             );
         }
 
-        TextView CategoryName = ConvertView.findViewById(R.id.text_view_status);
+        TextView LocationName = ConvertView.findViewById(R.id.text_view_location);
 
-        StatusItem CurrentItem = getItem(Position);
+        LocationItem CurrentItem = getItem(Position);
 
         if(CurrentItem != null) {
-            CategoryName.setText(CurrentItem.getStatusName());
+            LocationName.setText(CurrentItem.getLocationName());
         }
 
         return ConvertView;

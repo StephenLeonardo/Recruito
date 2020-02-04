@@ -1,35 +1,41 @@
-package id.ac.binus.recruito;
+package id.ac.binus.recruito.models;
 
 public class User {
 
-    int UserID;
-    int ImageID;
-    String UserName;
-    String DOB;
-    int Age;
-    String Gender;
-    String PhoneNumber;
-    String UserStatus;
-    String Email;
-    String UserPassword;
+    private int UserID;
+    private int ImageID;
+    private String UserName;
+    private String DOB;
+    private int Age;
+    private String Gender;
+    private String PhoneNumber;
+    private String UserStatus;
+    private String Email;
+    private String UserPassword;
+    private String ImageName;
 
     public User() {
+
+    }
+
+    public String getImageName() {
+        return ImageName;
+    }
+
+    public void setImageName(String imageName) {
+        ImageName = imageName;
+    }
+
+    public int getAge() {
+        return Age;
+    }
+
+    public void setAge(int age) {
+        Age = age;
     }
 
 
-    public User(int userID, int imageID, String userName, String DOB, String gender, String phoneNumber, String userStatus, String email, String userPassword) {
-        UserID = userID;
-        ImageID = imageID;
-        UserName = userName;
-        this.DOB = DOB;
-        Gender = gender;
-        PhoneNumber = phoneNumber;
-        UserStatus = userStatus;
-        Email = email;
-        UserPassword = userPassword;
-    }
-
-    public User(int userID, int imageID, String userName, String DOB, int age, String gender, String phoneNumber, String userStatus, String email, String userPassword) {
+    public User(int userID, int imageID, String userName, String DOB, int age, String gender, String phoneNumber, String userStatus, String email, String userPassword, String imageFilePath) {
         UserID = userID;
         ImageID = imageID;
         UserName = userName;
@@ -40,6 +46,7 @@ public class User {
         UserStatus = userStatus;
         Email = email;
         UserPassword = userPassword;
+        ImageName = imageFilePath;
     }
 
     public String getGender() {

@@ -54,12 +54,14 @@ public class RegistActivity extends AppCompatActivity {
                 Purpose : Adding intent to go to next page
                  */
                 if (isValidInput(inputName[0], inputEmail[0], inputPassword[0], inputPasswordConfirmation[0])) {
+
+
                     Intent intent = new Intent(RegistActivity.this, AddPersonalInformationActivity.class);
                     intent.putExtra("name", inputName[0]);
                     intent.putExtra("email", inputEmail[0]);
                     intent.putExtra("password", inputPassword[0]);
                     startActivity(intent);
-//                    finish();
+                    finish();
                 } else {
                     Toast.makeText(RegistActivity.this, "Please input data correctly", Toast.LENGTH_SHORT).show();
                 }
@@ -82,9 +84,9 @@ public class RegistActivity extends AppCompatActivity {
 
         Matcher matcher = pattern.matcher(Email);
 
-        if (Name == null || Name == "" || Name == " " ||
-                Email == null || !matcher.matches() ||
-                Password == null || Password == "" ||
+        if (Name == null || Name.equals("") || Name.equals(" ") ||
+                !matcher.matches() ||
+                Password == null || Password.equals("") ||
                 ConfirmationPassword == null || !ConfirmationPassword.equals(Password)) {
             return false;
         }

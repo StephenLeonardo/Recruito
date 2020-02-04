@@ -1,4 +1,4 @@
-package id.ac.binus.recruito;
+package id.ac.binus.recruito.models;
 
 public class CategoryItem {
     private String CategoryName;
