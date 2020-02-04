@@ -44,7 +44,7 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_job_list);
 
-        initList();
+        FillCategory();
 
         SpinnerCategories = findViewById(R.id.spinner_categories);
         ButtonSubmit = findViewById(R.id.button_submit);
@@ -105,7 +105,7 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
                 }
                 databaseAccess.closeDatabase();
 
-                Toast.makeText(AddJobListActivity.this, "Thread inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddJobListActivity.this, "JobThread inserted", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -153,11 +153,10 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
     /*
     Add all category for job
      */
-    private void initList() {
-        CategoryList = new ArrayList<>();
-        CategoryList.add(new CategoryItem("Music"));
-        CategoryList.add(new CategoryItem("Culinary"));
-        CategoryList.add(new CategoryItem("Sports"));
+    private void FillCategory() {
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+        CategoryList = databaseAccess.getAllCategory();
+
     }
 
     @Override

@@ -1,9 +1,10 @@
-package id.ac.binus.recruito;
+package id.ac.binus.recruito.models;
 
-public class Thread {
+public class JobThread {
 
     int ThreadID;
     String Username;
+    String PhoneNumber;
     String Category;
     String JobTitle;
     String JobTime;
@@ -11,6 +12,37 @@ public class Thread {
     String JobAddress;
     String JobDescription;
     int TotalPeople;
+    int JoinedPeople;
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        PhoneNumber = phoneNumber;
+    }
+
+    public JobThread(int threadID, String username, String phoneNumber, String category, String jobTitle, String jobTime, String jobDate, String jobAddress, String jobDescription, int totalPeople, int joinedPeople) {
+        ThreadID = threadID;
+        Username = username;
+        PhoneNumber = phoneNumber;
+        Category = category;
+        JobTitle = jobTitle;
+        JobTime = jobTime;
+        JobDate = jobDate;
+        JobAddress = jobAddress;
+        JobDescription = jobDescription;
+        TotalPeople = totalPeople;
+        JoinedPeople = joinedPeople;
+    }
+
+    public int getJoinedPeople() {
+        return JoinedPeople;
+    }
+
+    public void setJoinedPeople(int joinedPeople) {
+        JoinedPeople = joinedPeople;
+    }
 
     public int getThreadID() {
         return ThreadID;
@@ -84,7 +116,7 @@ public class Thread {
         Username = username;
     }
 
-    public Thread(int threadID, String username, String category, String jobTitle, String jobTime, String jobDate, String jobAddress, String jobDescription, int totalPeople) {
+    public JobThread(int threadID, String username, String category, String jobTitle, String jobTime, String jobDate, String jobAddress, String jobDescription, int totalPeople, int joinedPeople) {
         ThreadID = threadID;
         Username = username;
         Category = category;
@@ -94,5 +126,6 @@ public class Thread {
         JobAddress = jobAddress;
         JobDescription = jobDescription;
         TotalPeople = totalPeople;
+        JoinedPeople = joinedPeople;
     }
 }

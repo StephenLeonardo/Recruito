@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 import id.ac.binus.recruito.models.CategoryItem;
+import id.ac.binus.recruito.models.Comment;
+import id.ac.binus.recruito.models.JobThread;
 import id.ac.binus.recruito.models.User;
 
 public class DatabaseAccess extends AppCompatActivity {
@@ -141,20 +143,20 @@ public class DatabaseAccess extends AppCompatActivity {
 
         String query = "SELECT\n" +
                 "mT.ThreadID, JobTitle, JobAddress, JobDate, UserName," +
-                "Joined = Count(tD.UserID)" +
-                "FROM msThread mT, trDetail tD, msUser mU" +
+                "Joined = Count(tD.UserID), TotalPeople " +
+                "FROM msThread mT, trDetail tD, msUser mU " +
                 "WHERE mT.ThreadID = tD.ThreadID AND" +
-                "td.UserID = mU.UserID AND" +
-                "TotalPeople = " + peopleRange + " AND" +
-                "CategoryID = " + categoryID + " AND" +
-                "JobTime BETWEEN " + startTime + " AND " + endTime + " AND" +
-                "JobDate = " + date + " AND" +
-                "JobAddress LIKE '%' +" + location + " +'%'" +
+                "td.UserID = mU.UserID AND " +
+                "TotalPeople = " + peopleRange + " AND " +
+                "CategoryID = " + categoryID + " AND " +
+                "JobTime BETWEEN " + startTime + " AND " + endTime + " AND " +
+                "JobDate = " + date + " AND " +
+                "JobAddress LIKE '%' +" + location + " +'% '" +
                 "GROUP BY td.ThreadID,JobTitle,JobAddress,JobDate,UserName";
 
-        ArrayList<Thread> threadArrayList = new ArrayList<>();
+        ArrayList<JobThread> jobThreadArrayList = new ArrayList<>();
         Cursor cursor = database.rawQuery(query, null);
-        Thread thread;
+        JobThread jobThread;
         while (cursor.moveToNext()) {
             int threadID = cursor.getInt(cursor.getColumnIndex("ThreadID"));
             String jobTitle = cursor.getString(cursor.getColumnIndex("JobTitle"));
@@ -162,29 +164,30 @@ public class DatabaseAccess extends AppCompatActivity {
             String jobDate = cursor.getString(cursor.getColumnIndex("jobDate"));
             String username = cursor.getString(cursor.getColumnIndex("UserName"));
             int totalJoined = cursor.getInt(cursor.getColumnIndex("Joined"));
-            thread = new Thread(threadID, username, null, jobTitle, null, jobDate, jobAddress, null, totalJoined);
+            int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
+            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
 
-            threadArrayList.add(thread);
+            jobThreadArrayList.add(jobThread);
         }
         cursor.close();
-        return threadArrayList;
+        return jobThreadArrayList;
     }
 
 
     public ArrayList getHistoryList(int userID, String date) {
         String query = "SELECT " +
-                "mT.ThreadID, JobTitle, JobAddress, JobDate, UserName," +
-                "Joined = Count(tD.UserID)" +
-                "FROM msThread mT, trDetail tD, msUser mU" +
-                "WHERE mT.ThreadID = tD.ThreadID AND" +
+                "mT.ThreadID, JobTitle, JobAddress, JobDate, UserName, " +
+                "Joined = Count(tD.UserID), TotalPeople " +
+                "FROM msThread mT, trDetail tD, msUser mU " +
+                "WHERE mT.ThreadID = tD.ThreadID AND " +
                 "td.UserID = mU.UserID AND " +
-                "tD.UserID = " + userID + " AND" +
+                "tD.UserID = " + userID + " AND " +
                 "JobDate BETWEEN " + date + " AND GETDATE()" +
                 "GROUP BY td.ThreadID,JobTitle,JobAddress,JobDate,UserName";
 
-        ArrayList<Thread> threadArrayList = new ArrayList<>();
+        ArrayList<JobThread> jobThreadArrayList = new ArrayList<>();
         Cursor cursor = database.rawQuery(query, null);
-        Thread thread;
+        JobThread jobThread;
         while (cursor.moveToNext()) {
             int threadID = cursor.getInt(cursor.getColumnIndex("ThreadID"));
             String jobTitle = cursor.getString(cursor.getColumnIndex("JobTitle"));
@@ -192,54 +195,118 @@ public class DatabaseAccess extends AppCompatActivity {
             String jobDate = cursor.getString(cursor.getColumnIndex("jobDate"));
             String username = cursor.getString(cursor.getColumnIndex("UserName"));
             int totalJoined = cursor.getInt(cursor.getColumnIndex("Joined"));
-            thread = new Thread(threadID, username, null, jobTitle, null, jobDate, jobAddress, null, totalJoined);
+            int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
+            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
 
-            threadArrayList.add(thread);
+            jobThreadArrayList.add(jobThread);
         }
         cursor.close();
-        return threadArrayList;
+        return jobThreadArrayList;
     }
 
 
     public ArrayList getNotifList(int userID) {
         String query = "SELECT " +
-                "mT.ThreadID, JobTitle, JobDate,UserName" +
-                "FROM msThread mT, trDetail tD, msUser mU" +
-                "WHERE mT.ThreadID = tD.ThreadID AND" +
-                "td.UserID = mU.UserID AND" +
+                "mT.ThreadID, JobTitle, JobDate,UserName " +
+                "FROM msThread mT, trDetail tD, msUser mU " +
+                "WHERE mT.ThreadID = tD.ThreadID AND " +
+                "td.UserID = mU.UserID AND " +
                 "td.UserID=" + userID;
 
-        ArrayList<Thread> threadArrayList = new ArrayList<>();
+        ArrayList<JobThread> jobThreadArrayList = new ArrayList<>();
         Cursor cursor = database.rawQuery(query, null);
-        Thread thread;
+        JobThread jobThread;
         while (cursor.moveToNext()) {
             int threadID = cursor.getInt(cursor.getColumnIndex("ThreadID"));
             String jobTitle = cursor.getString(cursor.getColumnIndex("JobTitle"));
             String jobDate = cursor.getString(cursor.getColumnIndex("jobDate"));
             String username = cursor.getString(cursor.getColumnIndex("UserName"));
-            thread = new Thread(threadID, username, null, jobTitle, null, jobDate, null, null, 0);
+            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, null, null, 0, 0);
 
-            threadArrayList.add(thread);
+            jobThreadArrayList.add(jobThread);
         }
         cursor.close();
-        return threadArrayList;
+        return jobThreadArrayList;
     }
 
+    public JobThread getSpecificPageData(int threadID) {
+        String query = "SELECT\n" +
+                "JobDescription,\n" +
+                "JobTime,\n" +
+                "JobDate,\n" +
+                "JobAddress,\n" +
+                "PhoneNumber,\n" +
+                "COUNT(CommentID) AS 'JoinedPeople',\n" +
+                "TotalPeople,\n" +
+                "Creator\n" +
+                "FROM\n" +
+                "msThread mT JOIN trDetail tD on mT.ThreadID = tD.ThreadID\n" +
+                "JOIN msCategory mC ON mT.CategoryID = mC.CategoryID \n" +
+                "JOIN msUser mU ON mT.Creator = mU.UserName\n" +
+                "WHERE\n" +
+                "HsJoin = 1 AND\n" +
+                "mT.ThreadID =" + threadID +
+                "GROUP BY\n" +
+                "JobDescription,\n" +
+                "JobTime,\n" +
+                "JobDate,\n" +
+                "JobAddress,\n" +
+                "PhoneNumber,\n" +
+                "TotalPeople,\n" +
+                "Creator";
 
-    /*
-    Commented by Stephen
-    Date : Tuesday Feb, 04 2020
-    Purpose : query is invalid, need to tell JSA
-     */
-    public Thread getSpecificPageData(int threadID) {
-        String query = "SELECT " +
-                "JobTime, JobDate, JobAddress, PhoneNumber, UserName, Comment, ImageName\n" +
-                "FROM msThread mT, trDetail tD, msUser mU, msImage mI" +
-                "WHERE mT.ThreadID = tD.ThreadID AND" +
-                "td.UserID = mU.UserID AND" +
-                "mU.ImageID = mI.ImageID AND" +
-                "td.ThreadID = " + threadID;
-        return null; // delete when fixed
+        Cursor cursor = database.rawQuery(query, null);
+
+        String jobDescription = cursor.getString(cursor.getColumnIndex("JobDescription"));
+        String jobTime = cursor.getString(cursor.getColumnIndex("JobTime"));
+        String jobDate = cursor.getString(cursor.getColumnIndex("JobDate"));
+        String jobAddress = cursor.getString(cursor.getColumnIndex("JobAddress"));
+        String phoneNumber = cursor.getString(cursor.getColumnIndex("PhoneNumber"));
+        int joinedPeople = cursor.getInt(cursor.getColumnIndex("JoinedPeople"));
+        int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
+        String creator = cursor.getString(cursor.getColumnIndex("Creator"));
+
+        JobThread jobThread =
+                new JobThread(threadID, creator, phoneNumber, null, null, jobTime,
+                        jobDate, jobAddress, jobDescription, totalPeople, joinedPeople);
+
+        return jobThread;
+
+    }
+
+    public ArrayList getAllCommentsAndJoinedPeopleInThread(int threadID) {
+        String query =
+                "SELECT\n" +
+                        "*\n" +
+                        "FROM\n" +
+                        "msThread mT JOIN trDetail tD ON mT.ThreadID = tD.ThreadID\n" +
+                        "JOIN msUser mU ON mT.Creator = mU.UserName\n" +
+                        "WHERE\n" +
+                        "mT.ThreadID = @threadID";
+
+        ArrayList<Comment> commentArrayList = new ArrayList<>();
+        Cursor cursor = database.rawQuery(query, null);
+
+        Comment comment;
+
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("UserName"));
+            int hasJoined = cursor.getInt(cursor.getColumnIndex("HsJoin"));
+            int hasComment = cursor.getInt(cursor.getColumnIndex("HsComment"));
+            int hasLeft = cursor.getInt(cursor.getColumnIndex("HsLeave"));
+            int isKicked = cursor.getInt(cursor.getColumnIndex("IsKick"));
+            String commentText = cursor.getString(cursor.getColumnIndex("Comment"));
+            int commentID = cursor.getInt(cursor.getColumnIndex("CommentID"));
+            int userID = cursor.getInt(cursor.getColumnIndex("UserID"));
+            String imageName = cursor.getString(cursor.getColumnIndex("ImageName"));
+
+            comment = new Comment(commentID, threadID, userID, name, imageName, commentText, hasJoined, hasComment, hasLeft, isKicked);
+
+            commentArrayList.add(comment);
+        }
+        cursor.close();
+
+        return commentArrayList;
     }
 
     /*
@@ -249,47 +316,40 @@ public class DatabaseAccess extends AppCompatActivity {
      */
     public ArrayList getHomePageData() {
         String query = "SELECT " +
-                "mT.ThreadID, JobTitle, JobAddress, JobDate, UserName, " +
-                "Joined = Count(tD.UserID) " +
+                "mT.ThreadID, JobTitle, JobAddress, JobDate, Creator, " +
+                "Joined = Count(tD.UserID), TotalPeople " +
                 "FROM msThread mT, trDetail tD, msUser mU " +
                 "WHERE mT.ThreadID = tD.ThreadID AND " +
                 "td.UserID = mU.UserID AND " +
-                "Comment = '<!!<THR34D M4K3R>!!>' AND " +
-                "JobDate BETWEEN GETDATE() AND GETDATE()+30 " +
-                "GROUP BY td.ThreadID,JobTitle,JobAddress,JobDate,UserName ";
+                "JobDate BETWEEN date('now') AND date('now', '+30 days') " +
+                "GROUP BY td.ThreadID,JobTitle,JobAddress,JobDate, Creator, TotalPeople ";
 
-        ArrayList<Thread> threadArrayList = new ArrayList<>();
+        ArrayList<JobThread> jobThreadArrayList = new ArrayList<>();
         Cursor cursor = database.rawQuery(query, null);
-        Thread thread;
+        JobThread jobThread;
         while (cursor.moveToNext()) {
             int threadID = cursor.getInt(cursor.getColumnIndex("ThreadID"));
             String jobTitle = cursor.getString(cursor.getColumnIndex("JobTitle"));
             String jobAddress = cursor.getString(cursor.getColumnIndex("JobAddress"));
             String jobDate = cursor.getString(cursor.getColumnIndex("jobDate"));
-            String username = cursor.getString(cursor.getColumnIndex("UserName"));
+            String creator = cursor.getString(cursor.getColumnIndex("Creator"));
             int totalJoined = cursor.getInt(cursor.getColumnIndex("Joined"));
-            thread = new Thread(threadID, username, null, jobTitle, null, jobDate, jobAddress, null, totalJoined);
+            int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
+            jobThread = new JobThread(threadID, creator, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
 
-            threadArrayList.add(thread);
+            jobThreadArrayList.add(jobThread);
         }
         cursor.close();
-        return threadArrayList;
+        return jobThreadArrayList;
     }
 
-    /*
-    Commented by Stephen
-    Date : Tuesday Feb, 04 2020
-    Purpose : need ImageID, not ImageName
-     */
+
     public User getProfileData(int userID) {
         String query = "SELECT " +
-                "mU.ImageID, ImageName, " +
-                "UserName,Age = DATEDIFF(YEAR,DOB,GETDATE()), " +
-                "Gender," +
-                "PhoneNumber, Email,UserStatus " +
+                "* " +
                 "FROM msUser mU, msImage mI " +
                 "WHERE mU.ImageID= mI.ImageID AND " +
-                "UserID = @UserId";
+                "UserID = " + userID;
         Cursor cursor = database.rawQuery(query, null);
         int imageID = cursor.getInt(cursor.getColumnIndex("ImageID"));
         String imageName = cursor.getString(cursor.getColumnIndex("ImageName"));
@@ -305,11 +365,6 @@ public class DatabaseAccess extends AppCompatActivity {
         return user;
     }
 
-    /*
-    Commented by Stephen
-    Date : Tuesday Feb, 04 2020
-    Purpose : query is invalid, need to tell JSA
-     */
     public boolean updatePassword(int UserID, String newPassword) {
         try {
             String query = "UPDATE msUser " +
@@ -323,5 +378,106 @@ public class DatabaseAccess extends AppCompatActivity {
         return false;
     }
 
+
+    public boolean joinThread(int userID, int threadID) {
+
+        int hasJoined = 1;
+        int hasComment = 0;
+        int hasLeft = 0;
+        int isKicked = 0;
+        String comment = "";
+
+        try {
+            String query =
+                    "INSERT INTO trDetail(ThreadID,UserID,Comment,HsJoin,HsComment,HsLeave,IsKick) " +
+                    "VALUES(" +
+                    threadID + "," + userID + "," + comment + "," + hasJoined + "," +
+                    hasComment + "," + hasLeft + "," + isKicked +
+                    ")";
+
+            database.execSQL(query);
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean insertComment(int userID, int threadID, String comment){
+        int hasJoined = 0;
+        int hasComment = 1;
+        int hasLeft = 0;
+        int isKicked = 0;
+
+        try{
+            String query =
+                    "INSERT INTO trDetail(ThreadID,UserID,Comment,HsJoin,HsComment,HsLeave,IsKick) " +
+                    "VALUES(" +
+                    threadID + "," + userID + "," + comment + "," + hasJoined + "," +
+                    hasComment + "," + hasLeft + "," + isKicked +
+                    ")";
+            database.execSQL(query);
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean leaveThread(int userID, int threadID){
+        int hasJoined = 0;
+        int hasComment = 0;
+        int hasLeft = 1;
+        int isKicked = 0;
+        String comment = "";
+
+        try{
+            String query =
+                    "INSERT INTO trDetail(ThreadID,UserID,Comment,HsJoin,HsComment,HsLeave,IsKick) " +
+                            "VALUES(" +
+                            threadID + "," + userID + "," + comment + "," + hasJoined + "," +
+                            hasComment + "," + hasLeft + "," + isKicked +
+                            ");" +
+                    "DELETE FROM trDetail " +
+                            "WHERE ThreadID = " + threadID + " AND " +
+                            "UserID = " + userID + " AND " +
+                            "HsLeave != 1";
+            database.execSQL(query);
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean kickThread(int userIDToBeKicked, int threadID){
+        int hasJoined = 0;
+        int hasComment = 0;
+        int hasLeft = 0;
+        int isKicked = 1;
+        String comment = "";
+
+        try{
+            String query =
+                    "INSERT INTO trDetail(ThreadID,UserID,Comment,HsJoin,HsComment,HsLeave,IsKick) " +
+                            "VALUES(" +
+                            threadID + "," + userIDToBeKicked + "," + comment + "," + hasJoined + "," +
+                            hasComment + "," + hasLeft + "," + isKicked +
+                            ");" +
+                            "DELETE FROM trDetail " +
+                            "WHERE ThreadID = " + threadID + " AND " +
+                            "UserID = " + userIDToBeKicked + " AND " +
+                            "IsKick != 1";
+            database.execSQL(query);
+            return true;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }
