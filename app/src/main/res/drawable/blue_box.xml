@@ -4,7 +4,7 @@
     >
 
     <solid
-        android:color="@android:color/holo_blue_dark"/>
+        android:color="#D5F4FF"/>
 
     <padding
         android:top="5dp"

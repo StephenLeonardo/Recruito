@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("email", inputEmail[0]);
                         intent.putExtra("password", inputPassword[0]);
                         startActivity(intent);
-                        finish();
+//                        finish();
                     }
                     databaseAccess.closeDatabase();
 

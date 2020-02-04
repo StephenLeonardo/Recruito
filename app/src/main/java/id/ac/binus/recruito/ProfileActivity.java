@@ -13,7 +13,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     ImageView ProfilePic;
     TextView Name, Age, PhoneNumber, Email, Status;
-    Button changeProfileButton, changePasswordButton, LogOutButton;
+    Button changeProfileButton, changePasswordButton, logOutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +27,19 @@ public class ProfileActivity extends AppCompatActivity {
         Email = findViewById(R.id.text_view_email);
         Status = findViewById(R.id.text_view_status);
         changeProfileButton = findViewById(R.id.button_change_profile);
+        changePasswordButton = findViewById(R.id.button_change_password);
+        logOutButton = findViewById(R.id.button_log_out);
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPref sharedPref = new SharedPref(ProfileActivity.this);
+                sharedPref.clearAll(ProfileActivity.this);
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         setProfilePic(Name.getText().toString());
 
@@ -43,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
         changeProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ChangePasswordActivity.class);
+                Intent intent = new Intent(ProfileActivity.this, ChangeProfileActivity.class);
                 intent.putExtra("name", Name.getText().toString());
                 startActivity(intent);
             }

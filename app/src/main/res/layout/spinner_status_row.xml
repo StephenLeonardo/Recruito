@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:text="Single"
         android:textSize="25sp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:background="@drawable/blue_box"/>
 
 
 </RelativeLayout>
