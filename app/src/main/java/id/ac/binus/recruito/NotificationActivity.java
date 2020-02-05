@@ -30,7 +30,10 @@ public class NotificationActivity extends AppCompatActivity {
         getNotifList();
     }
 
+    //Function untuk mendapatkan list notification
     private void getNotifList(){
+
+        //Ini Contoh list notifikasi
         listNotif.add(new Notification( "Ini adalah notification 1", "1", "01-02-2020", "10:00", false));
         listNotif.add(new Notification( "Ini adalah notification 2", "1", "02-02-2020", "11:00", false));
         listNotif.add(new Notification( "Ini adalah notification 3", "1", "03-02-2020", "12:00", false));

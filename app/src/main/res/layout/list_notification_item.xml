@@ -7,44 +7,53 @@
             type="id.ac.binus.recruito.models.Notification" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="3dp"
         >
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_notifications"
-                android:padding="10dp"
-                android:layout_alignParentLeft="true"
-                />
-
-            <TextView
-                android:id="@+id/tv_message"
-                android:layout_width="370dp"
-                android:layout_height="wrap_content"
-                android:text="Tetsing ini adalah notiffication yaaa"
-                android:padding="10dp"
-                android:layout_alignParentRight="true"
-                >
-
-            </TextView>
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sun, 19-01-2020 15:00"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            />
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_notifications"
+                    android:padding="10dp"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_message"
+                    android:layout_width="360dp"
+                    android:layout_height="wrap_content"
+                    android:text="@={notif.message}"
+                    android:padding="10dp"
+                    android:layout_alignParentRight="true"
+                    >
+
+                </TextView>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{notif.date+` `+notif.time}"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                />
+        </LinearLayout>
 
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </layout>
