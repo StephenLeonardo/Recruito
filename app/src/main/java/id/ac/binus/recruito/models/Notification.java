@@ -31,6 +31,10 @@ public class Notification {
         Date = date;
         Time = time;
         this.read = read;
+
+
+        message = new ArrayList<>();
+
     }
 
     public Notification() {
@@ -101,7 +105,6 @@ public class Notification {
     }
 
     public void setMessage(int hasJoined, int hasComment, int hasLeft, int isKicked){
-        message = new ArrayList<>();
         if(hasJoined == 1){
             message.add(" has joined");
         }

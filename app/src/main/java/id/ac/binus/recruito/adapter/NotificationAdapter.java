@@ -50,6 +50,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         Notification notif =listNotif.get(position);
         holder.binding.setNotif(notif);
+
 //        holder.bind(notif);
     }
 
@@ -65,7 +66,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public NotificationViewHolder(@NonNull ListNotificationItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
         }
+
 
         /*
         Modified by Stephen

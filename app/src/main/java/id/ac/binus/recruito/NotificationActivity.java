@@ -33,12 +33,15 @@ public class NotificationActivity extends Fragment{
         View rootView= inflater.inflate(R.layout.activity_notification,container,false);
         RecyclerView recyclerview= rootView.findViewById(R.id.rv_notif);
 
+
         getNotifList();
 
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new NotificationAdapter(getActivity(), listNotif);
         adapter.notifyDataSetChanged();
         recyclerview.setAdapter(adapter);
+
+
         return rootView;
     }
 
@@ -47,9 +50,11 @@ public class NotificationActivity extends Fragment{
 
         //Ini Contoh list notifikasi
         listNotif.add(new Notification( 1, "Ini adalah notification 1", 1, "Budi", "01-02-2020", "10:00", false));
-        listNotif.add(new Notification( 2, "Ini adalah notification 2", 1, "Andi", "02-02-2020", "11:00", false));
-        listNotif.add(new Notification( 3, "Ini adalah notification 3", 1, "Ani", "03-02-2020", "12:00", false));
-        listNotif.add(new Notification( 4, "Ini adalah notification 4", 1, "Lisa", "04-02-2020", "13:00", false));
+        listNotif.add(new Notification( 2, "Ini adalah notification 2", 2, "Andi", "02-02-2020", "11:00", false));
+        listNotif.add(new Notification( 3, "Ini adalah notification 3", 3, "Ani", "03-02-2020", "12:00", false));
+        listNotif.add(new Notification( 4, "Ini adalah notification 4", 4, "Lisa", "04-02-2020", "13:00", false));
+
+
 
         // get user data from shared pref
         SharedPref sharedPref = new SharedPref(getActivity());
