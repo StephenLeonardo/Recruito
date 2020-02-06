@@ -146,7 +146,7 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
         buttonApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
                 intent.putExtra("location", clickedLocationItem.getLocationName());
                 intent.putExtra("category", clickedCategoryItem.getCategoryName());
                 intent.putExtra("startTime", buttonTimePickerStart.getText().toString());

@@ -54,16 +54,15 @@ public class NotificationActivity extends Fragment {
 //        listNotif.add(new Notification( 1, "Ini adalah notification 3", 1, "03-02-2020", "12:00", false));
 //        listNotif.add(new Notification( 1, "Ini adalah notification 4", 1, "04-02-2020", "13:00", false));
 
+        // get user data from shared pref
+        SharedPref sharedPref = new SharedPref(getActivity());
+        user = sharedPref.load();
 
         /*
         Modified by Stephen
         Date : Feb 06, 2020
         Purpose : Get notification data from database
          */
-        // get user data from shared pref
-        SharedPref sharedPref = new SharedPref(getActivity());
-        user = sharedPref.load();
-
         // get all notification list from database
         databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
 
