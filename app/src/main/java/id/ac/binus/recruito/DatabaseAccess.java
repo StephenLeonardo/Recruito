@@ -166,7 +166,7 @@ public class DatabaseAccess extends AppCompatActivity {
             String username = cursor.getString(cursor.getColumnIndex("UserName"));
             int totalJoined = cursor.getInt(cursor.getColumnIndex("Joined"));
             int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
-            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
+            jobThread = new JobThread(threadID, username, null, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
 
             jobThreadArrayList.add(jobThread);
         }
@@ -197,7 +197,7 @@ public class DatabaseAccess extends AppCompatActivity {
             String username = cursor.getString(cursor.getColumnIndex("UserName"));
             int totalJoined = cursor.getInt(cursor.getColumnIndex("Joined"));
             int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
-            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
+            jobThread = new JobThread(threadID, username, null, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
 
             jobThreadArrayList.add(jobThread);
         }
@@ -339,7 +339,7 @@ public class DatabaseAccess extends AppCompatActivity {
             String creator = cursor.getString(cursor.getColumnIndex("Creator"));
             int totalJoined = cursor.getInt(cursor.getColumnIndex("Joined"));
             int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
-            jobThread = new JobThread(threadID, creator, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
+            jobThread = new JobThread(threadID, creator, null, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, totalJoined);
 
             jobThreadArrayList.add(jobThread);
         }

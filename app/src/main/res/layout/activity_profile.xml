@@ -1,150 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
-    style="@style/BackgroundBlue">
 
-    <LinearLayout
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="user"
+            type="id.ac.binus.recruito.models.User" />
+
+        <variable
+            name="clickHandler"
+            type="id.ac.binus.recruito.ProfileActivity.ClickHandler" />
+
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/BackgroundBlue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/textview_title"
-            android:gravity="center_vertical"
-            android:text="@string/profile"
-            android:textColor="@android:color/black"
-            android:textSize="30dp" />
-
-        <ImageView
-            android:id="@+id/image_view_profile_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/peacock" />
-
-        <TextView
-            android:id="@+id/text_view_profile_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="Ali Putra"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+        android:layout_height="match_parent"
+        tools:context=".ProfileActivity">
 
         <LinearLayout
-            android:id="@+id/linear_layout_profile_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
-            android:background="@drawable/textview_title"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/details"
-                android:textColor="@android:color/background_dark"
-                android:textSize="20sp" />
+                android:background="@drawable/text_view_title"
+                android:gravity="center_vertical"
+                android:text="@string/profile"
+                android:textColor="@android:color/black"
+                android:textSize="30dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_view_profile_pic"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:imageFilePath="@{user.imageName}"
+                app:civ_border_color="@android:color/black"
+                app:civ_border_width="1dp" />
 
             <TextView
-                android:id="@+id/text_view_gender"
+                android:id="@+id/text_view_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Gender: Male"
-                android:textSize="15sp" />
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@{user.userName}"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/text_view_age"
+            <LinearLayout
+                android:id="@+id/linear_layout_profile_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Age: 21"
-                android:textSize="15sp" />
+                android:layout_margin="30dp"
+                android:background="@drawable/text_view_title"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-            <TextView
-                android:id="@+id/text_view_phone_number"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@string/details"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/text_view_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@{`Gender: ` + user.gender}"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_view_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@{`Age : ` + user.age}"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_view_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@{`Phone Number: ` + user.phoneNumber}"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_view_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@{`Email: ` + user.email}"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/text_view_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="@{`Status: ` + user.userStatus}"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Phone Number: 08123456"
-                android:textSize="15sp" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/text_view_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Email: ali@gmail.com"
-                android:textSize="15sp" />
+                <Button
+                    android:id="@+id/button_change_profile"
+                    android:layout_width="160dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button_blue_box"
+                    android:gravity="center"
+                    android:onClick="@{clickHandler::changeProfileButtonClick}"
+                    android:text="@string/change_profile"
+                    android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/text_view_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Status: Single"
-                android:textSize="15sp" />
+                <Button
+                    android:id="@+id/button_log_out"
+                    android:layout_width="156dp"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/button_change_profile"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button_blue_box"
+                    android:gravity="center"
+                    android:onClick="@{clickHandler::logOutButtonClick}"
+                    android:text="@string/log_out"
+                    android:textColor="@android:color/black" />
 
+                <Button
+                    android:id="@+id/button_change_password"
+                    android:layout_width="160dp"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/button_log_out"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/button_blue_box"
+                    android:gravity="center"
+                    android:onClick="@{clickHandler::changePasswordButtonClick}"
+                    android:text="@string/change_password"
+                    android:textColor="@android:color/black" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
+    </ScrollView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/button_change_profile"
-                android:layout_width="160dp"
-                android:layout_height="35dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/button_blue_box"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:text="@string/change_profile" />
-
-            <Button
-                android:id="@+id/button_log_out"
-                android:layout_width="156dp"
-                android:layout_height="35dp"
-                android:layout_below="@id/button_change_profile"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/button_blue_box"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:text="@string/log_out" />
-
-            <Button
-                android:id="@+id/button_change_password"
-                android:layout_width="160dp"
-                android:layout_height="35dp"
-                android:layout_below="@id/button_log_out"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/button_blue_box"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:text="@string/change_password" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</layout>

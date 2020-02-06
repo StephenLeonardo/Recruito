@@ -1,5 +1,6 @@
 package id.ac.binus.recruito;
 
+//
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         int hour = CalendarObj.get(Calendar.HOUR_OF_DAY);
         int minute = CalendarObj.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(getActivity(), R.style.DialogTheme, (TimePickerDialog.OnTimeSetListener) getContext(), hour, minute, DateFormat.is24HourFormat(getActivity()));
     }
 
     @Override

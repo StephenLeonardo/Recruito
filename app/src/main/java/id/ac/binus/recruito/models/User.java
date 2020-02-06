@@ -1,6 +1,14 @@
 package id.ac.binus.recruito.models;
 
-public class User {
+import android.app.Application;
+import android.content.Context;
+import android.view.View;
+
+import androidx.databinding.BindingAdapter;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class User extends Application {
 
     private int UserID;
     private int ImageID;
@@ -13,9 +21,14 @@ public class User {
     private String Email;
     private String UserPassword;
     private String ImageName;
+    private static Context mContext;
 
     public User() {
 
+    }
+
+    public User(Context context){
+        mContext = context;
     }
 
     public String getImageName() {
@@ -120,4 +133,21 @@ public class User {
     public void setUserPassword(String userPassword) {
         UserPassword = userPassword;
     }
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
+
+
+    @BindingAdapter("android:imageFilePath")
+    public static void loadImage(View view, String imageName){
+        CircleImageView circleImageView = (CircleImageView) view;
+        circleImageView.setImageResource( mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName()));
+    }
+
+
 }

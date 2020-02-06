@@ -13,7 +13,7 @@
             android:id="@+id/activity_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/textview_title"
+            android:background="@drawable/text_view_title"
             android:gravity="center_vertical"
             android:text="@string/filter"
             android:textColor="@android:color/black"

@@ -14,6 +14,10 @@ public class JobThread {
     int TotalPeople;
     int JoinedPeople;
 
+    public JobThread() {
+
+    }
+
     public String getPhoneNumber() {
         return PhoneNumber;
     }
@@ -116,16 +120,4 @@ public class JobThread {
         Username = username;
     }
 
-    public JobThread(int threadID, String username, String category, String jobTitle, String jobTime, String jobDate, String jobAddress, String jobDescription, int totalPeople, int joinedPeople) {
-        ThreadID = threadID;
-        Username = username;
-        Category = category;
-        JobTitle = jobTitle;
-        JobTime = jobTime;
-        JobDate = jobDate;
-        JobAddress = jobAddress;
-        JobDescription = jobDescription;
-        TotalPeople = totalPeople;
-        JoinedPeople = joinedPeople;
-    }
 }

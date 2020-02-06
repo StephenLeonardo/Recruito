@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="thread"
+            type="id.ac.binus.recruito.models.JobThread" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/thread_background"
+        android:padding="20dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/text_view_date"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{thread.jobTitle}"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="@{thread.jobAddress}"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/text_view_joined_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@{`Joined ` + thread.joinedPeople + `/` + thread.totalPeople}"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_view_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="@{thread.jobDate}"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/text_view_creator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_date"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="57dp"
+            android:layout_marginBottom="0dp"
+            android:text="@{`Thread by: ` + thread.username}"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+
+</layout>

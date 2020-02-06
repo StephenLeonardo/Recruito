@@ -1,4 +1,4 @@
-package id.ac.binus.recruito;
+package id.ac.binus.recruito.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.R;
+import id.ac.binus.recruito.ThreadDetailActivity;
 import id.ac.binus.recruito.databinding.ListNotificationItemBinding;
 import id.ac.binus.recruito.models.Notification;
 
@@ -35,18 +37,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @NonNull
     @Override
     public NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ListNotificationItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.list_notification_item, parent, false);
-        binding.setNotif(new Notification());
-        NotificationViewHolder vh = new NotificationViewHolder(binding);
+        ListNotificationItemBinding itemBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()), R.layout.list_notification_item, parent, false
+        );
 
-        return vh;
+        NotificationViewHolder viewHolder = new NotificationViewHolder(itemBinding);
+
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         Notification notif =listNotif.get(position);
         holder.binding.setNotif(notif);
-        holder.bind(notif);
+//        holder.bind(notif);
     }
 
     @Override

@@ -7,12 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.adapter.NotificationAdapter;
 import id.ac.binus.recruito.databinding.ActivityNotificationBinding;
 import id.ac.binus.recruito.models.Notification;
 import id.ac.binus.recruito.models.User;
@@ -28,16 +29,17 @@ public class NotificationActivity extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.activity_notification, container, false);
-        View view = binding.getRoot();
-        binding.rvNotif.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new NotificationAdapter(getActivity(), listNotif);
-        binding.rvNotif.setAdapter(adapter);
+        View rootView= inflater.inflate(R.layout.activity_notification,container,false);
+        RecyclerView recyclerview= rootView.findViewById(R.id.rv_notif);
 
         getNotifList();
 
-        return view;
+        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new NotificationAdapter(getActivity(), listNotif);
+        adapter.notifyDataSetChanged();
+        recyclerview.setAdapter(adapter);
+        return rootView;
     }
 
     //Function untuk mendapatkan list notification
@@ -49,10 +51,10 @@ public class NotificationActivity extends Fragment{
         Purpose : Contoh cara add listNotif
          */
         //Ini Contoh list notifikasi
-//        listNotif.add(new Notification( 1, "Ini adalah notification 1", 1, "01-02-2020", "10:00", false));
-//        listNotif.add(new Notification( 1, "Ini adalah notification 2", 1, "02-02-2020", "11:00", false));
-//        listNotif.add(new Notification( 1, "Ini adalah notification 3", 1, "03-02-2020", "12:00", false));
-//        listNotif.add(new Notification( 1, "Ini adalah notification 4", 1, "04-02-2020", "13:00", false));
+        listNotif.add(new Notification( 1, "Ini adalah notification 1", 1, "01-02-2020", "10:00", false));
+        listNotif.add(new Notification( 2, "Ini adalah notification 2", 1, "02-02-2020", "11:00", false));
+        listNotif.add(new Notification( 3, "Ini adalah notification 3", 1, "03-02-2020", "12:00", false));
+        listNotif.add(new Notification( 4, "Ini adalah notification 4", 1, "04-02-2020", "13:00", false));
 
         // get user data from shared pref
         SharedPref sharedPref = new SharedPref(getActivity());
@@ -64,13 +66,12 @@ public class NotificationActivity extends Fragment{
         Purpose : Get notification data from database
          */
         // get all notification list from database
-        databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
+//        databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
+//
+//        databaseAccess.openDatabase();
+//        listNotif = databaseAccess.getNotifList(user.getUserID());
+//        databaseAccess.closeDatabase();
 
-        databaseAccess.openDatabase();
-        listNotif = databaseAccess.getNotifList(user.getUserID());
-        databaseAccess.closeDatabase();
-
-        adapter.notifyDataSetChanged();
     }
 
 }

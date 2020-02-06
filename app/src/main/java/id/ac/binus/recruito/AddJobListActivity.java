@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -88,11 +88,6 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
             public void onClick(View v) {
 
 
-                /*
-                Commented by Stephen
-                Date : Monday Feb 03, 2020
-                Purpose : CategoryID needs to be updated
-                 */
                 String categoryName = ClickedItem.getCategoryName();
                 String title = editTextJobTitle.getText().toString();
                 String time = ButtonTimePicker.getText().toString();
@@ -124,8 +119,24 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
         ButtonTimePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment TimePicker = new TimePickerFragment();
-                TimePicker.show(getActivity().getSupportFragmentManager(), "Time Picker");
+
+
+                Calendar CalendarObj = Calendar.getInstance();
+                int hour = CalendarObj.get(Calendar.HOUR_OF_DAY);
+                int minute = CalendarObj.get(Calendar.MINUTE);
+
+                TimePickerDialog TimePicker = new TimePickerDialog(getActivity(), R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        Calendar c = Calendar.getInstance();
+                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        c.set(Calendar.MINUTE, minute);
+                        ButtonTimePicker.setText(hourOfDay + ":" + minute);
+                    }
+                }, hour, minute, DateFormat.is24HourFormat(getActivity()));
+                TimePicker.show();
+
             }
         });
 

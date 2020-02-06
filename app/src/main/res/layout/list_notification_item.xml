@@ -23,19 +23,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_notifications"
-                    android:padding="10dp"
-                    android:layout_alignParentLeft="true"
-                    />
+                <!--
+                Commented by Stephen
+                Date : Feb 06, 2020
+                Purpose : gabungin icon ke textview pake drawableLeft, buat jaga2, ini di comment aj
+                -->
+<!--                <TextView-->
+<!--                    android:layout_width="50dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:drawableLeft="@drawable/ic_notifications"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:layout_alignParentLeft="true"-->
+<!--                    />-->
 
+                <!--
+                Modified by Stephen
+                Date : Feb 06, 2020
+                Purpose : gabungin icon ke textview pake drawableLeft, dan bikin width nya match parent
+                -->
                 <TextView
                     android:id="@+id/tv_message"
-                    android:layout_width="360dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@={notif.message}"
+                    android:drawableLeft="@drawable/ic_notifications"
                     android:padding="10dp"
                     android:layout_alignParentRight="true"
                     >

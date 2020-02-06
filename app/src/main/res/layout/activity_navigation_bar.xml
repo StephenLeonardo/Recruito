@@ -8,14 +8,15 @@
 
     >
 
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/nav_btn_Navigation_Bottom"
         android:layout_below="@id/nav_btn_Navigation_Top"
-        />
-
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="-3dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_btn_Navigation_Bottom"

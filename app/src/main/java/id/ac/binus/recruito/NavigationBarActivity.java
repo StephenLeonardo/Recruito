@@ -35,12 +35,12 @@ public class NavigationBarActivity extends AppCompatActivity {
         boolean goToProfileFragment =  intent.getBooleanExtra("goToProfileFragment", false);
 
         if(goToProfileFragment){
+            // Go to profile fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileActivity()).commit();
         }
-
         else {
             // Go to home fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileActivity()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
         }
     }
 
@@ -59,7 +59,7 @@ public class NavigationBarActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
                             //Home Fragment here
-                            selectedFragment = new ProfileActivity();
+                            selectedFragment = new HomeFragment();
                             break;
                         case R.id.nav_add:
                             selectedFragment = new AddJobListActivity();
