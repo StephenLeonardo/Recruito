@@ -225,7 +225,7 @@ public class DatabaseAccess extends AppCompatActivity {
             String username = cursor.getString(cursor.getColumnIndex("UserName"));
             String jobTime = cursor.getString(cursor.getColumnIndex("JobTime"));
 //            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, null, null, 0, 0);
-            notification = new Notification(threadID, jobTitle, userID, jobDate, jobTime, false);
+            notification = new Notification(threadID, jobTitle, userID, username, jobDate, jobTime, false);
 
             notificationArrayList.add(notification);
         }

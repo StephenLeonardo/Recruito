@@ -1,70 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="notif"
             type="id.ac.binus.recruito.models.Notification" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
+    <!--
+    Commented by Stephen
+    Date : Feb 07, 2020
+    Purpose : ganti sesuai yg dikasih JSA, tpi commen aja buat jaga2
+    -->
+
+<!--    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        android:orientation="vertical" android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="2dp"-->
+<!--        android:padding="3dp"-->
+<!--        >-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            >-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--                &lt;!&ndash;-->
+<!--                Commented by Stephen-->
+<!--                Date : Feb 06, 2020-->
+<!--                Purpose : gabungin icon ke textview pake drawableLeft, buat jaga2, ini di comment aj-->
+<!--                &ndash;&gt;-->
+<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="50dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:drawableLeft="@drawable/ic_notifications"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:padding="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_alignParentLeft="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                    />&ndash;&gt;-->
+
+<!--                &lt;!&ndash;-->
+<!--                Modified by Stephen-->
+<!--                Date : Feb 06, 2020-->
+<!--                Purpose : gabungin icon ke textview pake drawableLeft, dan bikin width nya match parent-->
+<!--                &ndash;&gt;-->
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_message"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@={notif.message}"-->
+<!--                    android:drawableLeft="@drawable/ic_notifications"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    >-->
+
+<!--                </TextView>-->
+<!--            </RelativeLayout>-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@{notif.date+` `+notif.time}"-->
+<!--                android:layout_gravity="right"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:layout_marginBottom="5dp"-->
+<!--                />-->
+<!--        </LinearLayout>-->
+
+
+<!--    </androidx.cardview.widget.CardView>-->
+
+
+    <RelativeLayout
+        android:layout_margin="5dp"
+        android:background="@drawable/thread_background"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:padding="3dp"
-        >
+        android:layout_width="match_parent">
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!--
-                Commented by Stephen
-                Date : Feb 06, 2020
-                Purpose : gabungin icon ke textview pake drawableLeft, buat jaga2, ini di comment aj
-                -->
-<!--                <TextView-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:drawableLeft="@drawable/ic_notifications"-->
-<!--                    android:padding="10dp"-->
-<!--                    android:layout_alignParentLeft="true"-->
-<!--                    />-->
-
-                <!--
-                Modified by Stephen
-                Date : Feb 06, 2020
-                Purpose : gabungin icon ke textview pake drawableLeft, dan bikin width nya match parent
-                -->
-                <TextView
-                    android:id="@+id/tv_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={notif.message}"
-                    android:drawableLeft="@drawable/ic_notifications"
-                    android:padding="10dp"
-                    android:layout_alignParentRight="true"
-                    >
-
-                </TextView>
-            </RelativeLayout>
+            android:layout_toLeftOf="@id/text_view_date"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{notif.date+` `+notif.time}"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="5dp"
-                />
+                android:text="@{notif.jobTitle}"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_notif_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:textSize="15sp" />
+
+
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/text_view_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:text="@{notif.date}"
+            android:textColor="@android:color/black" />
 
-    </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
 
 </layout>

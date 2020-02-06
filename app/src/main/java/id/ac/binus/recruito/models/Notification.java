@@ -1,5 +1,7 @@
 package id.ac.binus.recruito.models;
 
+import java.util.ArrayList;
+
 public class Notification {
 
 
@@ -11,19 +13,35 @@ public class Notification {
         Tambahin atribut ThreadID supaya pas klik notifnya bisa redirect ke detail thread sesuai threadID
      */
     private int UserID, ThreadID;
-    private String message, Date, Time;
+    private String jobTitle, Date, Time, username;
+    private ArrayList<String> message;
     private boolean read;
 
-    public Notification(int threadID, String message, int userID, String date, String time, boolean read) {
+    /*
+    Modified by Stephen
+    Date : Feb 07, 06 2020
+    Purpose : Add functionality to get notifications
+     */
+
+    public Notification(int threadID, String jobTitle, int userID, String username, String date, String time, boolean read) {
         ThreadID = threadID;
-        this.message = message;
+        this.jobTitle = jobTitle;
         UserID = userID;
+        this.username = username;
         Date = date;
         Time = time;
         this.read = read;
     }
 
     public Notification() {
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 
     public int getThreadID() {
@@ -34,11 +52,11 @@ public class Notification {
         ThreadID = threadID;
     }
 
-    public String getMessage() {
+    public ArrayList<String> getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(ArrayList<String> message) {
         this.message = message;
     }
 
@@ -73,4 +91,30 @@ public class Notification {
     public void setRead(boolean read) {
         this.read = read;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setMessage(int hasJoined, int hasComment, int hasLeft, int isKicked){
+        message = new ArrayList<>();
+        if(hasJoined == 1){
+            message.add(" has joined");
+        }
+        else if(hasComment == 1){
+            message.add(" has commented on this forum");
+        }
+        else if(hasLeft == 1){
+            message.add(" has left this forum");
+        }
+        else if(isKicked == 1){
+            setUsername("You");
+            message.add(" have been kicked out. We are sorry");
+        }
+    }
+
 }

@@ -45,16 +45,11 @@ public class NotificationActivity extends Fragment{
     //Function untuk mendapatkan list notification
     private void getNotifList(){
 
-        /*
-        Commented by Stephen
-        Date : Feb 06, 2020
-        Purpose : Contoh cara add listNotif
-         */
         //Ini Contoh list notifikasi
-        listNotif.add(new Notification( 1, "Ini adalah notification 1", 1, "01-02-2020", "10:00", false));
-        listNotif.add(new Notification( 2, "Ini adalah notification 2", 1, "02-02-2020", "11:00", false));
-        listNotif.add(new Notification( 3, "Ini adalah notification 3", 1, "03-02-2020", "12:00", false));
-        listNotif.add(new Notification( 4, "Ini adalah notification 4", 1, "04-02-2020", "13:00", false));
+        listNotif.add(new Notification( 1, "Ini adalah notification 1", 1, "Budi", "01-02-2020", "10:00", false));
+        listNotif.add(new Notification( 2, "Ini adalah notification 2", 1, "Andi", "02-02-2020", "11:00", false));
+        listNotif.add(new Notification( 3, "Ini adalah notification 3", 1, "Ani", "03-02-2020", "12:00", false));
+        listNotif.add(new Notification( 4, "Ini adalah notification 4", 1, "Lisa", "04-02-2020", "13:00", false));
 
         // get user data from shared pref
         SharedPref sharedPref = new SharedPref(getActivity());
