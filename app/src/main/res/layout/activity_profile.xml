@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/textview_title"
             android:gravity="center_vertical"
-            android:text="Profile"
+            android:text="@string/profile"
             android:textColor="@android:color/black"
             android:textSize="30dp" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Details"
+                android:text="@string/details"
                 android:textColor="@android:color/background_dark"
                 android:textSize="20sp" />
 
@@ -113,7 +113,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_blue_box"
                 android:gravity="center"
-                android:text="Change Profile" />
+                android:text="@string/change_profile" />
 
             <Button
                 android:id="@+id/button_log_out"
@@ -126,7 +126,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_blue_box"
                 android:gravity="center"
-                android:text="Log Out" />
+                android:text="@string/log_out" />
 
             <Button
                 android:id="@+id/button_change_password"
@@ -138,7 +138,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_blue_box"
                 android:gravity="center"
-                android:text="Change Password" />
+                android:text="@string/change_password" />
 
         </RelativeLayout>
 

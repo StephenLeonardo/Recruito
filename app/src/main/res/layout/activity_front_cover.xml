@@ -19,7 +19,7 @@
         android:shadowDx="1.5"
         android:shadowDy="1.3"
         android:shadowRadius="3"
-        android:text="Welcome"
+        android:text="@string/greeting"
         android:textColor="@android:color/black"
         android:textSize="45sp"
         android:textStyle="bold" />
@@ -33,7 +33,7 @@
         android:elevation="70dp"
         android:paddingLeft="100dp"
         android:paddingRight="100dp"
-        android:text="Sign In" />
+        android:text="@string/sign_in" />
 
     <Button
         android:id="@+id/button_sign_up"
@@ -46,7 +46,7 @@
         android:elevation="70dp"
         android:paddingLeft="100dp"
         android:paddingRight="100dp"
-        android:text="Sign Up" />
+        android:text="@string/sign_up" />
 
 
 </RelativeLayout>

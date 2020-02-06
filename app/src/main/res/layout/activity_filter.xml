@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/textview_title"
             android:gravity="center_vertical"
-            android:text="Filter"
+            android:text="@string/filter"
             android:textColor="@android:color/black"
             android:textSize="30dp" />
 
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Location"
+                android:text="@string/location"
                 android:textSize="25sp" />
 
             <Spinner
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Time"
+                android:text="@string/time"
                 android:textSize="25sp" />
 
             <LinearLayout
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Date"
+                android:text="@string/date"
                 android:textSize="25sp" />
 
             <TextView
@@ -96,14 +96,14 @@
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/edittext_box"
                 android:drawableRight="@drawable/ic_date_range_grey_24dp"
-                android:hint="mm/dd/yyyy" />
+                android:hint="@string/date_hint" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Category"
+                android:text="@string/category"
                 android:textSize="25sp" />
 
             <Spinner
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="People Range"
+                android:text="@string/people_range"
                 android:textSize="25sp" />
 
             <EditText
@@ -140,7 +140,7 @@
             android:gravity="center"
             android:background="@drawable/button_blue_box"
             android:backgroundTint="@android:color/darker_gray"
-            android:text="Apply" />
+            android:text="@string/apply" />
 
     </RelativeLayout>
 
