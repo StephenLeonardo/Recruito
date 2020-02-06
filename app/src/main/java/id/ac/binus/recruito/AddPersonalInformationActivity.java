@@ -1,7 +1,5 @@
 package id.ac.binus.recruito;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -21,6 +19,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
@@ -28,7 +28,6 @@ import java.util.Random;
 import id.ac.binus.recruito.adapter.GenderAdapter;
 import id.ac.binus.recruito.adapter.StatusAdapter;
 import id.ac.binus.recruito.models.StatusItem;
-import id.ac.binus.recruito.models.User;
 
 public class AddPersonalInformationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -118,12 +117,16 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month++;
                 String monthEdited = Integer.toString(month);
+                String dayOfMonthEdited = Integer.toString(dayOfMonth);
                 if(month < 10){
-                     monthEdited = "0" + month;
+                    monthEdited = "0" + month;
                 }
-                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonth);
+                if(dayOfMonth < 10){
+                    dayOfMonthEdited = "0" + dayOfMonth;
+                }
+                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonthEdited);
 
-                String Date = year + "-" + monthEdited + "-" + dayOfMonth;
+                String Date = year + "-" + monthEdited + "-" + dayOfMonthEdited;
                 DateOfBirth.setText(Date);
             }
         };

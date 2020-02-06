@@ -2,10 +2,20 @@ package id.ac.binus.recruito.models;
 
 public class Notification {
 
-    private String message, UserID, Date, Time;
+
+    /*
+    Modified by Stephen
+    Date : Feb 06, 2020
+    Purpose :
+        Ganti UserID jdi int, karna di database int(Gak tau sih boleh jdi int gk),
+        Tambahin atribut ThreadID supaya pas klik notifnya bisa redirect ke detail thread sesuai threadID
+     */
+    private int UserID, ThreadID;
+    private String message, Date, Time;
     private boolean read;
 
-    public Notification(String message, String userID, String date, String time, boolean read) {
+    public Notification(int threadID, String message, int userID, String date, String time, boolean read) {
+        ThreadID = threadID;
         this.message = message;
         UserID = userID;
         Date = date;
@@ -16,6 +26,14 @@ public class Notification {
     public Notification() {
     }
 
+    public int getThreadID() {
+        return ThreadID;
+    }
+
+    public void setThreadID(int threadID) {
+        ThreadID = threadID;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -24,11 +42,11 @@ public class Notification {
         this.message = message;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return UserID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         UserID = userID;
     }
 

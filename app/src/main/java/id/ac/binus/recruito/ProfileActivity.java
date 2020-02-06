@@ -3,16 +3,20 @@ package id.ac.binus.recruito;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import id.ac.binus.recruito.models.User;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends Fragment {
 
     private static final String TAG = "ProfileActivity";
 
@@ -22,20 +26,19 @@ public class ProfileActivity extends AppCompatActivity {
     User user;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_profile, container, false);
 
-        ProfilePic = findViewById(R.id.image_view_profile_pic);
-        Name = findViewById(R.id.text_view_profile_name);
-        Age = findViewById(R.id.text_view_age);
-        Gender = findViewById(R.id.text_view_gender);
-        PhoneNumber = findViewById(R.id.text_view_phone_number);
-        Email = findViewById(R.id.text_view_email);
-        Status = findViewById(R.id.text_view_status);
-        changeProfileButton = findViewById(R.id.button_change_profile);
-        changePasswordButton = findViewById(R.id.button_change_password);
-        logOutButton = findViewById(R.id.button_log_out);
+        ProfilePic = rootView.findViewById(R.id.image_view_profile_pic);
+        Name = rootView.findViewById(R.id.text_view_profile_name);
+        Age = rootView.findViewById(R.id.text_view_age);
+        Gender = rootView.findViewById(R.id.text_view_gender);
+        PhoneNumber = rootView.findViewById(R.id.text_view_phone_number);
+        Email = rootView.findViewById(R.id.text_view_email);
+        Status = rootView.findViewById(R.id.text_view_status);
+        changeProfileButton = rootView.findViewById(R.id.button_change_profile);
+        changePasswordButton = rootView.findViewById(R.id.button_change_password);
+        logOutButton = rootView.findViewById(R.id.button_log_out);
 
 
         setProfileFromSharedPref();
@@ -44,40 +47,44 @@ public class ProfileActivity extends AppCompatActivity {
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPref sharedPref = new SharedPref(ProfileActivity.this);
-                sharedPref.clearAll(ProfileActivity.this);
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                SharedPref sharedPref = new SharedPref(getActivity());
+                sharedPref.clearAll(getActivity());
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
-                finish();
+                getActivity().finish();
             }
         });
 
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ChangePasswordActivity.class);
+                Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
                 intent.putExtra("UserID", user.getUserID());
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
         changeProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, ChangeProfileActivity.class);
+                Intent intent = new Intent(getActivity(), ChangeProfileActivity.class);
                 intent.putExtra("UserID", user.getUserID());
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
 
+        return rootView;
     }
 
     private void setProfileFromSharedPref() {
-        SharedPref sharedPref = new SharedPref(ProfileActivity.this);
+        SharedPref sharedPref = new SharedPref(getActivity());
         user = sharedPref.load();
 
         Log.d(TAG, "setProfileFromSharedPref: Age = " + user.getAge());
+        Log.d(TAG, "setProfileFromSharedPref: DOB = " + user.getDOB());
 
         Name.setText(user.getUserName());
         Gender.setText("Gender: " + user.getGender());
@@ -95,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
         ProfilePic.getLayoutParams().height = 400;
         ProfilePic.getLayoutParams().width = 400;
 
-        ProfilePic.setImageResource(getResources().getIdentifier(ImageName, "drawable", getPackageName()));
+        ProfilePic.setImageResource(getResources().getIdentifier(ImageName, "drawable", getActivity().getPackageName()));
 
     }
 

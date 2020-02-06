@@ -1,7 +1,8 @@
 package id.ac.binus.recruito;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -15,9 +16,18 @@ import id.ac.binus.recruito.models.Notification;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    ArrayList<Notification> listNotif;
+    /*
+    Modified by Stephen
+    Date : Feb 06, 2020
+    Purpose : Added global variable context
+     */
 
-    public NotificationAdapter(ArrayList<Notification> listNotif) {
+    ArrayList<Notification> listNotif;
+    Context mContext;
+
+    public NotificationAdapter(Context mContext, ArrayList<Notification> listNotif) {
+
+        this.mContext = mContext;
         this.listNotif = new ArrayList<>();
         this.listNotif = listNotif;
     }
@@ -53,8 +63,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             this.binding = binding;
         }
 
+        /*
+        Modified by Stephen
+        Date : Feb 06, 2020
+        Purpose : Added intent to go to Thread Activity
+         */
         public void bind(final Notification item){
 //            binding.
+            Intent intent = new Intent(mContext.getApplicationContext(), ThreadDetailActivity.class);
+            intent.putExtra("ThreadID", item.getThreadID());
+            mContext.startActivity(intent);
         }
 
     }

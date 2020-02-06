@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPref sharedPref = new SharedPref(LoginActivity.this);
                         sharedPref.save(currentUser);
 
-                        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
                         startActivity(intent);
                         finish();
                     }

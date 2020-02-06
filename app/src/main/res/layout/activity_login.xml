@@ -11,8 +11,9 @@
     tools:context=".LoginActivity">
 
     <LinearLayout
+        android:id="@+id/linear_layout_sign_in_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -63,11 +64,11 @@
         android:id="@+id/button_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="200dp"
         android:background="@drawable/button_blue_box"
         android:gravity="center"
+        android:layout_margin="30dp"
+        android:layout_below="@id/linear_layout_sign_in_form"
         android:text="SIGN IN" />
 
 </RelativeLayout>

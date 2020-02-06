@@ -1,15 +1,15 @@
 package id.ac.binus.recruito;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,13 +19,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import id.ac.binus.recruito.adapter.CategoryAdapter;
 import id.ac.binus.recruito.models.CategoryItem;
 
-public class AddJobListActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class AddJobListActivity extends Fragment implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "AddJobListActivity";
 
@@ -40,22 +45,23 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
     private EditText editTextJobTitle, editTextAddress, editTextJobDesc, editTextTotalPeople;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_job_list);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View rootView =inflater.inflate(R.layout.activity_add_job_list, container, false);
+
 
         FillCategory();
 
-        SpinnerCategories = findViewById(R.id.spinner_categories);
-        ButtonSubmit = findViewById(R.id.button_submit);
-        ButtonTimePicker = findViewById(R.id.button_time_picker);
-        TextViewDatePicker = findViewById(R.id.text_view_date_picker);
-        editTextJobTitle = findViewById(R.id.edit_text_job_title);
-        editTextAddress = findViewById(R.id.edit_text_job_address);
-        editTextJobDesc = findViewById(R.id.edit_text_job_desc);
-        editTextTotalPeople = findViewById(R.id.edit_text_total_people);
+        SpinnerCategories = rootView.findViewById(R.id.spinner_categories);
+        ButtonSubmit = rootView.findViewById(R.id.button_submit);
+        ButtonTimePicker = rootView.findViewById(R.id.button_time_picker);
+        TextViewDatePicker = rootView.findViewById(R.id.text_view_date_picker);
+        editTextJobTitle = rootView.findViewById(R.id.edit_text_job_title);
+        editTextAddress = rootView.findViewById(R.id.edit_text_job_address);
+        editTextJobDesc = rootView.findViewById(R.id.edit_text_job_desc);
+        editTextTotalPeople = rootView.findViewById(R.id.edit_text_total_people);
 
-        CategoryAdapter = new CategoryAdapter(this, CategoryList);
+        CategoryAdapter = new CategoryAdapter(getActivity(), CategoryList);
         SpinnerCategories.setAdapter(CategoryAdapter);
 
         setCurrentTime();
@@ -87,7 +93,7 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
                 Date : Monday Feb 03, 2020
                 Purpose : CategoryID needs to be updated
                  */
-                int categoryID = 1;
+                String categoryName = ClickedItem.getCategoryName();
                 String title = editTextJobTitle.getText().toString();
                 String time = ButtonTimePicker.getText().toString();
                 String date = TextViewDatePicker.getText().toString();
@@ -95,17 +101,23 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
                 String jobDesc = editTextJobDesc.getText().toString();
                 int totalPeople = Integer.parseInt(editTextTotalPeople.getText().toString());
 
-                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(AddJobListActivity.this);
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
                 databaseAccess.openDatabase();
                 try {
-                    databaseAccess.insertThread(categoryID, title, time, date, address, jobDesc, totalPeople);
+                    databaseAccess.insertThread(categoryName, title, time, date, address, jobDesc, totalPeople);
                 }
                 catch (Exception e){
                     e.printStackTrace();
                 }
                 databaseAccess.closeDatabase();
 
-                Toast.makeText(AddJobListActivity.this, "JobThread inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "JobThread inserted", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+
+
             }
         });
 
@@ -113,7 +125,7 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
             @Override
             public void onClick(View v) {
                 DialogFragment TimePicker = new TimePickerFragment();
-                TimePicker.show(getSupportFragmentManager(), "Time Picker");
+                TimePicker.show(getActivity().getSupportFragmentManager(), "Time Picker");
             }
         });
 
@@ -126,7 +138,7 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
                 int day = CalendarObj.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog Dialog = new DatePickerDialog(
-                        AddJobListActivity.this,
+                        getActivity(),
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         DateSetListener,
                         year, month, day);
@@ -139,14 +151,22 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month++;
-                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
+                String monthEdited = Integer.toString(month);
+                String dayOfMonthEdited = Integer.toString(dayOfMonth);
+                if(month < 10){
+                    monthEdited = "0" + month;
+                }
+                if(dayOfMonth < 10){
+                    dayOfMonthEdited = "0" + dayOfMonth;
+                }
+                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonthEdited);
 
-                String Date = month + "/" + dayOfMonth + "/" + year;
+                String Date = year + "-" + monthEdited + "-" + dayOfMonthEdited;
                 TextViewDatePicker.setText(Date);
             }
         };
 
-
+        return rootView;
     }
 
 
@@ -154,8 +174,10 @@ public class AddJobListActivity extends AppCompatActivity implements TimePickerD
     Add all category for job
      */
     private void FillCategory() {
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+        databaseAccess.openDatabase();
         CategoryList = databaseAccess.getAllCategory();
+        databaseAccess.closeDatabase();
 
     }
 

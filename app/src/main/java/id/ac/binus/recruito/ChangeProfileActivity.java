@@ -1,7 +1,5 @@
 package id.ac.binus.recruito;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -20,6 +18,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -116,12 +116,16 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month++;
                 String monthEdited = Integer.toString(month);
+                String dayOfMonthEdited = Integer.toString(dayOfMonth);
                 if(month < 10){
                     monthEdited = "0" + month;
                 }
-                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonth);
+                if(dayOfMonth < 10){
+                    dayOfMonthEdited = "0" + dayOfMonth;
+                }
+                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonthEdited);
 
-                String Date = year + "-" + monthEdited + "-" + dayOfMonth;
+                String Date = year + "-" + monthEdited + "-" + dayOfMonthEdited;
                 DateOfBirth.setText(Date);
             }
         };
@@ -167,29 +171,33 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
                                     DatabaseAccess databaseAccess = DatabaseAccess.getInstance(ChangeProfileActivity.this);
                                     databaseAccess.openDatabase();
 
-                                    boolean isSuccessUpdate = databaseAccess.updateProfile(userID, newName, genderString, DOB, phoneNumber, status);
+                                    boolean isSuccessUpdate = databaseAccess.updateProfile(userID, newName, genderString, DateOfBirth.getText().toString(), phoneNumber, status);
 
                                     if(isSuccessUpdate){
                                         user.setUserName(newName);
-                                        user.setDOB(DOB);
+                                        user.setDOB(DateOfBirth.getText().toString());
                                         user.setPhoneNumber(phoneNumber);
                                         user.setUserStatus(status);
+
+                                        sharedPref.clearAll(ChangeProfileActivity.this);
 
                                         sharedPref.save(user);
 
                                         dialog.dismiss();
 
                                         Toast.makeText(ChangeProfileActivity.this, "Updated profile successfully", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(ChangeProfileActivity.this, ProfileActivity.class);
+                                        Intent intent = new Intent(ChangeProfileActivity.this, NavigationBarActivity.class);
+                                        intent.putExtra("goToProfileFragment", true);
                                         startActivity(intent);
+                                        finish();
                                     }
                                     databaseAccess.closeDatabase();
                                 }
                                 catch (Exception e){
                                     e.printStackTrace();
+                                    Toast.makeText(ChangeProfileActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
                                 }
 
-                                Toast.makeText(ChangeProfileActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
 
                             }
                         })
@@ -229,5 +237,13 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ChangeProfileActivity.this, NavigationBarActivity.class);
+        intent.putExtra("goToProfileFragment", true);
+        startActivity(intent);
+        finish();
     }
 }

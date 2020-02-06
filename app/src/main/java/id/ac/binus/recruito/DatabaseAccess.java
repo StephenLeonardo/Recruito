@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import id.ac.binus.recruito.models.CategoryItem;
 import id.ac.binus.recruito.models.Comment;
 import id.ac.binus.recruito.models.JobThread;
+import id.ac.binus.recruito.models.Notification;
 import id.ac.binus.recruito.models.User;
 
 public class DatabaseAccess extends AppCompatActivity {
@@ -91,10 +92,10 @@ public class DatabaseAccess extends AppCompatActivity {
         return null;
     }
 
-    public boolean insertThread(int categoryID, String title, String time, String date, String address, String description, int totalPeople){
+    public boolean insertThread(String categoryName, String title, String time, String date, String address, String description, int totalPeople){
         try {
-            String query = "INSERT INTO msThread(CategoryID, JobTitle, JobTime, JobDate, JobAddress, JobDescription, TotalPeople) Values ('" +
-                    categoryID + "', '" +
+            String query = "INSERT INTO msThread(CategoryID, JobTitle, JobTime, JobDate, JobAddress, JobDescription, TotalPeople) Values (" +
+                    "(SELECT CategoryID FROM msCategory WHERE CategoryName = '"+categoryName+"'), '" +
                     title + "', '" +
                     time + "', '" +
                     date + "', '" +
@@ -111,13 +112,13 @@ public class DatabaseAccess extends AppCompatActivity {
 
     public boolean updateProfile(int userID, String name, String gender, String DOB, String PhoneNumber, String status) {
         try {
-            String query = "UPDATE msUser" +
-                    "SET UserName = " + name + "," +
-                    "Gender = " + gender + "," +
-                    "DOB = " + DOB + "," +
-                    "PhoneNumber = " + PhoneNumber + "," +
-                    "UserStatus = "+status+"" +
-                    "WHERE UserID = " + userID;
+            String query = "UPDATE msUser " +
+                    "SET UserName = '" + name + "'," +
+                    "Gender = '" + gender + "'," +
+                    "DOB = '" + DOB + "'," +
+                    "PhoneNumber = '" + PhoneNumber + "'," +
+                    "UserStatus = '"+status+"' " +
+                    "WHERE UserID = " + userID ;
             database.execSQL(query);
             return true;
         } catch (Exception e) {
@@ -207,26 +208,29 @@ public class DatabaseAccess extends AppCompatActivity {
 
     public ArrayList getNotifList(int userID) {
         String query = "SELECT " +
-                "mT.ThreadID, JobTitle, JobDate,UserName " +
+                "mT.ThreadID, JobTitle, JobDate,UserName, JobTime " +
                 "FROM msThread mT, trDetail tD, msUser mU " +
                 "WHERE mT.ThreadID = tD.ThreadID AND " +
                 "td.UserID = mU.UserID AND " +
                 "td.UserID=" + userID;
 
-        ArrayList<JobThread> jobThreadArrayList = new ArrayList<>();
+        ArrayList<Notification> notificationArrayList = new ArrayList<>();
         Cursor cursor = database.rawQuery(query, null);
-        JobThread jobThread;
+//        JobThread jobThread;
+        Notification notification;
         while (cursor.moveToNext()) {
             int threadID = cursor.getInt(cursor.getColumnIndex("ThreadID"));
             String jobTitle = cursor.getString(cursor.getColumnIndex("JobTitle"));
             String jobDate = cursor.getString(cursor.getColumnIndex("jobDate"));
             String username = cursor.getString(cursor.getColumnIndex("UserName"));
-            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, null, null, 0, 0);
+            String jobTime = cursor.getString(cursor.getColumnIndex("JobTime"));
+//            jobThread = new JobThread(threadID, username, null, jobTitle, null, jobDate, null, null, 0, 0);
+            notification = new Notification(threadID, jobTitle, userID, jobDate, jobTime, false);
 
-            jobThreadArrayList.add(jobThread);
+            notificationArrayList.add(notification);
         }
         cursor.close();
-        return jobThreadArrayList;
+        return notificationArrayList;
     }
 
     public JobThread getSpecificPageData(int threadID) {
@@ -368,8 +372,8 @@ public class DatabaseAccess extends AppCompatActivity {
     public boolean updatePassword(int UserID, String newPassword) {
         try {
             String query = "UPDATE msUser " +
-                    "SET UserPassword = " + newPassword +
-                    "WHERE UserID = " + UserID;
+                    "SET UserPassword = '" + newPassword + "' " +
+                    "WHERE UserID = '" + UserID + "'";
             database.execSQL(query);
             return true;
         } catch (Exception e) {

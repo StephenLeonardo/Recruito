@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,8 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +31,7 @@ import id.ac.binus.recruito.adapter.LocationAdapter;
 import id.ac.binus.recruito.models.CategoryItem;
 import id.ac.binus.recruito.models.LocationItem;
 
-public class FilterActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "FilterActivity";
 
@@ -45,21 +49,20 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.activity_filter, container, false);
+
+
+        spinnerLocation = rootView.findViewById(R.id.spinner_location);
+        spinnerCategory = rootView.findViewById(R.id.spinner_categories);
+        buttonTimePickerStart = rootView.findViewById(R.id.button_time_picker_start);
+        buttonTimePickerEnd = rootView.findViewById(R.id.button_time_picker_end);
+        textViewDatePicker = rootView.findViewById(R.id.text_view_date_picker);
+        editTextPeopleRange = rootView.findViewById(R.id.edit_text_total_people);
+        buttonApply = rootView.findViewById(R.id.button_apply);
 
         addLocation();
         addCategories();
-
-        spinnerLocation = findViewById(R.id.spinner_location);
-        spinnerCategory = findViewById(R.id.spinner_categories);
-        buttonTimePickerStart = findViewById(R.id.button_time_picker_start);
-        buttonTimePickerEnd = findViewById(R.id.button_time_picker_end);
-        textViewDatePicker = findViewById(R.id.text_view_date_picker);
-        editTextPeopleRange = findViewById(R.id.edit_text_total_people);
-        buttonApply = findViewById(R.id.button_apply);
-
 
         setCurrentTime();
 
@@ -67,7 +70,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onClick(View v) {
                 DialogFragment TimePicker = new TimePickerFragment();
-                TimePicker.show(getSupportFragmentManager(), "Time Picker");
+                TimePicker.show(getActivity().getSupportFragmentManager(), "Time Picker");
             }
         });
 
@@ -75,7 +78,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onClick(View v) {
                 DialogFragment TimePicker = new TimePickerFragment();
-                TimePicker.show(getSupportFragmentManager(), "Time Picker");
+                TimePicker.show(getActivity().getSupportFragmentManager(), "Time Picker");
             }
         });
 
@@ -88,7 +91,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                 int day = CalendarObj.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog Dialog = new DatePickerDialog(
-                        FilterActivity.this,
+                        getActivity(),
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         DateSetListener,
                         year, month, day);
@@ -101,9 +104,17 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month++;
-                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
+                String monthEdited = Integer.toString(month);
+                String dayOfMonthEdited = Integer.toString(dayOfMonth);
+                if(month < 10){
+                    monthEdited = "0" + month;
+                }
+                if(dayOfMonth < 10){
+                    dayOfMonthEdited = "0" + dayOfMonth;
+                }
+                Log.d(TAG, "onDateSet: yyyy-mm-dd: " + year + "-" + monthEdited + "-" + dayOfMonthEdited);
 
-                String Date = month + "/" + dayOfMonth + "/" + year;
+                String Date = year + "-" + monthEdited + "-" + dayOfMonthEdited;
                 textViewDatePicker.setText(Date);
             }
         };
@@ -135,7 +146,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
         buttonApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FilterActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 intent.putExtra("location", clickedLocationItem.getLocationName());
                 intent.putExtra("category", clickedCategoryItem.getCategoryName());
                 intent.putExtra("startTime", buttonTimePickerStart.getText().toString());
@@ -143,18 +154,21 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
                 intent.putExtra("date", textViewDatePicker.getText().toString());
                 intent.putExtra("peopleRange", editTextPeopleRange.getText().toString());
                 startActivity(intent);
-                finish();
+                getActivity().finish();
             }
         });
 
+        return rootView;
     }
 
     private void addCategories() {
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(FilterActivity.this);
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+        databaseAccess.openDatabase();
         categoryItemArrayList = databaseAccess.getAllCategory();
+        databaseAccess.closeDatabase();
 
         // Set Adapter
-        categoryAdapter = new CategoryAdapter(FilterActivity.this, categoryItemArrayList);
+        categoryAdapter = new CategoryAdapter(getActivity(), categoryItemArrayList);
         spinnerCategory.setAdapter(categoryAdapter);
 
     }
@@ -188,7 +202,7 @@ public class FilterActivity extends AppCompatActivity implements TimePickerDialo
 
 
         // Set Adapter
-        locationAdapter = new LocationAdapter(FilterActivity.this, locationItemArrayList);
+        locationAdapter = new LocationAdapter(getActivity(), locationItemArrayList);
         spinnerLocation.setAdapter(locationAdapter);
 
     }
