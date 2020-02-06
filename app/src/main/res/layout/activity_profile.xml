@@ -113,6 +113,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_blue_box"
                 android:gravity="center"
+                android:textColor="@android:color/black"
                 android:text="@string/change_profile" />
 
             <Button
@@ -126,6 +127,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_blue_box"
                 android:gravity="center"
+                android:textColor="@android:color/black"
                 android:text="@string/log_out" />
 
             <Button
@@ -138,6 +140,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_blue_box"
                 android:gravity="center"
+                android:textColor="@android:color/black"
                 android:text="@string/change_password" />
 
         </RelativeLayout>

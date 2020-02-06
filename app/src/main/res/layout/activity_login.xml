@@ -69,6 +69,7 @@
         android:gravity="center"
         android:layout_margin="30dp"
         android:layout_below="@id/linear_layout_sign_in_form"
+        android:textColor="@android:color/black"
         android:text="@string/sign_in" />
 
 </RelativeLayout>

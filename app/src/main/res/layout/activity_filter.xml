@@ -138,6 +138,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
             android:gravity="center"
+            android:textColor="@android:color/black"
             android:background="@drawable/button_blue_box"
             android:backgroundTint="@android:color/darker_gray"
             android:text="@string/apply" />

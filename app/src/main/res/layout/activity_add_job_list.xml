@@ -53,6 +53,7 @@
                 android:id="@+id/button_time_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
                 android:background="@drawable/button_blue_box"
                 android:text="Open time picker" />
 
@@ -143,6 +144,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/button_blue_box"
                 android:gravity="center"
+                android:textColor="@android:color/black"
                 android:text="@string/submit" />
 
         </LinearLayout>
