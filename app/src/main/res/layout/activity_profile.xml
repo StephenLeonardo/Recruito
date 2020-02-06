@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:src="@drawable/cat" />
+            android:src="@drawable/peacock" />
 
         <TextView
             android:id="@+id/text_view_profile_name"

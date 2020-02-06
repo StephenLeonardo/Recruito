@@ -174,6 +174,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
                                     boolean isSuccessUpdate = databaseAccess.updateProfile(userID, newName, genderString, DateOfBirth.getText().toString(), phoneNumber, status);
 
                                     if(isSuccessUpdate){
+                                        user.setAge(getAgeFromDOB(DOB));
                                         user.setUserName(newName);
                                         user.setDOB(DateOfBirth.getText().toString());
                                         user.setPhoneNumber(phoneNumber);
@@ -184,6 +185,8 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
                                         sharedPref.save(user);
 
                                         dialog.dismiss();
+
+                                        Log.d(TAG, "onClick: DOB = " + user.getDOB());
 
                                         Toast.makeText(ChangeProfileActivity.this, "Updated profile successfully", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(ChangeProfileActivity.this, NavigationBarActivity.class);
@@ -199,6 +202,12 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
                                 }
 
 
+                            }
+
+                            private int getAgeFromDOB(String dob) {
+                                int thisYear =  Calendar.getInstance().get(Calendar.YEAR);
+                                int yearOfDOB = Integer.parseInt(dob.substring(0, 4));
+                                return thisYear - yearOfDOB;
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {

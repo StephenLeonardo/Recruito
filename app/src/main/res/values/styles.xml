@@ -6,17 +6,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonStyle">@style/RiftSoftButtonStyle</item>
+<!--        <item name="buttonStyle">@style/RiftSoftButtonStyle</item>-->
         <item name="android:textViewStyle">@style/RiftSoftTextViewStyle</item>
     </style>
 
-    <style name="RiftSoftTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
-    </style>
+<!--    <style name="RiftSoftTextViewStyle" parent="android:Widget.TextView">-->
+<!--        <item name="android:fontFamily">sans-serif-light</item>-->
+<!--    </style>-->
 
-    <style name="RiftSoftButtonStyle" parent="android:Widget.Holo.Button">
-        <item name="android:fontFamily">sans-serif-light</item>
-    </style>
+<!--    <style name="RiftSoftButtonStyle" parent="android:Widget.Holo.Button">-->
+<!--        <item name="android:fontFamily">sans-serif-light</item>-->
+<!--    </style>-->
 
     <style name="NumberPickerTheme" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@android:color/white</item>

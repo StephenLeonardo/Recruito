@@ -102,8 +102,15 @@ public class ProfileActivity extends Fragment {
         ProfilePic.getLayoutParams().height = 400;
         ProfilePic.getLayoutParams().width = 400;
 
+
+
         ProfilePic.setImageResource(getResources().getIdentifier(ImageName, "drawable", getActivity().getPackageName()));
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setProfileFromSharedPref();
+    }
 }

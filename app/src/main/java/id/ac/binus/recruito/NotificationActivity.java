@@ -17,7 +17,7 @@ import id.ac.binus.recruito.databinding.ActivityNotificationBinding;
 import id.ac.binus.recruito.models.Notification;
 import id.ac.binus.recruito.models.User;
 
-public class NotificationActivity extends Fragment {
+public class NotificationActivity extends Fragment{
 
     ArrayList<Notification> listNotif = new ArrayList<>();
     NotificationAdapter adapter;
@@ -27,9 +27,9 @@ public class NotificationActivity extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_notification, container, false);
 
-        binding = DataBindingUtil.setContentView(getActivity(), R.layout.activity_notification);
+        binding = DataBindingUtil.inflate(inflater, R.layout.activity_notification, container, false);
+        View view = binding.getRoot();
         binding.rvNotif.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         adapter = new NotificationAdapter(getActivity(), listNotif);
@@ -37,7 +37,7 @@ public class NotificationActivity extends Fragment {
 
         getNotifList();
 
-        return rootView;
+        return view;
     }
 
     //Function untuk mendapatkan list notification
@@ -72,4 +72,5 @@ public class NotificationActivity extends Fragment {
 
         adapter.notifyDataSetChanged();
     }
+
 }

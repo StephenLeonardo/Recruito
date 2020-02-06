@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
 /*
 Modified by Stephen
 Date : Feb 06, 2020
@@ -77,4 +78,5 @@ public class NavigationBarActivity extends AppCompatActivity {
                     return true;
                 }
             };
+
 }
