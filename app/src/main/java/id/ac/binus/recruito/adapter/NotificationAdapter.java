@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import id.ac.binus.recruito.R;
 import id.ac.binus.recruito.ThreadDetailActivity;
 import id.ac.binus.recruito.databinding.ListNotificationItemBinding;
 import id.ac.binus.recruito.models.Notification;
+import id.ac.binus.recruito.models.NotificationDetail;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
@@ -26,6 +28,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     ArrayList<Notification> listNotif;
     Context mContext;
+    ArrayList<NotificationDetail> detailArrayList;
+    NotificationDetailAdapter adapter;
 
     public NotificationAdapter(Context mContext, ArrayList<Notification> listNotif) {
 
@@ -51,7 +55,24 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notif =listNotif.get(position);
         holder.binding.setNotif(notif);
 
+        holder.binding.rvNotifMessage.setLayoutManager(new LinearLayoutManager(mContext));
+
+        fillDetailArrayList();
+
+        adapter = new NotificationDetailAdapter(mContext, detailArrayList);
+        adapter.notifyDataSetChanged();
+        holder.binding.rvNotifMessage.setAdapter(adapter);
+
+
 //        holder.bind(notif);
+    }
+
+    private void fillDetailArrayList() {
+        detailArrayList = new ArrayList<>();
+
+        detailArrayList.add(new NotificationDetail("Detail 1"));
+        detailArrayList.add(new NotificationDetail("Detail 2"));
+
     }
 
     @Override

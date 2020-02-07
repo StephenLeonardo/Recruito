@@ -75,12 +75,12 @@ public class ProfileActivity extends Fragment {
         }
 
         public void changePasswordButtonClick(View view){
-            SharedPref sharedPref = new SharedPref(getActivity());
-            user = sharedPref.load();
-            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
-            intent.putExtra("UserID", user.getUserID());
-            startActivity(intent);
-            getActivity().finish();
+//            SharedPref sharedPref = new SharedPref(getActivity());
+//            user = sharedPref.load();
+//            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+//            intent.putExtra("UserID", user.getUserID());
+//            startActivity(intent);
+//            getActivity().finish();
         }
 
     }

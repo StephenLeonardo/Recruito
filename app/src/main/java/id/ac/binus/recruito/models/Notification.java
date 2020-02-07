@@ -1,7 +1,5 @@
 package id.ac.binus.recruito.models;
 
-import java.util.ArrayList;
-
 public class Notification {
 
 
@@ -14,7 +12,6 @@ public class Notification {
      */
     private int UserID, ThreadID;
     private String jobTitle, Date, Time, username;
-    private ArrayList<String> message;
     private boolean read;
 
     /*
@@ -31,10 +28,6 @@ public class Notification {
         Date = date;
         Time = time;
         this.read = read;
-
-
-        message = new ArrayList<>();
-
     }
 
     public Notification() {
@@ -54,14 +47,6 @@ public class Notification {
 
     public void setThreadID(int threadID) {
         ThreadID = threadID;
-    }
-
-    public ArrayList<String> getMessage() {
-        return message;
-    }
-
-    public void setMessage(ArrayList<String> message) {
-        this.message = message;
     }
 
     public int getUserID() {
@@ -104,20 +89,6 @@ public class Notification {
         this.username = username;
     }
 
-    public void setMessage(int hasJoined, int hasComment, int hasLeft, int isKicked){
-        if(hasJoined == 1){
-            message.add(" has joined");
-        }
-        else if(hasComment == 1){
-            message.add(" has commented on this forum");
-        }
-        else if(hasLeft == 1){
-            message.add(" has left this forum");
-        }
-        else if(isKicked == 1){
-            setUsername("You");
-            message.add(" have been kicked out. We are sorry");
-        }
-    }
+
 
 }
