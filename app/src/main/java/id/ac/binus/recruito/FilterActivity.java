@@ -46,12 +46,12 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
     private CategoryItem clickedCategoryItem;
     private LocationItem clickedLocationItem;
     private DatePickerDialog.OnDateSetListener DateSetListener;
-
+    private Button increment, decrement;
+    int totalPeople = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_filter, container, false);
-
 
         spinnerLocation = rootView.findViewById(R.id.spinner_location);
         spinnerCategory = rootView.findViewById(R.id.spinner_categories);
@@ -60,6 +60,37 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
         textViewDatePicker = rootView.findViewById(R.id.text_view_date_picker);
         editTextPeopleRange = rootView.findViewById(R.id.edit_text_total_people);
         buttonApply = rootView.findViewById(R.id.button_apply);
+        editTextPeopleRange.setText("1");
+        increment = rootView.findViewById(R.id.incrementButton);
+        decrement = rootView.findViewById(R.id.decrementButton);
+
+        totalPeople = Integer.parseInt(editTextPeopleRange.getText().toString());
+
+        increment.setOnClickListener(new View.OnClickListener() {
+            public void display(int totalPeople) {
+                editTextPeopleRange.setText("" + totalPeople);
+            }
+            @Override
+            public void onClick(View v) {
+                int total = Integer.parseInt(editTextPeopleRange.getText().toString());
+                total++;
+                display(total);
+            }
+        });
+
+        decrement.setOnClickListener(new View.OnClickListener() {
+            public void display(int totalPeople) {
+                editTextPeopleRange.setText("" + totalPeople);
+            }
+            @Override
+            public void onClick(View v) {
+                int total = Integer.parseInt(editTextPeopleRange.getText().toString());
+                if (total == 1) return;
+                total--;
+                display(total);
+            }
+        });
+
 
         addLocation();
         addCategories();
