@@ -103,6 +103,9 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }
+                        else {
+                            Toast.makeText(LoginActivity.this, "Password incorrect", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "Email incorrect", Toast.LENGTH_SHORT).show();

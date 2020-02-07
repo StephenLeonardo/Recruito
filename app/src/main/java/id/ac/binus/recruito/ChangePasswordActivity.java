@@ -49,11 +49,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick: new password = " + inputNewPassword);
                 Log.d(TAG, "onClick: confirm new password = " + inputConfirmNewPassword);
 
-                /*
-                Modified by Stephen
-                Date : Sunday Feb 02, 2020
-                Purpose : Adding validation for inputs
-                 */
+
+                // input validation
                 if (isCurrentPassword(inputCurrentPassword)) {
                     if (isValidPassword(inputNewPassword)) {
                         if (isSamePassword(inputNewPassword, inputConfirmNewPassword)) {
