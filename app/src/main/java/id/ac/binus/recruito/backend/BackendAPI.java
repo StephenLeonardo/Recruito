@@ -2,6 +2,7 @@ package id.ac.binus.recruito.backend;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +26,7 @@ public class BackendAPI {
 
     Context context;
     static User user;
+    static boolean flag;
 
     public BackendAPI(Context context) {
         this.context = context;
@@ -90,6 +92,112 @@ public class BackendAPI {
         queue.add(request);
 
         return user;
+    }
+
+    public boolean Register(String username, String password, String email, String dob, String status, String phone) {
+
+        JSONObject param = new JSONObject();
+        try {
+            param.put("username", username);
+            param.put("password", password);
+            param.put("email", email);
+            param.put("dob", dob);
+            param.put("status", status);
+            param.put("phone", phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                BASE_URL + "register",
+                param,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        flag = false;
+                        try {
+                            if (response.getBoolean("status") == true) {
+                                Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                                flag = true;
+                            } else {
+                                Toast.makeText(context, "Failed when registering, please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                    }
+                }
+        );
+
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(request);
+
+        return flag;
+
+    }
+
+    public boolean AddThread(String Creator, String Title, String Time, String Date, String Address, String Desc, int TotalPeople, int CategoryID) {
+
+        JSONObject param = new JSONObject();
+        try {
+            param.put("Creator", Creator);
+            param.put("Title", Title);
+            param.put("Time", Time);
+            param.put("Date", Date);
+            param.put("Address", Address);
+            param.put("Desc", Desc);
+            param.put("TotalPeople", TotalPeople);
+            param.put("CategoryID", CategoryID);
+        } catch (Exception e) {
+
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+
+                Request.Method.POST,
+                BASE_URL + "thread",
+                param,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        flag = false;
+                        try {
+                            if (response.getBoolean("status") == true) {
+                                try {
+                                    Toast.makeText(context, response.getString("message"), Toast.LENGTH_SHORT).show();
+                                    flag = true;
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        flag = false;
+                        Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                    }
+                }
+
+        );
+
+        RequestQueue queue = Volley.newRequestQueue(context);
+        queue.add(request);
+
+        return flag;
     }
 
 }

@@ -28,7 +28,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import id.ac.binus.recruito.adapter.CategoryAdapter;
+import id.ac.binus.recruito.backend.BackendAPI;
 import id.ac.binus.recruito.models.CategoryItem;
+import id.ac.binus.recruito.models.User;
 
 public class AddJobListActivity extends Fragment implements TimePickerDialog.OnTimeSetListener {
 
@@ -116,39 +118,37 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
             }
         });
 
-        /*
-        Modified by Stephen
-        Date : Monday Feb 02 3 2020
-        Purpose : Add thread into database
-         */
         ButtonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                SharedPref sharedPref = new SharedPref(getActivity());
+                User user = sharedPref.load();
 
                 String categoryName = ClickedItem.getCategoryName();
                 String title = editTextJobTitle.getText().toString();
+                String creator = user.getUserName();
                 String time = ButtonTimePicker.getText().toString();
                 String date = TextViewDatePicker.getText().toString();
                 String address = editTextAddress.getText().toString();
                 String jobDesc = editTextJobDesc.getText().toString();
                 int totalPeople = Integer.parseInt(editTextTotalPeople.getText().toString());
 
-                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
-                databaseAccess.openDatabase();
-                try {
-                    databaseAccess.insertThread(categoryName, title, time, date, address, jobDesc, totalPeople);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-                databaseAccess.closeDatabase();
+                BackendAPI backendAPI = new BackendAPI(getActivity());
 
-                Toast.makeText(getActivity(), "JobThread inserted", Toast.LENGTH_SHORT).show();
+                boolean isSuccessInsertThread = backendAPI.AddThread(creator, title, time, date, address, jobDesc, totalPeople, 1);
 
-                Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                if(isSuccessInsertThread){
+                    Toast.makeText(getActivity(), "JobThread inserted", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else {
+                    Toast.makeText(getActivity(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
+                }
+
 
 
             }

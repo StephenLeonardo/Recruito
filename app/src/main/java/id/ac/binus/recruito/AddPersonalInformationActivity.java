@@ -3,11 +3,8 @@ package id.ac.binus.recruito;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +17,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -31,7 +27,9 @@ import java.util.Random;
 
 import id.ac.binus.recruito.adapter.GenderAdapter;
 import id.ac.binus.recruito.adapter.StatusAdapter;
+import id.ac.binus.recruito.backend.BackendAPI;
 import id.ac.binus.recruito.models.StatusItem;
+import id.ac.binus.recruito.models.User;
 
 public class AddPersonalInformationActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -136,42 +134,42 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
         };
 
         ButtonNext.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 Intent intent = getIntent();
                 String name = intent.getStringExtra("name");
                 String email = intent.getStringExtra("email");
                 String password = intent.getStringExtra("password");
+                String DOB = DateOfBirth.getText().toString();
+                String phoneNumber = PhoneNumber.getText().toString();
+                String status = statusItem.getStatusName();
 
                 Log.d(TAG, "onClick: name: " + name);
                 Log.d(TAG, "onClick: email: " + email);
                 Log.d(TAG, "onClick: password: " + password);
-                Log.d(TAG, "onClick: DOB : " + DateOfBirth.getText().toString());
+                Log.d(TAG, "onClick: DOB : " + DOB);
                 Log.d(TAG, "onClick: Gender : " + genderString);
-                Log.d(TAG, "onClick: Phone : " + PhoneNumber.getText().toString());
-                Log.d(TAG, "onClick: Status : " + statusItem.getStatusName());
+                Log.d(TAG, "onClick: Phone : " + phoneNumber);
+                Log.d(TAG, "onClick: Status : " + status);
 
-
-                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-                databaseAccess.openDatabase();
 
                 int imageID = pickRandomProfileImage();
 
-                // hashing password
-//                String salt = PasswordHash.generateSalt(512).get();
-//                String hashedPassword = PasswordHash.hashPassword(password, salt).get();
                 String cryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 
-                boolean isInserted = databaseAccess.insertUser(imageID, name, DateOfBirth.getText().toString(), genderString, PhoneNumber.getText().toString(), statusItem.getStatusName(), email, cryptedPassword);
+                BackendAPI backendAPI = new BackendAPI(AddPersonalInformationActivity.this);
+
+                boolean isInserted = backendAPI.Register(name, password, email, DOB, status, phoneNumber);
+
                 if (isInserted) {
                     Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
 
-                    Cursor csr = databaseAccess.getAllUsers();  //<<<<<<<<<< Get The Cursor
-                    DatabaseUtils.dumpCursor(csr); //<<<<<<<<<< Dump the cursor (to the log)
-                    csr.close(); //<<<<<<<<< Should always close a Cursor when done with it
+                    User user = backendAPI.logIn(name, password);
 
-                    intent = new Intent(AddPersonalInformationActivity.this, LoginActivity.class);
+                    SharedPref sharedPref = new SharedPref(AddPersonalInformationActivity.this);
+                    sharedPref.save(user);
+
+                    intent = new Intent(AddPersonalInformationActivity.this, NavigationBarActivity.class);
                     startActivity(intent);
                     finish();
 
@@ -179,7 +177,6 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
                 else {
                     Toast.makeText(AddPersonalInformationActivity.this, "Register failed, please try again", Toast.LENGTH_SHORT).show();
                 }
-                databaseAccess.closeDatabase();
 
             }
 
