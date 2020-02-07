@@ -130,6 +130,28 @@
                 android:inputType="numberSigned"
                 tools:text="999" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="-10dp">
+
+                <Button
+                    android:id="@+id/decrementButton"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:text="-"
+                    android:textSize="15sp"
+                    android:paddingLeft="17sp"/>
+
+            <Button
+                android:id="@+id/incrementButton"
+                android:layout_width="35dp"
+                android:layout_height="match_parent"
+                android:text="+"
+                android:textSize="15sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

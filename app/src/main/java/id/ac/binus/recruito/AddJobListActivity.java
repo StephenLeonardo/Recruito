@@ -43,6 +43,8 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
     private DatePickerDialog.OnDateSetListener DateSetListener;
     private CategoryItem ClickedItem;
     private EditText editTextJobTitle, editTextAddress, editTextJobDesc, editTextTotalPeople;
+    private Button increment, decrement;
+    int totalPeople = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,9 +62,39 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
         editTextAddress = rootView.findViewById(R.id.edit_text_job_address);
         editTextJobDesc = rootView.findViewById(R.id.edit_text_job_desc);
         editTextTotalPeople = rootView.findViewById(R.id.edit_text_total_people);
+        editTextTotalPeople.setText("1");
+        increment = rootView.findViewById(R.id.incrementButton);
+        decrement = rootView.findViewById(R.id.decrementButton);
 
         CategoryAdapter = new CategoryAdapter(getActivity(), CategoryList);
         SpinnerCategories.setAdapter(CategoryAdapter);
+
+        totalPeople = Integer.parseInt(editTextTotalPeople.getText().toString());
+
+        increment.setOnClickListener(new View.OnClickListener() {
+            public void display(int totalPeople) {
+                editTextTotalPeople.setText("" + totalPeople);
+            }
+            @Override
+            public void onClick(View v) {
+                int total = Integer.parseInt(editTextTotalPeople.getText().toString());
+                total++;
+                display(total);
+            }
+        });
+
+        decrement.setOnClickListener(new View.OnClickListener() {
+            public void display(int totalPeople) {
+                editTextTotalPeople.setText("" + totalPeople);
+            }
+            @Override
+            public void onClick(View v) {
+                int total = Integer.parseInt(editTextTotalPeople.getText().toString());
+                if (total == 1) return;
+                total--;
+                display(total);
+            }
+        });
 
         setCurrentTime();
 

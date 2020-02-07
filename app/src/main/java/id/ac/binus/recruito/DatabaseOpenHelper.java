@@ -13,6 +13,6 @@ public class DatabaseOpenHelper extends SQLiteAssetHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         //FORCE UPGRADE BY DELETING OLD DATABASE
-//        setForcedUpgrade(DATABASE_VERSION);
+        setForcedUpgrade(DATABASE_VERSION);
     }
 }
