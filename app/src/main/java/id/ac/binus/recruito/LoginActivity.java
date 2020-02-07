@@ -1,8 +1,6 @@
 package id.ac.binus.recruito;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import id.ac.binus.recruito.backend.BackendAPI;
 import id.ac.binus.recruito.models.User;
 
 public class LoginActivity extends AppCompatActivity {
@@ -42,85 +38,33 @@ public class LoginActivity extends AppCompatActivity {
         Password = findViewById(R.id.edit_text_password);
         SignInButton = findViewById(R.id.button_sign_in);
 
-        final String[] inputEmail = new String[1];
-        final String[] inputPassword = new String[1];
+
 
         SignInButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+            String inputEmail = new String();
+            String inputPassword = new String();
+
             @Override
             public void onClick(View v) {
-                inputEmail[0] = Email.getText().toString();
-                inputPassword[0] = Password.getText().toString();
+                inputEmail = Email.getText().toString();
+                inputPassword = Password.getText().toString();
 
-                Log.d(TAG, "onClick: email = " + inputEmail[0]);
-                Log.d(TAG, "onClick: password = " + inputPassword[0]);
+                Log.d(TAG, "onClick: email = " + inputEmail);
+                Log.d(TAG, "onClick: password = " + inputPassword);
 
-                /*
-                Modified by Stephen
-                Date : Saturday Feb 01, 2020
-                Purpose : Adding intent to go to next page
+                BackendAPI backendAPI = new BackendAPI(LoginActivity.this);
+                User user = backendAPI.logIn(inputEmail, inputPassword);
 
-                Modified by Stephen
-                Date : Monday Feb 03, 2020
-                Purpose : Adding validation from database
-                 */
-                if (isValidInput(inputEmail[0], inputPassword[0])) {
+                if(user != null){
+                    SharedPref sharedPref = new SharedPref(LoginActivity.this);
+                    sharedPref.save(user);
 
-
-                    DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-                    databaseAccess.openDatabase();
-                    Cursor cursor = databaseAccess.login(inputEmail[0], inputPassword[0]);
-
-
-                    if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
-
-                        int UserID = cursor.getInt(cursor.getColumnIndex("UserID"));
-                        int ImageID = cursor.getInt(cursor.getColumnIndex("ImageID"));
-                        String UserName = cursor.getString(cursor.getColumnIndex("UserName"));
-                        String DOB = cursor.getString(cursor.getColumnIndex("DOB"));
-                        int Age = cursor.getInt(cursor.getColumnIndex("Age"));
-                        String Gender = cursor.getString(cursor.getColumnIndex("Gender"));
-                        String PhoneNumber = cursor.getString(cursor.getColumnIndex("PhoneNumber"));
-                        String UserStatus = cursor.getString(cursor.getColumnIndex("UserStatus"));
-                        String Email = cursor.getString(cursor.getColumnIndex("Email"));
-                        String UserPassword = cursor.getString(cursor.getColumnIndex("UserPassword"));
-                        Log.d(TAG, "onClick: UserPassword : " + UserPassword);
-                        String ImageName = cursor.getString(cursor.getColumnIndex("ImageName"));
-                        if(BCrypt.checkpw(inputPassword[0], UserPassword)) {
-
-                            Log.d(TAG, "onClick: SUCCESS LOGIN");
-                            // if cursor has value then in user database there is user associated with this given email
-                            User currentUser = new User(UserID, ImageID, UserName, DOB, Age, Gender, PhoneNumber, UserStatus, Email, UserPassword, ImageName);
-
-                            // Save user data into shared preference
-                            SharedPref sharedPref = new SharedPref(LoginActivity.this);
-                            sharedPref.save(currentUser);
-
-
-                            databaseAccess.closeDatabase();
-
-                            Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(LoginActivity.this, "Password incorrect", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    else {
-                        Toast.makeText(LoginActivity.this, "Email incorrect", Toast.LENGTH_SHORT).show();
-                    }
-
-                    databaseAccess.closeDatabase();
-
-                    // hashing password
-//                    String salt = PasswordHash.generateSalt(512).get();
-//                    String hashedPassword = PasswordHash.hashPassword(inputPassword[0], salt).get();
-
-
-
-                } else {
-                    Toast.makeText(LoginActivity.this, "Email or Password incorrect", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Email or password incorrect", Toast.LENGTH_SHORT).show();
                 }
 
 
