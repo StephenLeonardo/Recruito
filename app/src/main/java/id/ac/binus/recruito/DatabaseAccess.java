@@ -4,7 +4,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class DatabaseAccess extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean insertUser(int ImageID, String Username, String DOB, String Gender, String PhoneNumber, String UserStatus, String Email, String Password) {
         try {
             String query = "INSERT INTO msUser(ImageID, UserName, DOB, Gender, PhoneNumber, UserStatus, Email, UserPassword) " +
@@ -73,7 +76,7 @@ public class DatabaseAccess extends AppCompatActivity {
 
     public Cursor login(String email, String password) {
         try {
-            Cursor cursor = database.rawQuery("select *, (strftime('%Y', 'now') - strftime('%Y', DOB)) - (strftime('%m-%d', 'now') < strftime('%m-%d', DOB)) AS 'Age' from msUser mU JOIN msImage mI ON mU.ImageID = mI.ImageID where Email = ? and UserPassword = ? ", new String[]{email, password});
+            Cursor cursor = database.rawQuery("select *, (strftime('%Y', 'now') - strftime('%Y', DOB)) - (strftime('%m-%d', 'now') < strftime('%m-%d', DOB)) AS 'Age' from msUser mU JOIN msImage mI ON mU.ImageID = mI.ImageID where Email = ? ", new String[]{email});
             return cursor;
         }
         catch (Exception e){

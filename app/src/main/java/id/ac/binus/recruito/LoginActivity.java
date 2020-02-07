@@ -2,6 +2,7 @@ package id.ac.binus.recruito;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         final String[] inputPassword = new String[1];
 
         SignInButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 inputEmail[0] = Email.getText().toString();
@@ -61,9 +66,11 @@ public class LoginActivity extends AppCompatActivity {
                  */
                 if (isValidInput(inputEmail[0], inputPassword[0])) {
 
+
                     DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                     databaseAccess.openDatabase();
                     Cursor cursor = databaseAccess.login(inputEmail[0], inputPassword[0]);
+
 
                     if (cursor != null && cursor.moveToFirst() && cursor.getCount() > 0) {
 
@@ -77,21 +84,37 @@ public class LoginActivity extends AppCompatActivity {
                         String UserStatus = cursor.getString(cursor.getColumnIndex("UserStatus"));
                         String Email = cursor.getString(cursor.getColumnIndex("Email"));
                         String UserPassword = cursor.getString(cursor.getColumnIndex("UserPassword"));
+                        Log.d(TAG, "onClick: UserPassword : " + UserPassword);
                         String ImageName = cursor.getString(cursor.getColumnIndex("ImageName"));
+                        if(BCrypt.checkpw(inputPassword[0], UserPassword)) {
+
+                            Log.d(TAG, "onClick: SUCCESS LOGIN");
+                            // if cursor has value then in user database there is user associated with this given email
+                            User currentUser = new User(UserID, ImageID, UserName, DOB, Age, Gender, PhoneNumber, UserStatus, Email, UserPassword, ImageName);
+
+                            // Save user data into shared preference
+                            SharedPref sharedPref = new SharedPref(LoginActivity.this);
+                            sharedPref.save(currentUser);
 
 
-                        // if cursor has value then in user database there is user associated with this given email
-                        User currentUser = new User(UserID, ImageID, UserName, DOB, Age, Gender, PhoneNumber, UserStatus, Email, UserPassword, ImageName);
+                            databaseAccess.closeDatabase();
 
-                        // Save user data into shared preference
-                        SharedPref sharedPref = new SharedPref(LoginActivity.this);
-                        sharedPref.save(currentUser);
-
-                        Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
-                        startActivity(intent);
-                        finish();
+                            Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }
+                    else {
+                        Toast.makeText(LoginActivity.this, "Email incorrect", Toast.LENGTH_SHORT).show();
+                    }
+
                     databaseAccess.closeDatabase();
+
+                    // hashing password
+//                    String salt = PasswordHash.generateSalt(512).get();
+//                    String hashedPassword = PasswordHash.hashPassword(inputPassword[0], salt).get();
+
+
 
                 } else {
                     Toast.makeText(LoginActivity.this, "Email or Password incorrect", Toast.LENGTH_SHORT).show();

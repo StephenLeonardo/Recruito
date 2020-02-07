@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -132,6 +136,7 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
         };
 
         ButtonNext.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 Intent intent = getIntent();
@@ -153,7 +158,12 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
 
                 int imageID = pickRandomProfileImage();
 
-                boolean isInserted = databaseAccess.insertUser(imageID, name, DateOfBirth.getText().toString(), genderString, PhoneNumber.getText().toString(), statusItem.getStatusName(), email, password);
+                // hashing password
+//                String salt = PasswordHash.generateSalt(512).get();
+//                String hashedPassword = PasswordHash.hashPassword(password, salt).get();
+                String cryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+                boolean isInserted = databaseAccess.insertUser(imageID, name, DateOfBirth.getText().toString(), genderString, PhoneNumber.getText().toString(), statusItem.getStatusName(), email, cryptedPassword);
                 if (isInserted) {
                     Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
 

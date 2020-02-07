@@ -1,6 +1,7 @@
 package id.ac.binus.recruito;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,7 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.mindrot.jbcrypt.BCrypt;
+
+import id.ac.binus.recruito.models.User;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     Button ConfirmButton;
@@ -28,6 +34,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
 
         ConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 String inputCurrentPassword;
@@ -54,9 +61,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             Intent intent = getIntent();
                             int userID = intent.getIntExtra("UserID", 0);
 
+                            String cryptedPassword = BCrypt.hashpw(inputNewPassword, BCrypt.gensalt(12));
 
                             DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
-                            databaseAccess.updatePassword(userID, inputNewPassword);
+                            databaseAccess.openDatabase();
+                            databaseAccess.updatePassword(userID, cryptedPassword);
+                            databaseAccess.closeDatabase();
                             Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
                             intent = new Intent(ChangePasswordActivity.this, ProfileActivity.class);
                             startActivity(intent);
@@ -74,7 +84,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
             Purpose : function to check password in database
              */
             private boolean isCurrentPassword(String password) {
-                return true;
+
+                // Get current email
+                SharedPref sharedPref = new SharedPref(ChangePasswordActivity.this);
+                User user = sharedPref.load();
+
+                return BCrypt.checkpw(password, user.getUserPassword());
             }
 
             /*
@@ -105,6 +120,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         });
 
+
     }
+
 
 }
