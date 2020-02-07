@@ -1,5 +1,7 @@
 package id.ac.binus.recruito;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,9 +33,12 @@ public class NotificationActivity extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View rootView= inflater.inflate(R.layout.activity_notification,container,false);
-        RecyclerView recyclerview= rootView.findViewById(R.id.rv_notif);
+        binding = DataBindingUtil.inflate(inflater, R.layout.activity_notification, container, false);
+        View view = binding.getRoot();
+        RecyclerView recyclerview= view.findViewById(R.id.rv_notif);
 
+        ClickHandler clickHandler = new ClickHandler(getActivity());
+        binding.setClickHandler(clickHandler);
 
         getNotifList();
 
@@ -42,7 +48,7 @@ public class NotificationActivity extends Fragment{
         recyclerview.setAdapter(adapter);
 
 
-        return rootView;
+        return view;
     }
 
     //Function untuk mendapatkan list notification
@@ -73,5 +79,24 @@ public class NotificationActivity extends Fragment{
 //        databaseAccess.closeDatabase();
 
     }
+
+
+    public class ClickHandler{
+        private Context context;
+
+        public ClickHandler(Context context) {
+            this.context = context;
+        }
+
+        public void goToHistory(View view){
+            SharedPref sharedPref = new SharedPref(getActivity());
+            user = sharedPref.load();
+            Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
+            intent.putExtra("goToHistoryFragment", true);
+            startActivity(intent);
+            getActivity().finish();
+        }
+    }
+
 
 }

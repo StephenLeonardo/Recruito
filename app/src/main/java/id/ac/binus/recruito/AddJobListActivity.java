@@ -77,8 +77,11 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
             }
             @Override
             public void onClick(View v) {
-                int total = Integer.parseInt(editTextTotalPeople.getText().toString());
-                total++;
+                int total = 0;
+                if(!editTextTotalPeople.getText().toString().matches("")){
+                    total = Integer.parseInt(editTextTotalPeople.getText().toString());
+                    total++;
+                }
                 display(total);
             }
         });
@@ -89,9 +92,12 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
             }
             @Override
             public void onClick(View v) {
-                int total = Integer.parseInt(editTextTotalPeople.getText().toString());
-                if (total == 1) return;
-                total--;
+                int total = 0;
+                if(!editTextTotalPeople.getText().toString().matches("")){
+                    total = Integer.parseInt(editTextTotalPeople.getText().toString());
+                    if (total == 1) return;
+                    total--;
+                }
                 display(total);
             }
         });

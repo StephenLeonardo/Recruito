@@ -21,6 +21,11 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private ThreadAdapter adapter;
+    private boolean isHistory;
+
+    public HomeFragment(boolean isHistory) {
+        this.isHistory = isHistory;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -28,7 +33,11 @@ public class HomeFragment extends Fragment {
         View rootView= inflater.inflate(R.layout.fragment_home,container,false);
         RecyclerView recyclerview= rootView.findViewById(R.id.recycler_view_thread);
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ThreadAdapter(getActivity(), getAllThread());
+
+        if (isHistory)
+            adapter = new ThreadAdapter(getActivity(), getAllHistory());
+        else
+            adapter = new ThreadAdapter(getActivity(), getAllThread());
         adapter.notifyDataSetChanged();
         recyclerview.setAdapter(adapter);
         return rootView;
@@ -44,6 +53,20 @@ public class HomeFragment extends Fragment {
         jobThreadArrayList.add(new JobThread(2, "Lili", null, null, "Butuh Drummer", null, "2020-02-15", "Jakarta Utara", null, 4, 4));
         jobThreadArrayList.add(new JobThread(3, "Bibi", null, null, "Butuh Accountant", null, "2020-02-16", "Jakarta Timur", null, 2, 0));
         jobThreadArrayList.add(new JobThread(4, "Budi", null, null, "Butuh IT", null, "2020-02-17", "Jakarta Selatan", null, 3, 2));
+
+        return jobThreadArrayList;
+    }
+
+
+
+    private ArrayList<JobThread> getAllHistory(){
+
+        // Contoh isi arraylist
+        ArrayList<JobThread> jobThreadArrayList = new ArrayList<>();
+        jobThreadArrayList.add(new JobThread(1, "Jojo", null, null, "Butuh Dosen", null, "2019-02-14", "Jakarta Barat", null, 8, 3));
+        jobThreadArrayList.add(new JobThread(2, "Lili", null, null, "Product Manager", null, "2019-02-15", "Jakarta Utara", null, 4, 4));
+        jobThreadArrayList.add(new JobThread(3, "Bibi", null, null, "Bos required", null, "2019-02-16", "Jakarta Timur", null, 2, 0));
+        jobThreadArrayList.add(new JobThread(4, "Budi", null, null, "Help wanted", null, "2019-02-17", "Jakarta Selatan", null, 3, 2));
 
         return jobThreadArrayList;
     }

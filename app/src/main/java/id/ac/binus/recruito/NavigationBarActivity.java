@@ -37,10 +37,12 @@ public class NavigationBarActivity extends AppCompatActivity {
         if(goToProfileFragment){
             // Go to profile fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileActivity()).commit();
-        }
-        else {
+        } else if (intent.getBooleanExtra("goToHistoryFragment", false)) {
             // Go to home fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(true)).commit();
+        } else {
+            // Go to home fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(false)).commit();
         }
     }
 
@@ -59,7 +61,7 @@ public class NavigationBarActivity extends AppCompatActivity {
                     switch (item.getItemId()) {
                         case R.id.nav_home:
                             //Home Fragment here
-                            selectedFragment = new HomeFragment();
+                            selectedFragment = new HomeFragment(false);
                             break;
                         case R.id.nav_add:
                             selectedFragment = new AddJobListActivity();

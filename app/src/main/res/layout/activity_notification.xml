@@ -3,6 +3,13 @@
 <layout>
     <data>
 
+        <variable
+            name="notification"
+            type="id.ac.binus.recruito.models.Notification" />
+
+        <variable
+            name="clickHandler"
+            type="id.ac.binus.recruito.NotificationActivity.ClickHandler" />
     </data>
 
 
@@ -22,18 +29,31 @@
             android:padding="10dp"
             android:layout_marginBottom="3dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:padding="10dp">
 
                 <TextView
+                    android:id="@+id/text_view_notif"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/notification"
                     android:textSize="35dp"
                     android:textStyle="bold"/>
-            </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/history"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:layout_alignParentRight="true"
+                    android:textSize="15sp"
+                    android:onClick="@{clickHandler::goToHistory}"
+                    android:layout_centerVertical="true"/>
+
+            </RelativeLayout>
 
 
         </androidx.cardview.widget.CardView>

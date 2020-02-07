@@ -72,8 +72,11 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
             }
             @Override
             public void onClick(View v) {
-                int total = Integer.parseInt(editTextPeopleRange.getText().toString());
-                total++;
+                int total = 0;
+                if(!editTextPeopleRange.getText().toString().matches("")){
+                    total = Integer.parseInt(editTextPeopleRange.getText().toString());
+                    total++;
+                }
                 display(total);
             }
         });
@@ -84,9 +87,12 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
             }
             @Override
             public void onClick(View v) {
-                int total = Integer.parseInt(editTextPeopleRange.getText().toString());
-                if (total == 1) return;
-                total--;
+                int total = 0;
+                if(!editTextPeopleRange.getText().toString().matches("")){
+                    total = Integer.parseInt(editTextPeopleRange.getText().toString());
+                    if (total == 1) return;
+                    total--;
+                }
                 display(total);
             }
         });
