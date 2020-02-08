@@ -1,12 +1,17 @@
 package id.ac.binus.recruito;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +27,9 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private ThreadAdapter adapter;
     private boolean isHistory;
+    private ClickHandler handler;
+    private LinearLayout linearLayout;
+    private RelativeLayout relativeLayout;
 
     public HomeFragment(boolean isHistory) {
         this.isHistory = isHistory;
@@ -30,14 +38,26 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
 
-        View rootView= inflater.inflate(R.layout.fragment_home,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+
+        View rootView= binding.getRoot();
         RecyclerView recyclerview= rootView.findViewById(R.id.recycler_view_thread);
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        relativeLayout = rootView.findViewById(R.id.relative_layout_title);
+        linearLayout = rootView.findViewById(R.id.linear_layout_header);
 
-        if (isHistory)
+        handler = new ClickHandler(getActivity());
+        binding.setClickHandler(handler);
+
+
+        if (isHistory){
             adapter = new ThreadAdapter(getActivity(), getAllHistory());
-        else
+            linearLayout.setVisibility(View.GONE);
+        }
+        else{
             adapter = new ThreadAdapter(getActivity(), getAllThread());
+            relativeLayout.setVisibility(View.GONE);
+        }
         adapter.notifyDataSetChanged();
         recyclerview.setAdapter(adapter);
         return rootView;
@@ -69,6 +89,27 @@ public class HomeFragment extends Fragment {
         jobThreadArrayList.add(new JobThread(4, "Budi", null, null, "Help wanted", null, "2019-02-17", "Jakarta Selatan", null, 3, 2));
 
         return jobThreadArrayList;
+    }
+
+    public class ClickHandler{
+        private Context context;
+
+        public ClickHandler(Context context) {
+            this.context = context;
+        }
+
+        public void notifButtonClick(View view){
+            Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
+            intent.putExtra("goToWhichFragment", "notification");
+            startActivity(intent);
+        }
+
+        public void filterButtonClick(View view){
+            Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
+            intent.putExtra("goToWhichFragment", "filter");
+            startActivity(intent);
+        }
+
     }
 
 }

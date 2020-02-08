@@ -162,12 +162,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:backgroundTint="@android:color/darker_gray"
+            android:text="@string/apply" />
+
+        <Button
+            android:layout_below="@id/button_apply"
+            android:id="@+id/button_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:background="@drawable/button_blue_box"
             android:backgroundTint="@android:color/darker_gray"
-            android:text="@string/apply" />
+            android:text="@string/reset" />
+
 
     </RelativeLayout>
 

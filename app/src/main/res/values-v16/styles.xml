@@ -4,4 +4,8 @@
     <style name="RiftSoftTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">@font/rift_regular</item>
     </style>
+
+    <style name="SegoeUIFont" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/segoe_ui</item>
+    </style>
 </resources>

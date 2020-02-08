@@ -23,11 +23,12 @@ import id.ac.binus.recruito.models.User;
 
 public class NotificationActivity extends Fragment{
 
-    ArrayList<Notification> listNotif = new ArrayList<>();
-    NotificationAdapter adapter;
-    ActivityNotificationBinding binding;
-    DatabaseAccess databaseAccess;
-    User user;
+    private ArrayList<Notification> listNotif = new ArrayList<>();
+    private NotificationAdapter adapter;
+    private ActivityNotificationBinding binding;
+    private DatabaseAccess databaseAccess;
+    private User user;
+    private RecyclerView recyclerview;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,17 +36,20 @@ public class NotificationActivity extends Fragment{
 
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_notification, container, false);
         View view = binding.getRoot();
-        RecyclerView recyclerview= view.findViewById(R.id.rv_notif);
+//        recyclerview = view.findViewById(R.id.rv_notif);
+
 
         ClickHandler clickHandler = new ClickHandler(getActivity());
         binding.setClickHandler(clickHandler);
 
         getNotifList();
 
-        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         adapter = new NotificationAdapter(getActivity(), listNotif);
-        adapter.notifyDataSetChanged();
-        recyclerview.setAdapter(adapter);
+        binding.rvNotif.setAdapter(adapter);
+        binding.rvNotif.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recyclerview.setAdapter(adapter);
+//        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
         return view;
@@ -92,7 +96,7 @@ public class NotificationActivity extends Fragment{
             SharedPref sharedPref = new SharedPref(getActivity());
             user = sharedPref.load();
             Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
-            intent.putExtra("goToHistoryFragment", true);
+            intent.putExtra("goToWhichFragment", "history");
             startActivity(intent);
             getActivity().finish();
         }

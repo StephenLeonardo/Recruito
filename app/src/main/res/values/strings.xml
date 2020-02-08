@@ -43,6 +43,7 @@
     <string name="location">Location</string>
     <string name="category">Category</string>
     <string name="people_range">People Range</string>
-    <string name="apply">APPLY</string>
+    <string name="apply">Apply</string>
+    <string name="reset">Reset</string>
     <string name="history">History</string>
 </resources>

@@ -26,23 +26,37 @@ public class NavigationBarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation_bar);
 
         BottomNavigationView bottomNav = findViewById(R.id.nav_btn_Navigation_Bottom);
-        BottomNavigationView topNav = findViewById(R.id.nav_btn_Navigation_Top);
 
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        topNav.setOnNavigationItemSelectedListener(navListener);
 
         Intent intent = getIntent();
-        boolean goToProfileFragment =  intent.getBooleanExtra("goToProfileFragment", false);
+        String goToWhichFragment = intent.getStringExtra("goToWhichFragment");
 
-        if(goToProfileFragment){
+        if (goToWhichFragment == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(false)).commit();
+        }
+        else if (goToWhichFragment.equalsIgnoreCase("profile")) {
             // Go to profile fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileActivity()).commit();
-        } else if (intent.getBooleanExtra("goToHistoryFragment", false)) {
+        }
+        else if (goToWhichFragment.equalsIgnoreCase("history")) {
             // Go to home fragment
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(true)).commit();
-        } else {
-            // Go to home fragment
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(false)).commit();
+        }
+        else if (goToWhichFragment.equalsIgnoreCase("notification")){
+            // Go to Notification fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationActivity()).commit();
+        }
+        else if (goToWhichFragment.equalsIgnoreCase("filter")){
+            // Go to Filter fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FilterActivity()).commit();
+        }
+        else if (goToWhichFragment.equalsIgnoreCase("detail")){
+            int threadID = intent.getIntExtra("ThreadID", 0);
+            if(threadID != 0){
+                // Go to Detail fragment
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ThreadDetailActivity(threadID)).commit();
+            }
         }
     }
 
@@ -68,12 +82,6 @@ public class NavigationBarActivity extends AppCompatActivity {
                             break;
                         case R.id.nav_profile:
                             selectedFragment = new ProfileActivity();
-                            break;
-                        case R.id.nav_notifications:
-                            selectedFragment = new NotificationActivity();
-                            break;
-                        case R.id.nav_filters:
-                            selectedFragment = new FilterActivity();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();

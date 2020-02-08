@@ -1,75 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<layout>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    android:padding="20dp"
-    tools:context=".LoginActivity">
+    <data>
 
-    <LinearLayout
-        android:id="@+id/linear_layout_sign_in_form"
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:padding="20dp"
+        tools:context=".LoginActivity">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:layout_marginBottom="50dp"
-            android:gravity="center"
-            android:text="@string/sign_in"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:text="@string/email"
-            android:textSize="25sp" />
+            <LinearLayout
+                android:id="@+id/linear_layout_sign_in_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edit_text_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/edittext_box"
-            android:hint="@string/email_hint"
-            android:inputType="textEmailAddress" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="50dp"
+                    android:gravity="center"
+                    android:text="@string/sign_in"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:text="@string/password"
-            android:textSize="25sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/email"
+                    android:textSize="25sp" />
 
-        <EditText
-            android:id="@+id/edit_text_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/edittext_box"
-            android:hint="@string/password_hint"
-            android:inputType="textPassword" />
+                <EditText
+                    android:id="@+id/edit_text_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/edittext_box"
+                    android:hint="@string/email_hint"
+                    android:inputType="textEmailAddress" />
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/password"
+                    android:textSize="25sp" />
 
-    <Button
-        android:id="@+id/button_sign_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/button_blue_box"
-        android:gravity="center"
-        android:layout_margin="30dp"
-        android:layout_below="@id/linear_layout_sign_in_form"
-        android:textColor="@android:color/black"
-        android:text="@string/sign_in" />
+                <EditText
+                    android:id="@+id/edit_text_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/edittext_box"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword" />
 
-</RelativeLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_layout_sign_in_form"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_pink_round"
+                android:gravity="center"
+                android:text="@string/sign_in"
+                android:textColor="@android:color/black" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</layout>

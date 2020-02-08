@@ -105,4 +105,9 @@ public class Comment {
         HsLeave = hsLeave;
         IsKick = isKick;
     }
+
+    public Comment(String name, String comment) {
+        Name = name;
+        Comment = comment;
+    }
 }

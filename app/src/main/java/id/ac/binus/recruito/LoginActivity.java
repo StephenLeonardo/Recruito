@@ -28,11 +28,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-//        if(isAlreadyLoggedIn()){
-//            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
 
         Email = findViewById(R.id.edit_text_email);
         Password = findViewById(R.id.edit_text_password);
@@ -52,16 +47,19 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick: email = " + inputEmail);
                 Log.d(TAG, "onClick: password = " + inputPassword);
 
-                BackendAPI backendAPI = new BackendAPI(LoginActivity.this);
-                User user = backendAPI.logIn(inputEmail, inputPassword);
+                if(isValidInput(inputEmail, inputPassword)){
+                    BackendAPI backendAPI = new BackendAPI(LoginActivity.this);
+                    User user = backendAPI.logIn(inputEmail, inputPassword);
 
-                if(user != null){
-                    SharedPref sharedPref = new SharedPref(LoginActivity.this);
-                    sharedPref.save(user);
+                    if(user != null){
+                        SharedPref sharedPref = new SharedPref(LoginActivity.this);
+                        sharedPref.save(user);
 
-                    Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
-                    startActivity(intent);
-                    finish();
+                        Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Email or password incorrect", Toast.LENGTH_SHORT).show();
@@ -73,11 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    /*
-    Modified by Stephen
-    Date : Saturday Feb 01, 2020
-    Purpose : Adding validation for login input
-     */
+
     private boolean isValidInput(String Email, String Password) {
 
         String regex = "^(.+)@(.+)$";
@@ -90,19 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
-    Modified by Stephen
-    Date : Monday Feb 03, 2020
-    Purpose : Adding validation to check whether user has logged in before
-     */
-    private boolean isAlreadyLoggedIn() {
-        SharedPref sharedPref = new SharedPref(LoginActivity.this);
-        User user = sharedPref.load();
-        if (user == null) {
-            return false;
-        }
 
-        return true;
-    }
 
 }

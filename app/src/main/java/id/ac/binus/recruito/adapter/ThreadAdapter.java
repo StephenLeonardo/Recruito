@@ -1,7 +1,9 @@
 package id.ac.binus.recruito.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.NavigationBarActivity;
 import id.ac.binus.recruito.R;
 import id.ac.binus.recruito.databinding.ThreadJobListItemBinding;
 import id.ac.binus.recruito.models.JobThread;
@@ -41,8 +44,19 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        JobThread jobThread = jobThreadArrayList.get(position);
+        final JobThread jobThread = jobThreadArrayList.get(position);
         viewHolder.itemLayoutBinding.setThread(jobThread);
+
+        viewHolder.itemLayoutBinding.relativeLayoutThread.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, NavigationBarActivity.class);
+                intent.putExtra("goToWhichFragment", "detail");
+                intent.putExtra("ThreadID", jobThread.getThreadID());
+                mContext.startActivity(intent);
+            }
+        });
+
     }
 
 

@@ -67,7 +67,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             databaseAccess.closeDatabase();
                             Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
                             intent = new Intent(ChangePasswordActivity.this, NavigationBarActivity.class);
-                            intent.putExtra("goToProfileFragment", true);
+                            intent.putExtra("goToWhichFragment", "profile");
                             startActivity(intent);
                             finish();
                         }

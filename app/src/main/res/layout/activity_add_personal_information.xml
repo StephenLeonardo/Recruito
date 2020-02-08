@@ -9,102 +9,96 @@
     tools:context=".ChangeProfileActivity">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        style="@style/BackgroundPink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="20dp">
 
-        <RelativeLayout
-            style="@style/BackgroundPink"
+        <LinearLayout
+            android:id="@+id/linear_layout_form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:text="@string/add_profile_detail"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/date_of_birth"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/text_view_date_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_box"
+                android:drawableRight="@drawable/ic_date_range_grey_24dp"
+                android:hint="@string/date_hint" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/gender"
+                android:textSize="25sp" />
+
+            <Spinner
+                android:id="@+id/spinner_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/phone_number"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/edit_text_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_box"
+                android:hint="@string/phone_number_hint"
+                android:inputType="numberSigned" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="@string/status"
+                android:textSize="25sp" />
+
+            <Spinner
+                android:id="@+id/spinner_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:padding="20dp">
-
-            <LinearLayout
-                android:id="@+id/linear_layout_form"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp"
-                    android:gravity="center"
-                    android:text="@string/add_profile_detail"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/date_of_birth"
-                    android:textSize="25sp" />
-
-                <TextView
-                    android:id="@+id/text_view_date_picker"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/edittext_box"
-                    android:drawableRight="@drawable/ic_date_range_grey_24dp"
-                    android:hint="@string/date_hint" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/gender"
-                    android:textSize="25sp" />
-
-                <Spinner
-                    android:id="@+id/spinner_gender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/phone_number"
-                    android:textSize="25sp" />
-
-                <EditText
-                    android:id="@+id/edit_text_phone_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/edittext_box"
-                    android:hint="@string/phone_number_hint"
-                    android:inputType="numberSigned" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/status"
-                    android:textSize="25sp" />
-
-                <Spinner
-                    android:id="@+id/spinner_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/button_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/linear_layout_form"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/button_blue_box"
-                android:gravity="center"
-                android:textColor="@android:color/black"
-                android:text="@string/next" />
-
-        </RelativeLayout>
+            android:layout_below="@id/linear_layout_form"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/button_blue_box"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@android:color/black" />
 
     </RelativeLayout>
 

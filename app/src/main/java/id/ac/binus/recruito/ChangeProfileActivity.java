@@ -190,7 +190,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements TimePick
 
                                         Toast.makeText(ChangeProfileActivity.this, "Updated profile successfully", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(ChangeProfileActivity.this, NavigationBarActivity.class);
-                                        intent.putExtra("goToProfileFragment", true);
+                                        intent.putExtra("goToWhichFragment", "profile");
                                         startActivity(intent);
                                         finish();
                                     }

@@ -40,7 +40,7 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
     private CategoryAdapter categoryAdapter;
     private ArrayList<CategoryItem> categoryItemArrayList;
     private Spinner spinnerLocation, spinnerCategory;
-    private Button buttonTimePickerStart, buttonTimePickerEnd, buttonApply;
+    private Button buttonTimePickerStart, buttonTimePickerEnd, buttonApply, buttonReset;
     private TextView textViewDatePicker;
     private EditText editTextPeopleRange;
     private CategoryItem clickedCategoryItem;
@@ -216,6 +216,15 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
                 intent.putExtra("endTime", buttonTimePickerEnd.getText().toString());
                 intent.putExtra("date", textViewDatePicker.getText().toString());
                 intent.putExtra("peopleRange", editTextPeopleRange.getText().toString());
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }

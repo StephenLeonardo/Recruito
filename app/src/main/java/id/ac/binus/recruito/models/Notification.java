@@ -1,5 +1,7 @@
 package id.ac.binus.recruito.models;
 
+import java.util.ArrayList;
+
 public class Notification {
 
 
@@ -13,12 +15,8 @@ public class Notification {
     private int UserID, ThreadID;
     private String jobTitle, Date, Time, username;
     private boolean read;
+    private ArrayList<NotificationDetail> notificationDetails;
 
-    /*
-    Modified by Stephen
-    Date : Feb 07, 06 2020
-    Purpose : Add functionality to get notifications
-     */
 
     public Notification(int threadID, String jobTitle, int userID, String username, String date, String time, boolean read) {
         ThreadID = threadID;
@@ -28,6 +26,14 @@ public class Notification {
         Date = date;
         Time = time;
         this.read = read;
+    }
+
+    public ArrayList<NotificationDetail> getNotificationDetails() {
+        return notificationDetails;
+    }
+
+    public void setNotificationDetails(ArrayList<NotificationDetail> notificationDetails) {
+        this.notificationDetails = notificationDetails;
     }
 
     public Notification() {

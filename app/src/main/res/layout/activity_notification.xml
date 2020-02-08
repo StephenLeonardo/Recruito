@@ -10,6 +10,7 @@
         <variable
             name="clickHandler"
             type="id.ac.binus.recruito.NotificationActivity.ClickHandler" />
+
     </data>
 
 
@@ -51,6 +52,7 @@
                     android:layout_alignParentRight="true"
                     android:textSize="15sp"
                     android:onClick="@{clickHandler::goToHistory}"
+                    android:background="@null"
                     android:layout_centerVertical="true"/>
 
             </RelativeLayout>

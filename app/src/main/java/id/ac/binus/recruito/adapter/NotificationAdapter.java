@@ -2,8 +2,11 @@ package id.ac.binus.recruito.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -12,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.NavigationBarActivity;
+import id.ac.binus.recruito.NotificationActivity;
 import id.ac.binus.recruito.R;
 import id.ac.binus.recruito.ThreadDetailActivity;
 import id.ac.binus.recruito.databinding.ListNotificationItemBinding;
@@ -20,14 +25,13 @@ import id.ac.binus.recruito.models.NotificationDetail;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
-    /*
-    Modified by Stephen
-    Date : Feb 06, 2020
-    Purpose : Added global variable context
-     */
+
+    private static final String TAG = "NotificationAdapter";
 
     ArrayList<Notification> listNotif;
     Context mContext;
+
+    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     ArrayList<NotificationDetail> detailArrayList;
     NotificationDetailAdapter adapter;
 
@@ -51,28 +55,42 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        Notification notif =listNotif.get(position);
+    public void onBindViewHolder(@NonNull final NotificationViewHolder holder, int position) {
+        final Notification notif =listNotif.get(position);
+
         holder.binding.setNotif(notif);
 
-        holder.binding.rvNotifMessage.setLayoutManager(new LinearLayoutManager(mContext));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.binding.rvNotifMessage.getContext(), LinearLayoutManager.VERTICAL, false);
+        fillDetailArrayList(position);
+        notif.setNotificationDetails(detailArrayList);
 
-        fillDetailArrayList();
+        layoutManager.setInitialPrefetchItemCount(notif.getNotificationDetails().size());
 
         adapter = new NotificationDetailAdapter(mContext, detailArrayList);
-        adapter.notifyDataSetChanged();
+
+
+        holder.binding.rvNotifMessage.setLayoutManager(layoutManager);
         holder.binding.rvNotifMessage.setAdapter(adapter);
+        holder.binding.rvNotifMessage.setRecycledViewPool(viewPool);
 
+        holder.binding.relativeLayoutNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, NavigationBarActivity.class);
+                intent.putExtra("goToWhichFragment", "detail");
+                intent.putExtra("ThreadID", notif.getThreadID());
+                mContext.startActivity(intent);
+            }
+        });
 
-//        holder.bind(notif);
     }
 
-    private void fillDetailArrayList() {
+    private void fillDetailArrayList(int position) {
         detailArrayList = new ArrayList<>();
 
-        detailArrayList.add(new NotificationDetail("Detail 1"));
-        detailArrayList.add(new NotificationDetail("Detail 2"));
-
+        detailArrayList.add(new NotificationDetail("Detail " + position));
+        detailArrayList.add(new NotificationDetail("Detail " + ++position));
+a
     }
 
     @Override
@@ -90,12 +108,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         }
 
-
-        /*
-        Modified by Stephen
-        Date : Feb 06, 2020
-        Purpose : Added intent to go to Thread Activity
-         */
         public void bind(final Notification item){
 //            binding.
             Intent intent = new Intent(mContext.getApplicationContext(), ThreadDetailActivity.class);
@@ -104,4 +116,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
 
     }
+
+
 }
