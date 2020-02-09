@@ -134,9 +134,15 @@ public class AddJobListActivity extends Fragment implements TimePickerDialog.OnT
                 String jobDesc = editTextJobDesc.getText().toString();
                 int totalPeople = Integer.parseInt(editTextTotalPeople.getText().toString());
 
-                BackendAPI backendAPI = new BackendAPI(getActivity());
+//                BackendAPI backendAPI = new BackendAPI(getActivity());
+//
+//                boolean isSuccessInsertThread = backendAPI.AddThread(creator, title, time, date, address, jobDesc, totalPeople, 1);
 
-                boolean isSuccessInsertThread = backendAPI.AddThread(creator, title, time, date, address, jobDesc, totalPeople, 1);
+
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+                databaseAccess.openDatabase();
+
+                boolean isSuccessInsertThread = databaseAccess.insertThread(categoryName, title, time, date, address, jobDesc, totalPeople, user.getUserName());
 
                 if(isSuccessInsertThread){
                     Toast.makeText(getActivity(), "JobThread inserted", Toast.LENGTH_SHORT).show();

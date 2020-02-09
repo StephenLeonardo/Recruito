@@ -46,6 +46,10 @@ public class ProfileActivity extends Fragment {
         Log.d(TAG, "setProfileFromSharedPref: DOB = " + user.getDOB());
 
         binding.setUser(user);
+
+        int id = getContext().getResources().getIdentifier("drawable/"+user.getImageName(), null, getContext().getPackageName());
+        binding.imageViewProfilePic.setImageResource(id);
+
         user.setmContext(getActivity());
 
     }

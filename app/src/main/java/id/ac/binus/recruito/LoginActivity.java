@@ -58,34 +58,40 @@ public class LoginActivity extends AppCompatActivity {
                     databaseAccess.openDatabase();
 
                     Cursor cursor = databaseAccess.login(inputEmail);
-                    User user =  new User();
-                    user.setUserID(cursor.getInt(cursor.getColumnIndex("UserID")));
-                    user.setUserName(cursor.getString(cursor.getColumnIndex("UserName")));
-                    user.setAge(cursor.getInt(cursor.getColumnIndex("Age")));
-                    user.setDOB(cursor.getString(cursor.getColumnIndex("DOB")));
-                    user.setGender(cursor.getString(cursor.getColumnIndex("Gender")));
-                    user.setPhoneNumber(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
-                    user.setUserStatus(cursor.getString(cursor.getColumnIndex("UserStatus")));
-                    user.setEmail(cursor.getString(cursor.getColumnIndex("Email")));
+
+                    if(cursor != null && cursor.moveToFirst() && cursor.isFirst()){
+                        User user =  new User();
+                        user.setUserID(cursor.getInt(cursor.getColumnIndex("UserID")));
+                        user.setUserName(cursor.getString(cursor.getColumnIndex("UserName")));
+                        user.setAge(cursor.getInt(cursor.getColumnIndex("Age")));
+                        user.setDOB(cursor.getString(cursor.getColumnIndex("DOB")));
+                        user.setGender(cursor.getString(cursor.getColumnIndex("Gender")));
+                        user.setPhoneNumber(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+                        user.setUserStatus(cursor.getString(cursor.getColumnIndex("UserStatus")));
+                        user.setEmail(cursor.getString(cursor.getColumnIndex("Email")));
+                        user.setUserPassword(cursor.getString(cursor.getColumnIndex("UserPassword")));
+                        user.setImageName(cursor.getString(cursor.getColumnIndex("ImageName")));
+                        if(user != null){
+                            if (BCrypt.checkpw(inputPassword, user.getUserPassword())){
+                                SharedPref sharedPref = new SharedPref(LoginActivity.this);
+                                sharedPref.save(user);
+
+                                databaseAccess.closeDatabase();
+                                Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(LoginActivity.this, "Password incorrect", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            Toast.makeText(LoginActivity.this, "Email incorrect", Toast.LENGTH_SHORT).show();
+                    }
 
                     databaseAccess.closeDatabase();
 
 
 
-                    if(user != null){
-                        if (BCrypt.checkpw(inputPassword, user.getUserPassword())){
-                            SharedPref sharedPref = new SharedPref(LoginActivity.this);
-                            sharedPref.save(user);
-
-                            Intent intent = new Intent(LoginActivity.this, NavigationBarActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else
-                            Toast.makeText(LoginActivity.this, "Password incorrect", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                        Toast.makeText(LoginActivity.this, "Email incorrect", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Email or password incorrect", Toast.LENGTH_SHORT).show();

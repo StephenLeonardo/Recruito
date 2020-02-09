@@ -86,6 +86,10 @@ public class HomeFragment extends Fragment {
         jobThreadArrayList.add(new JobThread(3, "Bibi", null, null, "Butuh Accountant", null, "2020-02-16", "Jakarta Timur", null, 2, 0));
         jobThreadArrayList.add(new JobThread(4, "Budi", null, null, "Butuh IT", null, "2020-02-17", "Jakarta Selatan", null, 3, 2));
 
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+        jobThreadArrayList.addAll(databaseAccess.getAllThread());
+        databaseAccess.closeDatabase();
+
         return jobThreadArrayList;
     }
 

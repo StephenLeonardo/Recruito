@@ -177,24 +177,38 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
 //                    User user = backendAPI.logIn(name, password);
                     databaseAccess.openDatabase();
                     Cursor cursor = databaseAccess.login(email);
-                    User user =  new User();
-                    user.setUserID(cursor.getInt(cursor.getColumnIndex("UserID")));
-                    user.setUserName(cursor.getString(cursor.getColumnIndex("UserName")));
-                    user.setAge(cursor.getInt(cursor.getColumnIndex("Age")));
-                    user.setDOB(cursor.getString(cursor.getColumnIndex("DOB")));
-                    user.setGender(cursor.getString(cursor.getColumnIndex("Gender")));
-                    user.setPhoneNumber(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
-                    user.setUserStatus(cursor.getString(cursor.getColumnIndex("UserStatus")));
-                    user.setEmail(cursor.getString(cursor.getColumnIndex("Email")));
+
+                    if(cursor != null && cursor.moveToFirst() && cursor.isFirst()){
+                        User user =  new User();
+                        user.setUserID(cursor.getInt(cursor.getColumnIndex("UserID")));
+                        user.setUserName(cursor.getString(cursor.getColumnIndex("UserName")));
+                        user.setAge(cursor.getInt(cursor.getColumnIndex("Age")));
+                        user.setDOB(cursor.getString(cursor.getColumnIndex("DOB")));
+                        user.setGender(cursor.getString(cursor.getColumnIndex("Gender")));
+                        user.setPhoneNumber(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+                        user.setUserStatus(cursor.getString(cursor.getColumnIndex("UserStatus")));
+                        user.setEmail(cursor.getString(cursor.getColumnIndex("Email")));
+                        user.setUserPassword(cursor.getString(cursor.getColumnIndex("UserPassword")));
+                        user.setImageName(cursor.getString(cursor.getColumnIndex("ImageName")));
+                        if(user != null){
+                            if (BCrypt.checkpw(password, user.getUserPassword())){
+                                SharedPref sharedPref = new SharedPref(AddPersonalInformationActivity.this);
+                                sharedPref.save(user);
+
+                                databaseAccess.closeDatabase();
+                                intent = new Intent(AddPersonalInformationActivity.this, NavigationBarActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(AddPersonalInformationActivity.this, "Password incorrect", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                            Toast.makeText(AddPersonalInformationActivity.this, "Email incorrect", Toast.LENGTH_SHORT).show();
+                    }
 
                     databaseAccess.closeDatabase();
 
-                    SharedPref sharedPref = new SharedPref(AddPersonalInformationActivity.this);
-                    sharedPref.save(user);
-
-                    intent = new Intent(AddPersonalInformationActivity.this, NavigationBarActivity.class);
-                    startActivity(intent);
-                    finish();
 
                 }
                 else {

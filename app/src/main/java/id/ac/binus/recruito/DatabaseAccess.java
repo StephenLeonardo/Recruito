@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import id.ac.binus.recruito.models.Notification;
 import id.ac.binus.recruito.models.User;
 
 public class DatabaseAccess extends AppCompatActivity {
-
+    private static final String TAG = "DatabaseAccess";
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
@@ -94,16 +95,17 @@ public class DatabaseAccess extends AppCompatActivity {
         return null;
     }
 
-    public boolean insertThread(String categoryName, String title, String time, String date, String address, String description, int totalPeople){
+    public boolean insertThread(String categoryName, String title, String time, String date, String address, String description, int totalPeople, String creator){
         try {
-            String query = "INSERT INTO msThread(CategoryID, JobTitle, JobTime, JobDate, JobAddress, JobDescription, TotalPeople) Values (" +
+            String query = "INSERT INTO msThread(CategoryID, JobTitle, JobTime, JobDate, JobAddress, JobDescription, TotalPeople, Creator) Values (" +
                     "(SELECT CategoryID FROM msCategory WHERE CategoryName = '"+categoryName+"'), '" +
                     title + "', '" +
                     time + "', '" +
                     date + "', '" +
                     address + "', '" +
                     description + "', '" +
-                    totalPeople + "')";
+                    totalPeople + "', '" +
+                    creator + "')";
             database.execSQL(query);
             return true;
         } catch (Exception e) {
@@ -175,6 +177,43 @@ public class DatabaseAccess extends AppCompatActivity {
         cursor.close();
         return jobThreadArrayList;
     }
+
+    public ArrayList getAllThread(){
+        String query = "SELECT * " +
+                "FROM msThread mT";
+        ArrayList<JobThread> threadArrayList = new ArrayList<>();
+
+
+        openDatabase();
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            JobThread jobThread;
+            do {
+                String query2 = "SELECT COUNT(*) as a " +
+                        "FROM msThread mT JOIN trDetail tD ON mT.ThreadID = tD.threadID WHERE mT.ThreadID = " + cursor.getInt(cursor.getColumnIndex("ThreadID")) +
+                        " AND HsJoin = 1";
+                Cursor cursor1 = database.rawQuery(query2, null);
+                int joinedPeople = 0;
+                if (cursor1 != null && cursor1.moveToFirst() && cursor1.isFirst())
+                    joinedPeople = cursor1.getInt(cursor1.getColumnIndex("a"));
+
+                int threadID = cursor.getInt(cursor.getColumnIndex("ThreadID"));
+                String jobTitle = cursor.getString(cursor.getColumnIndex("JobTitle"));
+                String jobAddress = cursor.getString(cursor.getColumnIndex("JobAddress"));
+                String jobDate = cursor.getString(cursor.getColumnIndex("JobDate"));
+                String username = cursor.getString(cursor.getColumnIndex("Creator"));
+                int totalPeople = cursor.getInt(cursor.getColumnIndex("TotalPeople"));
+                jobThread = new JobThread(threadID, username, null, null, jobTitle, null, jobDate, jobAddress, null, totalPeople, joinedPeople);
+
+                threadArrayList.add(jobThread);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        closeDatabase();
+        Log.d(TAG, "getAllThread: " + threadArrayList);
+        return threadArrayList;
+    }
+
 
 
     public ArrayList getHistoryList(int userID, String date) {
