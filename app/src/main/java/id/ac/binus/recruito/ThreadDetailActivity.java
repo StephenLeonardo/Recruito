@@ -135,6 +135,9 @@ public class ThreadDetailActivity extends Fragment {
         databaseAccess.closeDatabase();
         Log.d(TAG, "getThreadInfo: Joined People : " + jobThread.getJoinedPeople());
 
+        if (jobThread.getJoinedPeople() >= jobThread.getTotalPeople())
+            binding.btnJoin.setVisibility(View.GONE);
+
         binding.setThread(jobThread);
     }
 

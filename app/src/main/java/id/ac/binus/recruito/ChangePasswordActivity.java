@@ -58,12 +58,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             Intent intent = getIntent();
                             int userID = intent.getIntExtra("UserID", 0);
 
-                            String cryptedPassword = BCrypt.hashpw(inputNewPassword, BCrypt.gensalt(12));
+                            String hashedPassword = BCrypt.hashpw(inputNewPassword, BCrypt.gensalt(12));
 
 
                             DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
                             databaseAccess.openDatabase();
-                            databaseAccess.updatePassword(userID, cryptedPassword);
+                            databaseAccess.updatePassword(userID, hashedPassword);
                             databaseAccess.closeDatabase();
                             Toast.makeText(ChangePasswordActivity.this, "Password changed successfully", Toast.LENGTH_SHORT).show();
                             intent = new Intent(ChangePasswordActivity.this, NavigationBarActivity.class);
@@ -77,26 +77,15 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
             }
 
-            /*
-            Modified by Stephen
-            Date : Sunday Feb 02, 2020
-            Purpose : function to check password in database
-             */
             private boolean isCurrentPassword(String password) {
 
                 // Get current email
                 SharedPref sharedPref = new SharedPref(ChangePasswordActivity.this);
                 User user = sharedPref.load();
 
-//                return BCrypt.checkpw(password, user.getUserPassword());
-                return true;
+                return BCrypt.checkpw(password, user.getUserPassword());
             }
 
-            /*
-            Modified by Stephen
-            Date : Sunday Feb 02, 2020
-            Purpose : function to check if password is valid or not
-             */
             private boolean isValidPassword(String newPassword) {
                 if (newPassword == null || newPassword.equals("")) {
                     Toast.makeText(ChangePasswordActivity.this, "New Password Invalid", Toast.LENGTH_SHORT).show();

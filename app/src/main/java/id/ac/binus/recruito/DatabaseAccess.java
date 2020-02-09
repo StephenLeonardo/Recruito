@@ -299,7 +299,8 @@ public class DatabaseAccess extends AppCompatActivity {
                 "TotalPeople, " +
                 "Creator ;";
 
-        String query2 = "SELECT COUNT(*) as a FROM trDetail WHERE ThreadID = " + threadID;
+        String query2 = "SELECT DISTINCT COUNT(UserID) as a FROM trDetail WHERE ThreadID = " + threadID +
+                " AND HsJoin = 1";
 
         openDatabase();
         Cursor cursor = database.rawQuery(query, null);
@@ -337,11 +338,12 @@ public class DatabaseAccess extends AppCompatActivity {
 
     public ArrayList getAllNotifDetail(int threadID, String currentUser){
         String query = "SELECT\n" +
-                "\t\t *\n" +
+                "\t\t DISTINCT *\n" +
                 "\tFROM\n" +
                 "\t\ttrDetail tD JOIN msUser mU ON tD.UserID = mU.UserID\n" +
                 "\tWHERE\n" +
                 "\t\tThreadID = " + threadID + "\n" +
+                "GROUP BY ThreadID" +
                 "\tORDER BY CommentID DESC " +
                 "LIMIT 2";
 
