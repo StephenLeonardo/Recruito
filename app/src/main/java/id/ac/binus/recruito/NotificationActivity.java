@@ -70,11 +70,6 @@ public class NotificationActivity extends Fragment{
         SharedPref sharedPref = new SharedPref(getActivity());
         user = sharedPref.load();
 
-        /*
-        Modified by Stephen
-        Date : Feb 06, 2020
-        Purpose : Get notification data from database
-         */
         // get all notification list from database
 //        databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
 //
@@ -97,6 +92,7 @@ public class NotificationActivity extends Fragment{
             user = sharedPref.load();
             Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
             intent.putExtra("goToWhichFragment", "history");
+            intent.putExtra("DetailTitle", "History");
             startActivity(intent);
             getActivity().finish();
         }

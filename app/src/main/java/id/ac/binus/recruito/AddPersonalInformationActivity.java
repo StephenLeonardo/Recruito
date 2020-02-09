@@ -3,6 +3,7 @@ package id.ac.binus.recruito;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -157,14 +158,36 @@ public class AddPersonalInformationActivity extends AppCompatActivity implements
 
                 String cryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
 
-                BackendAPI backendAPI = new BackendAPI(AddPersonalInformationActivity.this);
+//                BackendAPI backendAPI = new BackendAPI(AddPersonalInformationActivity.this);
+//
+//                boolean isInserted = backendAPI.Register(name, password, email, DOB, status, phoneNumber);
 
-                boolean isInserted = backendAPI.Register(name, password, email, DOB, status, phoneNumber);
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(AddPersonalInformationActivity.this);
+                databaseAccess.openDatabase();
+
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+                boolean isInserted = databaseAccess.insertUser(imageID, name, DOB, genderString, phoneNumber, status, email,hashedPassword);
+
+                databaseAccess.closeDatabase();
 
                 if (isInserted) {
                     Toast.makeText(AddPersonalInformationActivity.this, "Register success!", Toast.LENGTH_SHORT).show();
 
-                    User user = backendAPI.logIn(name, password);
+//                    User user = backendAPI.logIn(name, password);
+                    databaseAccess.openDatabase();
+                    Cursor cursor = databaseAccess.login(email);
+                    User user =  new User();
+                    user.setUserID(cursor.getInt(cursor.getColumnIndex("UserID")));
+                    user.setUserName(cursor.getString(cursor.getColumnIndex("UserName")));
+                    user.setAge(cursor.getInt(cursor.getColumnIndex("Age")));
+                    user.setDOB(cursor.getString(cursor.getColumnIndex("DOB")));
+                    user.setGender(cursor.getString(cursor.getColumnIndex("Gender")));
+                    user.setPhoneNumber(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+                    user.setUserStatus(cursor.getString(cursor.getColumnIndex("UserStatus")));
+                    user.setEmail(cursor.getString(cursor.getColumnIndex("Email")));
+
+                    databaseAccess.closeDatabase();
 
                     SharedPref sharedPref = new SharedPref(AddPersonalInformationActivity.this);
                     sharedPref.save(user);

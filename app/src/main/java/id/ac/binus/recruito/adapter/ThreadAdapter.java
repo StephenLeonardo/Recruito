@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.HomeFragment;
 import id.ac.binus.recruito.NavigationBarActivity;
 import id.ac.binus.recruito.R;
 import id.ac.binus.recruito.databinding.ThreadJobListItemBinding;
@@ -23,10 +25,12 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ViewHolder
 
     private Context mContext;
     private ArrayList<JobThread> jobThreadArrayList = new ArrayList<>();
+    public boolean isHistory;
 
-    public ThreadAdapter(Context mContext, ArrayList<JobThread> jobThreadArrayList) {
+    public ThreadAdapter(Context mContext, ArrayList<JobThread> jobThreadArrayList, boolean isHistory) {
         this.mContext = mContext;
         this.jobThreadArrayList = jobThreadArrayList;
+        this.isHistory = isHistory;
     }
 
     @NonNull
@@ -43,7 +47,7 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         final JobThread jobThread = jobThreadArrayList.get(position);
         viewHolder.itemLayoutBinding.setThread(jobThread);
 
@@ -53,6 +57,8 @@ public class ThreadAdapter extends RecyclerView.Adapter<ThreadAdapter.ViewHolder
                 Intent intent = new Intent(mContext, NavigationBarActivity.class);
                 intent.putExtra("goToWhichFragment", "detail");
                 intent.putExtra("ThreadID", jobThread.getThreadID());
+                if (isHistory)
+                    intent.putExtra("DetailTitle", "History");
                 mContext.startActivity(intent);
             }
         });

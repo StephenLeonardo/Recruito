@@ -79,6 +79,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 Intent intent = new Intent(mContext, NavigationBarActivity.class);
                 intent.putExtra("goToWhichFragment", "detail");
                 intent.putExtra("ThreadID", notif.getThreadID());
+                intent.putExtra("DetailTitle", "Notification");
                 mContext.startActivity(intent);
             }
         });
@@ -90,7 +91,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         detailArrayList.add(new NotificationDetail("Detail " + position));
         detailArrayList.add(new NotificationDetail("Detail " + ++position));
-a
+
     }
 
     @Override
@@ -110,8 +111,10 @@ a
 
         public void bind(final Notification item){
 //            binding.
-            Intent intent = new Intent(mContext.getApplicationContext(), ThreadDetailActivity.class);
+            Intent intent = new Intent(mContext.getApplicationContext(), NavigationBarActivity.class);
+            intent.putExtra("goToWhichFragment", "detail");
             intent.putExtra("ThreadID", item.getThreadID());
+            intent.putExtra("DetailTitle", "Notification");
             mContext.startActivity(intent);
         }
 

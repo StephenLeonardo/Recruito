@@ -31,6 +31,23 @@
             android:orientation="vertical"
             android:padding="5dp">
 
+            <RelativeLayout
+                android:id="@+id/relative_layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/text_view_detail_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notification"
+                    android:textSize="35dp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/tv_job"
                 android:layout_width="wrap_content"
@@ -69,7 +86,7 @@
                 android:id="@+id/tv_contact_person"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{`Contact Person: ` + creator.phoneNumber}"
+                android:text="@{`Contact Person: ` + thread.phoneNumber}"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -112,6 +129,14 @@
 
                     />
 
+                <TextView
+                    android:id="@+id/text_view_creator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{`Thread By :` +  thread.username}"
+                    android:textSize="20sp"
+                    android:layout_below="@id/tv_count_join"/>
+
 
                 <Button
                     android:id="@+id/btn_join"
@@ -120,6 +145,7 @@
                     android:layout_marginLeft="50sp"
                     android:background="#808080"
                     android:ems="8"
+                    android:onClick="@{clickHandler::joinThread}"
                     android:text="Join"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
@@ -138,8 +164,39 @@
                 android:layout_above="@id/btn_join"/>
 
 
+            <RelativeLayout
+                android:layout_marginVertical="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/edit_text_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_box"
+                    android:hint="Type Your Comment"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@id/button_add_comment"
+                    />
+
+                <Button
+                    android:id="@+id/button_add_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Comment"
+                    android:layout_alignParentRight="true"
+                    android:background="#808080"
+                    android:onClick="@{clickHandler::addComment}"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="10sp"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
+
+
     </ScrollView>
 
 

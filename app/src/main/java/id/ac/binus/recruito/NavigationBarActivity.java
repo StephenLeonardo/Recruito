@@ -33,7 +33,17 @@ public class NavigationBarActivity extends AppCompatActivity {
         String goToWhichFragment = intent.getStringExtra("goToWhichFragment");
 
         if (goToWhichFragment == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(false)).commit();
+
+            String location = intent.getStringExtra("location");
+            String category = intent.getStringExtra("category");
+            String startTime = intent.getStringExtra("startTime");
+            String endTime = intent.getStringExtra("endTime");
+            String date = intent.getStringExtra("date");
+            int peopleRange = intent.getIntExtra("peopleRange", 0);
+            if (location == null)
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(false)).commit();
+            else
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment(false,location, category, startTime, endTime, date, peopleRange)).commit();
         }
         else if (goToWhichFragment.equalsIgnoreCase("profile")) {
             // Go to profile fragment
@@ -54,8 +64,13 @@ public class NavigationBarActivity extends AppCompatActivity {
         else if (goToWhichFragment.equalsIgnoreCase("detail")){
             int threadID = intent.getIntExtra("ThreadID", 0);
             if(threadID != 0){
-                // Go to Detail fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ThreadDetailActivity(threadID)).commit();
+                String detailTitle = intent.getStringExtra("DetailTitle");
+                if (detailTitle == null)
+                    // Go to Detail fragment
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ThreadDetailActivity(threadID)).commit();
+                else
+                    // Go to Detail fragment
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ThreadDetailActivity(threadID, detailTitle)).commit();
             }
         }
     }

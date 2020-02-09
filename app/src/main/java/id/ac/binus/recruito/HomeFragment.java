@@ -26,13 +26,25 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private ThreadAdapter adapter;
-    private boolean isHistory;
+    public boolean isHistory;
     private ClickHandler handler;
     private LinearLayout linearLayout;
     private RelativeLayout relativeLayout;
+    String location, category, startTime, endTime, date;
+    int peopleRange;
 
     public HomeFragment(boolean isHistory) {
         this.isHistory = isHistory;
+    }
+
+    public HomeFragment(boolean isHistory, String location, String category, String startTime, String endTime, String date, int peopleRange) {
+        this.isHistory = isHistory;
+        this.location = location;
+        this.category = category;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.date = date;
+        this.peopleRange = peopleRange;
     }
 
     @Override
@@ -51,11 +63,11 @@ public class HomeFragment extends Fragment {
 
 
         if (isHistory){
-            adapter = new ThreadAdapter(getActivity(), getAllHistory());
+            adapter = new ThreadAdapter(getActivity(), getAllHistory(), true);
             linearLayout.setVisibility(View.GONE);
         }
         else{
-            adapter = new ThreadAdapter(getActivity(), getAllThread());
+            adapter = new ThreadAdapter(getActivity(), getAllThread(), false);
             relativeLayout.setVisibility(View.GONE);
         }
         adapter.notifyDataSetChanged();

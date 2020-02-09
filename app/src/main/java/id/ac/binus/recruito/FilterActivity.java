@@ -60,6 +60,7 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
         textViewDatePicker = rootView.findViewById(R.id.text_view_date_picker);
         editTextPeopleRange = rootView.findViewById(R.id.edit_text_total_people);
         buttonApply = rootView.findViewById(R.id.button_apply);
+        buttonReset = rootView.findViewById(R.id.button_reset);
         editTextPeopleRange.setText("1");
         increment = rootView.findViewById(R.id.incrementButton);
         decrement = rootView.findViewById(R.id.decrementButton);
@@ -215,7 +216,7 @@ public class FilterActivity extends Fragment implements TimePickerDialog.OnTimeS
                 intent.putExtra("startTime", buttonTimePickerStart.getText().toString());
                 intent.putExtra("endTime", buttonTimePickerEnd.getText().toString());
                 intent.putExtra("date", textViewDatePicker.getText().toString());
-                intent.putExtra("peopleRange", editTextPeopleRange.getText().toString());
+                intent.putExtra("peopleRange", Integer.parseInt(editTextPeopleRange.getText().toString()));
                 startActivity(intent);
                 getActivity().finish();
             }

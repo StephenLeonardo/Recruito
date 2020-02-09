@@ -2,22 +2,17 @@ package id.ac.binus.recruito;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 
 import java.util.ArrayList;
 
@@ -35,16 +30,23 @@ public class ThreadDetailActivity extends Fragment {
     ActivityThreadDetailBinding binding;
 
     private int threadID;
+    private String title;
+    private boolean isHistory;
     private JoinedPeopleAdapter joinedPeopleAdapter;
     private CommentAdapter commentAdapter;
     private ArrayList<Comment> commentList;
     private ArrayList<User> joinedPeopleList;
-    private int countPeople = 0;
     JobThread jobThread;
     User user;
 
     public ThreadDetailActivity(int threadID) {
         this.threadID = threadID;
+        title = null;
+    }
+
+    public ThreadDetailActivity(int threadID, String detailTitle) {
+        this.threadID = threadID;
+        title = detailTitle;
     }
 
 
@@ -54,15 +56,9 @@ public class ThreadDetailActivity extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.activity_thread_detail, container, false);
         View view = binding.getRoot();
 
-        binding.btnJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                countPeople++;
-                binding.tvCountJoin.setText(Integer.toString(countPeople));
-            }
-        });
-
         getThreadInfo();
+
+        setTitle();
 
         setClickHandler();
 
@@ -77,6 +73,28 @@ public class ThreadDetailActivity extends Fragment {
 
 
         return view;
+    }
+
+    private void setTitle() {
+
+        if (title == null)
+            binding.textViewDetailTitle.setVisibility(View.GONE);
+        else{
+            binding.textViewDetailTitle.setText(title);
+
+            if (title.equalsIgnoreCase("History")){
+                binding.btnJoin.setVisibility(View.GONE);
+                isHistory = true;
+            }
+        }
+
+        SharedPref sharedPref = new SharedPref(getActivity());
+        User user = sharedPref.load();
+
+        if (user.getUserName().equalsIgnoreCase(jobThread.getUsername())){
+            binding.btnJoin.setVisibility(View.GONE);
+        }
+
     }
 
     private void setClickHandler() {
@@ -102,7 +120,10 @@ public class ThreadDetailActivity extends Fragment {
     }
 
     private void setJoinedPeopleAdapter() {
-        joinedPeopleAdapter = new JoinedPeopleAdapter(getActivity(), joinedPeopleList);
+        if (title == null)
+            joinedPeopleAdapter = new JoinedPeopleAdapter(getActivity(), joinedPeopleList, isHistory, jobThread.getThreadID(), false, jobThread.getUsername());
+        else
+            joinedPeopleAdapter = new JoinedPeopleAdapter(getActivity(), joinedPeopleList, isHistory, jobThread.getThreadID(), true,  jobThread.getUsername());
         binding.recyclerViewPeople.setAdapter(joinedPeopleAdapter);
         binding.recyclerViewPeople.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -148,9 +169,25 @@ public class ThreadDetailActivity extends Fragment {
 
         }
 
+        public void addComment(View view) {
+            String comment = binding.editTextComment.getText().toString();
+            if (comment == null) return;
+
+            addComentToDatabase(threadID, user.getUserID(), comment);
+
+            Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
+            intent.putExtra("goToWhichFragment", "detail");
+            intent.putExtra("ThreadID", jobThread.getThreadID());
+            startActivity(intent);
+            getActivity().finish();
+
+        }
+
+        private void addComentToDatabase(int threadID, int userID, String comment) {
+        }
+
         // Belom dibikin
         private void joinToDatabase(int threadID, int userID){
-
         }
 
     }

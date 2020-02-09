@@ -52,7 +52,6 @@ public class DatabaseAccess extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean insertUser(int ImageID, String Username, String DOB, String Gender, String PhoneNumber, String UserStatus, String Email, String Password) {
         try {
             String query = "INSERT INTO msUser(ImageID, UserName, DOB, Gender, PhoneNumber, UserStatus, Email, UserPassword) " +
@@ -74,7 +73,7 @@ public class DatabaseAccess extends AppCompatActivity {
     }
 
 
-    public Cursor login(String email, String password) {
+    public Cursor login(String email) {
         try {
             Cursor cursor = database.rawQuery("select *, (strftime('%Y', 'now') - strftime('%Y', DOB)) - (strftime('%m-%d', 'now') < strftime('%m-%d', DOB)) AS 'Age' from msUser mU JOIN msImage mI ON mU.ImageID = mI.ImageID where Email = ? ", new String[]{email});
             return cursor;
