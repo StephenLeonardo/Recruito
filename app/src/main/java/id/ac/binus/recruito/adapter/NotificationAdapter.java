@@ -19,10 +19,12 @@ import id.ac.binus.recruito.DatabaseAccess;
 import id.ac.binus.recruito.NavigationBarActivity;
 import id.ac.binus.recruito.NotificationActivity;
 import id.ac.binus.recruito.R;
+import id.ac.binus.recruito.SharedPref;
 import id.ac.binus.recruito.ThreadDetailActivity;
 import id.ac.binus.recruito.databinding.ListNotificationItemBinding;
 import id.ac.binus.recruito.models.Notification;
 import id.ac.binus.recruito.models.NotificationDetail;
+import id.ac.binus.recruito.models.User;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder> {
 
@@ -88,9 +90,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     private void fillDetailArrayList(int threadID) {
+        SharedPref sharedPref = new SharedPref(mContext);
+        User user = sharedPref.load();
         detailArrayList = new ArrayList<>();
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(mContext);
-        detailArrayList = databaseAccess.getAllNotifDetail(threadID);
+        detailArrayList = databaseAccess.getAllNotifDetail(threadID, user.getUserName());
     }
 
     @Override

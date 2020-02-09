@@ -129,13 +129,11 @@ public class ThreadDetailActivity extends Fragment {
     }
 
     private void getThreadInfo() {
-        jobThread = new JobThread(1, "Budi", "0823834353", "Art", "Butuh Dokter", "19:00", "2020-02-16", "Jalan Syahdan",
-                "Description 1", 10,3);
-
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
         databaseAccess.openDatabase();
         jobThread = databaseAccess.getSpecificPageData(threadID);
         databaseAccess.closeDatabase();
+        Log.d(TAG, "getThreadInfo: Joined People : " + jobThread.getJoinedPeople());
 
         binding.setThread(jobThread);
     }

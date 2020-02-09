@@ -19,6 +19,10 @@ public class SharedPref {
 
     }
 
+    public SharedPref() {
+
+    }
+
     public void save(User user) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("UserID", user.getUserID());

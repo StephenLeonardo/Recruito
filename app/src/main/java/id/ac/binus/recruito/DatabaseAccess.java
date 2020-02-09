@@ -335,7 +335,7 @@ public class DatabaseAccess extends AppCompatActivity {
         return new JobThread();
     }
 
-    public ArrayList getAllNotifDetail(int threadID){
+    public ArrayList getAllNotifDetail(int threadID, String currentUser){
         String query = "SELECT\n" +
                 "\t\t *\n" +
                 "\tFROM\n" +
@@ -364,7 +364,7 @@ public class DatabaseAccess extends AppCompatActivity {
                     notificationDetail.setMessage(username + " has commented on this forum");
                 else if (hasLeft == 1)
                     notificationDetail.setMessage(username + " has left this forum");
-                else if (isKicked == 1)
+                else if (isKicked == 1 && username.equalsIgnoreCase(currentUser))
                     notificationDetail.setMessage("You have been kicked out. We are sorry");
 
                 notificationDetailArrayList.add(notificationDetail);
@@ -452,7 +452,7 @@ public class DatabaseAccess extends AppCompatActivity {
 
     ArrayList getAllJoinedPeople(int threadID){
         String query = "SELECT " +
-                " UserName, tD.2UserID " +
+                " UserName, tD.UserID " +
                 "FROM " +
                 "msUser mU JOIN trDetail tD ON mU.UserID = tD.UserID " +
                 "WHERE " +
