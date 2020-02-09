@@ -73,9 +73,10 @@ public class NotificationActivity extends Fragment{
         // get all notification list from database
 //        databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
 //
-//        databaseAccess.openDatabase();
-//        listNotif = databaseAccess.getNotifList(user.getUserID());
-//        databaseAccess.closeDatabase();
+        databaseAccess = DatabaseAccess.getInstance(getActivity());
+        databaseAccess.openDatabase();
+        listNotif = databaseAccess.getNotifList(user.getUserID(), user.getUserName());
+        databaseAccess.closeDatabase();
 
     }
 

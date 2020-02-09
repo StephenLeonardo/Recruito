@@ -2,6 +2,7 @@ package id.ac.binus.recruito.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.DatabaseAccess;
 import id.ac.binus.recruito.NavigationBarActivity;
 import id.ac.binus.recruito.R;
 import id.ac.binus.recruito.SharedPref;
@@ -60,7 +62,7 @@ public class JoinedPeopleAdapter extends RecyclerView.Adapter<JoinedPeopleAdapte
         SharedPref sharedPref = new SharedPref(mContext);
         User user1 = sharedPref.load();
 
-        if (user1.getUserName().equalsIgnoreCase(username)){
+        if (!user1.getUserName().equalsIgnoreCase(username)){
             holder.binding.buttonKick.setVisibility(View.GONE);
         }
 
@@ -77,6 +79,12 @@ public class JoinedPeopleAdapter extends RecyclerView.Adapter<JoinedPeopleAdapte
             }
 
             private void kickPeople(int threadID, int userID) {
+                DatabaseAccess databaseAccess = DatabaseAccess.getInstance(mContext);
+                databaseAccess.openDatabase();
+                boolean successKickPeople = databaseAccess.kickPeople(userID, threadID);
+                Log.d(TAG, "kickPeople: " + successKickPeople + " " + userID);
+                Log.d(TAG, "kickPeople: Thread ID = " + threadID);
+                databaseAccess.closeDatabase();
             }
         });
         

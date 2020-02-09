@@ -106,8 +106,20 @@ public class Comment {
         IsKick = isKick;
     }
 
-    public Comment(String name, String comment) {
+    public Comment( String name, String comment) {
         Name = name;
         Comment = comment;
+    }
+
+    public Comment(int threadID, int userID, String name, String imageName, String comment, int hsJoin, int hsComment, int hsLeave, int isKick) {
+        ThreadID = threadID;
+        UserID = userID;
+        Name = name;
+        ImageName = imageName;
+        Comment = comment;
+        HsJoin = hsJoin;
+        HsComment = hsComment;
+        HsLeave = hsLeave;
+        IsKick = isKick;
     }
 }

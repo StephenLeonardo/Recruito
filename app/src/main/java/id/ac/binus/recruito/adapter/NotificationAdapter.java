@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import id.ac.binus.recruito.DatabaseAccess;
 import id.ac.binus.recruito.NavigationBarActivity;
 import id.ac.binus.recruito.NotificationActivity;
 import id.ac.binus.recruito.R;
@@ -61,7 +62,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.binding.setNotif(notif);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(holder.binding.rvNotifMessage.getContext(), LinearLayoutManager.VERTICAL, false);
-        fillDetailArrayList(position);
+        fillDetailArrayList(notif.getThreadID());
         notif.setNotificationDetails(detailArrayList);
 
         layoutManager.setInitialPrefetchItemCount(notif.getNotificationDetails().size());
@@ -86,12 +87,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     }
 
-    private void fillDetailArrayList(int position) {
+    private void fillDetailArrayList(int threadID) {
         detailArrayList = new ArrayList<>();
-
-        detailArrayList.add(new NotificationDetail("Detail " + position));
-        detailArrayList.add(new NotificationDetail("Detail " + ++position));
-
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(mContext);
+        detailArrayList = databaseAccess.getAllNotifDetail(threadID);
     }
 
     @Override

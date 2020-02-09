@@ -22,13 +22,6 @@ public class    FrontCoverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_cover);
 
-
-        if(isAlreadyLoggedIn()){
-            Intent intent = new Intent(FrontCoverActivity.this, NavigationBarActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
         Greeting = findViewById(R.id.text_view_greetings);
         ButtonSignIn = findViewById(R.id.button_sign_in);
         ButtonSignUp = findViewById(R.id.button_sign_up);
@@ -51,13 +44,6 @@ public class    FrontCoverActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private boolean isAlreadyLoggedIn() {
-        SharedPref sharedPref = new SharedPref(FrontCoverActivity.this);
-        User user = sharedPref.load();
-        if(user == null) return false;
-        return true;
     }
 
     public void setGreeting() {

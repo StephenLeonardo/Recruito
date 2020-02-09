@@ -35,6 +35,11 @@ public class User extends Application {
         this.UserName = userName;
     }
 
+    public User(String userName, int userID) {
+        this.UserName = userName;
+        this.UserID = userID;
+    }
+
     public String getImageName() {
         return ImageName;
     }

@@ -8,6 +8,10 @@ public class NotificationDetail {
         this.message = message;
     }
 
+    public NotificationDetail() {
+
+    }
+
     public String getMessage() {
         return message;
     }

@@ -131,20 +131,26 @@ public class ThreadDetailActivity extends Fragment {
     private void getThreadInfo() {
         jobThread = new JobThread(1, "Budi", "0823834353", "Art", "Butuh Dokter", "19:00", "2020-02-16", "Jalan Syahdan",
                 "Description 1", 10,3);
+
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+        databaseAccess.openDatabase();
+        jobThread = databaseAccess.getSpecificPageData(threadID);
+        databaseAccess.closeDatabase();
+
         binding.setThread(jobThread);
     }
 
     public void getJoinedPeople(){
         joinedPeopleList = new ArrayList<>();
-        joinedPeopleList.add(new User("Budi"));
-        joinedPeopleList.add(new User("Andi"));
-        joinedPeopleList.add(new User("Siti"));
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+        joinedPeopleList.addAll(databaseAccess.getAllJoinedPeople(threadID));
+
     }
 
     public void getComments(){
         commentList = new ArrayList<>();
-        commentList.add(new Comment("Budi", "Comment si Budi"));
-        commentList.add(new Comment("Siti", "Comment si Siti"));
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+        commentList.addAll(databaseAccess.getAllComments(threadID));
     }
 
 
@@ -160,7 +166,10 @@ public class ThreadDetailActivity extends Fragment {
 
             Log.d(TAG, "joinThread: ");
 
-            joinToDatabase(jobThread.getThreadID(), user.getUserID());
+            SharedPref sharedPref = new SharedPref(getActivity());
+            User user1 = sharedPref.load();
+
+            joinToDatabase(jobThread.getThreadID(), user1.getUserID());
             Intent intent = new Intent(getActivity(), NavigationBarActivity.class);
             intent.putExtra("goToWhichFragment", "detail");
             intent.putExtra("ThreadID", jobThread.getThreadID());
@@ -184,10 +193,23 @@ public class ThreadDetailActivity extends Fragment {
         }
 
         private void addComentToDatabase(int threadID, int userID, String comment) {
+
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+
+            databaseAccess.openDatabase();
+            boolean isSuccsessComment = databaseAccess.insertComment(userID, threadID, comment);
+            databaseAccess.closeDatabase();
+
         }
 
         // Belom dibikin
         private void joinToDatabase(int threadID, int userID){
+
+            DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity());
+            databaseAccess.openDatabase();
+            boolean isSuccessJoin = databaseAccess.joinThread(userID, threadID);
+            databaseAccess.closeDatabase();
+
         }
 
     }
